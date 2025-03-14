@@ -70,7 +70,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         </div>
       )}
       
-      <div className="flex flex-col w-full gap-1.5">
+      <div className="flex flex-col w-full">
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-2">
             <div className={cn(
@@ -100,7 +100,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         
         {impactStatement && (
           <p className={cn(
-            "text-xs font-medium leading-tight ml-7",
+            "text-xs font-medium leading-tight ml-7 mt-1",
             selected ? "text-white/90" : "text-gray-700"
           )}>
             {impactStatement}
@@ -109,7 +109,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         
         {specialItem && (
           <div className={cn(
-            "ml-7 mt-2 border-l-2 pl-2.5 py-0.5",
+            "ml-7 mt-2 border-l-2 pl-2.5 py-0",
             selected ? "border-white/30" : "border-purple-200"
           )}>
             <p className={cn(

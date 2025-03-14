@@ -27,7 +27,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
         "transition-all duration-300 ease-in-out hover:scale-[1.02]"
       )}
     >
-      <div className="flex flex-col w-full gap-1.5">
+      <div className="flex flex-col w-full">
         <div className="flex items-center w-full gap-2">
           <div className={cn(
             "w-5 h-5 rounded-full border-2 flex items-center justify-center",
@@ -61,14 +61,14 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
         </div>
         
         <p className={cn(
-          "text-xs font-medium leading-tight ml-7",
+          "text-xs font-medium leading-tight ml-7 mt-1",
           active ? "text-white/90" : "text-gray-700"
         )}>
           Enter custom amount
         </p>
         
         <div className={cn(
-          "ml-7 mt-2 border-l-2 pl-2.5 py-0.5",
+          "ml-7 mt-2 border-l-2 pl-2.5 py-0",
           active ? "border-white/30" : "border-purple-200"
         )}>
           <p className={cn(

@@ -130,7 +130,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         </div>
 
         <div className={cn(
-          "w-full grid grid-cols-2 gap-x-2.5 gap-y-4 sm:gap-x-4 sm:gap-y-6 mb-5 sm:mb-6 transition-all duration-700 delay-300",
+          "w-full grid grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4 transition-all duration-700 delay-300",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           {PREDEFINED_AMOUNTS.map((amount) => (

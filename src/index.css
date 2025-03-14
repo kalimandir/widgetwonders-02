@@ -109,14 +109,19 @@
 }
 
 @layer components {
-  .donation-amount-button {
-    @apply relative flex items-center justify-center bg-donation-gray rounded-xl 
-           cursor-pointer transition-all duration-300 hover:bg-donation-gray-medium
-           border-2 border-transparent;
+  .donation-card {
+    @apply flex flex-col items-center justify-center p-4 rounded-xl bg-[#F9FAFB]
+           cursor-pointer transition-all duration-300 text-center
+           border border-gray-100 shadow-sm h-[100px] hover:shadow-md
+           hover:border-gray-200;
   }
   
-  .donation-amount-button.selected {
-    @apply border-donation-purple bg-white;
+  .donation-card.selected {
+    @apply bg-donation-purple border-donation-purple shadow-md;
+  }
+  
+  .donation-card.custom-amount {
+    @apply w-full items-start px-5;
   }
   
   .donation-button {

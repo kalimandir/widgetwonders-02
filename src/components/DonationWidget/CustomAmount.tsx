@@ -21,17 +21,15 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
   return (
     <div 
       className={cn(
-        "relative w-full rounded-xl transition-all duration-300 animate-scale-in",
-        isMobile ? "h-12" : "h-16", // Match height with donation amounts
-        active 
-          ? "border-2 border-donation-purple bg-white" 
-          : "bg-donation-gray border-2 border-transparent"
+        "donation-card custom-amount",
+        active && "selected",
+        "transition-all duration-300 ease-in-out"
       )}
     >
-      <div className="absolute inset-0 flex items-center px-4">
+      <div className="flex items-center w-full">
         <span className={cn(
-          "text-lg sm:text-2xl font-semibold transition-colors duration-300",
-          active ? "text-donation-purple" : "text-gray-800"
+          "text-lg sm:text-xl font-bold",
+          active ? "text-white" : "text-gray-800"
         )}>
           $
         </span>
@@ -40,21 +38,24 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
           inputMode="numeric"
           pattern="[0-9]*"
           className={cn(
-            "w-full h-full bg-transparent text-lg sm:text-2xl font-semibold pl-2 focus:outline-none",
-            active ? "text-donation-purple" : "text-gray-800"
+            "w-full bg-transparent text-lg sm:text-xl font-bold pl-0.5 focus:outline-none",
+            active ? "text-white placeholder-white/70" : "text-gray-800 placeholder-gray-400"
           )}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           onFocus={onFocus}
-          placeholder="Other"
+          placeholder="Other amount"
           min="1"
           step="1"
         />
       </div>
       
-      {active && (
-        <div className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-8 h-1 bg-donation-purple rounded-full animate-fade-in" />
-      )}
+      <p className={cn(
+        "text-xs font-normal mt-1 leading-tight text-left",
+        active ? "text-white/90" : "text-gray-600"
+      )}>
+        Enter custom amount
+      </p>
     </div>
   );
 };

@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -133,11 +134,17 @@
     color: white;
   }
   
-  .donation-card.popular-tier .border-white {
-    @apply border-white border-opacity-30;
+  .donation-card.popular-tier .text-gray-800,
+  .donation-card.popular-tier .text-gray-700,
+  .donation-card.popular-tier .text-gray-500 {
+    color: white;
   }
   
-  /* Remove these conflicting styles */
+  /* Fixed: Remove circular dependency by changing selector */
+  .donation-card.popular-tier .border-divider {
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+  
   .donation-card.popular-tier.selected {
     @apply bg-gray-100 border-gray-300;
     color: #1F2937;

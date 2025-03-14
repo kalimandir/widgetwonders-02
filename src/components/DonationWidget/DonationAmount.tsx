@@ -100,7 +100,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         {specialItem && (
           <div className={cn(
             "ml-7 mt-2 border-l-2 pl-2.5 pr-2",
-            selected ? "border-gray-300" : isPopular ? "border-white border-opacity-30" : "border-purple-200"
+            selected ? "border-gray-300" : isPopular ? "border-divider" : "border-purple-200"
           )}>
             <p className={cn(
               "text-2xs break-words",

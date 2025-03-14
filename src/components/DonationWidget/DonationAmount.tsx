@@ -19,26 +19,26 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
   const isMobile = useIsMobile();
   
   return (
-    <div className="donation-amount-container">
-      <button
-        className={cn(
-          "donation-circle",
-          selected && "selected",
-          "transition-all duration-300 ease-in-out"
-        )}
-        onClick={() => onClick(value)}
-        aria-pressed={selected}
-      >
-        <span className={cn(
-          "text-lg font-bold",
-          selected ? "text-white" : "text-gray-800"
-        )}>
-          ${value}
-        </span>
-      </button>
+    <div
+      className={cn(
+        "donation-card",
+        selected && "selected",
+        "transition-all duration-300 ease-in-out animate-scale-in"
+      )}
+      onClick={() => onClick(value)}
+    >
+      <span className={cn(
+        "text-lg sm:text-xl font-bold",
+        selected ? "text-white" : "text-gray-800"
+      )}>
+        ${value}
+      </span>
       
-      {impactStatement && selected && (
-        <p className="impact-statement text-xs font-normal mt-1.5 text-center text-gray-600">
+      {impactStatement && (
+        <p className={cn(
+          "text-xs font-normal mt-1.5 leading-tight",
+          selected ? "text-white/90" : "text-gray-600"
+        )}>
           {impactStatement}
         </p>
       )}

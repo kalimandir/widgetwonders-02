@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Progress } from "@/components/ui/progress";
+import { ArrowUp } from "lucide-react";
 
 interface DonationWidgetProps {
   organizationName: string;
@@ -23,11 +25,27 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const [isCustomActive, setIsCustomActive] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
+  const [progressValue, setProgressValue] = useState(0);
   const isMobile = useIsMobile();
 
   useEffect(() => {
     // Animate in elements with a slight delay for a nice entrance
     setAnimateIn(true);
+    
+    // Animate progress bar from 0 to 65%
+    const timer = setTimeout(() => {
+      const animateProgress = () => {
+        setProgressValue(prev => {
+          const next = prev + 1;
+          return next <= 65 ? next : 65;
+        });
+      };
+      
+      const progressInterval = setInterval(animateProgress, 15);
+      return () => clearInterval(progressInterval);
+    }, 500);
+    
+    return () => clearTimeout(timer);
   }, []);
 
   const handleAmountSelect = (amount: number) => {
@@ -95,6 +113,26 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         )}>
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">{organizationName}</h2>
           <p className="text-xs sm:text-sm text-gray-600">{missionStatement}</p>
+        </div>
+
+        {/* Progress bar section */}
+        <div className={cn(
+          "w-full px-1 mb-4 sm:mb-5 transition-all duration-700 delay-250",
+          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        )}>
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-xs sm:text-sm text-gray-700">
+              $3,250 raised toward $5,000 goal
+            </span>
+            <div className="flex items-center text-xs text-green-600 font-medium">
+              <ArrowUp size={12} className="mr-0.5" />
+              <span>+$250 this week</span>
+            </div>
+          </div>
+          <Progress 
+            value={progressValue} 
+            className="h-2 bg-gray-100 rounded-full w-[90%] mx-auto" 
+          />
         </div>
 
         {/* Donation amounts */}

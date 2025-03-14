@@ -35,7 +35,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   missionStatement,
   logoUrl
 }) => {
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(25); // Default to the popular tier
   const [customAmount, setCustomAmount] = useState<string>("");
   const [isCustomActive, setIsCustomActive] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -92,12 +92,17 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
     setTimeout(() => {
       console.log(`Donating $${amount} to ${organizationName}`);
       setIsSubmitting(false);
+      // In a real app, you would submit to your payment processor here
     }, 1000);
   };
 
   const getImpactSummary = () => {
     const amount = getDonationAmount();
     if (amount <= 0) return "";
+    
+    if (selectedAmount === 25 || (isCustomActive && amount === 25)) {
+      return `Your $25 donation supports learning materials for 5 students`;
+    }
     
     if (amount <= 5) return `Your $${amount} donation equips a student with school supplies`;
     if (amount <= 10) return `Your $${amount} donation funds ${Math.floor(amount/10)} day${amount >= 20 ? 's' : ''} of education`;

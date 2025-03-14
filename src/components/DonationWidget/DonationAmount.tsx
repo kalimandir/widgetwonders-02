@@ -27,23 +27,17 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
 }) => {
   const isMobile = useIsMobile();
   
-  // Calculate the height based on the boxSize (1-4)
-  const getHeight = () => {
-    const baseHeight = specialItem ? 96 : 74; // Base height, larger if we have special item
-    const increment = 8; // Height increment per size
-    return baseHeight + (boxSize - 1) * increment;
-  };
-
+  // Get the appropriate icon based on the iconType
   const getIcon = () => {
     switch(iconType) {
       case 'supplies':
-        return <Pencil className={cn("h-4 w-4", selected ? "text-purple-600" : "text-purple-600")} />;
+        return <Pencil className="h-4 w-4 text-purple-600" />;
       case 'day':
-        return <Clock className={cn("h-4 w-4", selected ? "text-purple-600" : "text-purple-600")} />;
+        return <Clock className="h-4 w-4 text-purple-600" />;
       case 'week':
-        return <BookOpen className={cn("h-4 w-4", selected ? "text-purple-600" : "text-purple-600")} />;
+        return <BookOpen className="h-4 w-4 text-purple-600" />;
       case 'month':
-        return <Users className={cn("h-4 w-4", selected ? "text-purple-600" : "text-purple-600")} />;
+        return <Users className="h-4 w-4 text-purple-600" />;
       default:
         return null;
     }
@@ -52,19 +46,16 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
   return (
     <div
       className={cn(
-        "donation-card relative",
-        selected && "selected",
-        isPopular && "popular-tier",
-        "transition-all duration-300 ease-in-out hover:scale-[1.02]"
+        "donation-card relative w-full overflow-hidden",
+        selected && !isPopular && "selected",
+        isPopular && !selected && "popular-tier",
+        isPopular && selected && "popular-tier selected",
+        "transition-all duration-300 ease-in-out"
       )}
       onClick={() => onClick(value)}
-      style={{ 
-        minHeight: `${getHeight()}px`,
-        transform: isPopular ? 'scale(1.02) translateX(4px)' : undefined
-      }}
     >
       {isPopular && (
-        <div className="absolute -top-1 -right-1 bg-donation-purple text-white text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+        <div className="absolute top-0 right-0 bg-donation-purple text-white text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
           <span className="inline-block h-1.5 w-1.5 bg-white rounded-full animate-pulse"></span>
           Popular
         </div>
@@ -82,7 +73,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
             </div>
             <span className={cn(
               "text-xl font-bold",
-              selected ? "text-gray-800" : "text-gray-800"
+              "text-gray-800"
             )}>
               ${value}
             </span>
@@ -100,8 +91,8 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         
         {impactStatement && (
           <p className={cn(
-            "text-xs font-medium leading-tight ml-7 mt-1 break-words",
-            selected ? "text-gray-700" : "text-gray-700"
+            "text-xs font-medium leading-tight ml-7 mt-1 break-words pr-2",
+            "text-gray-700"
           )}>
             {impactStatement}
           </p>
@@ -109,12 +100,12 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         
         {specialItem && (
           <div className={cn(
-            "ml-7 mt-2 border-l-2 pl-2.5",
+            "ml-7 mt-2 border-l-2 pl-2.5 pr-2",
             selected ? "border-gray-300" : "border-purple-200"
           )}>
             <p className={cn(
-              "text-2xs break-words pr-1",
-              selected ? "text-gray-500" : "text-gray-500"
+              "text-2xs break-words",
+              "text-gray-500"
             )}>
               {specialItem}
             </p>

@@ -117,10 +117,11 @@
 
 @layer components {
   .donation-card {
-    @apply flex items-start p-4 rounded-xl bg-[#F9FAFB]
+    @apply flex items-start p-4 rounded-xl 
            cursor-pointer transition-all duration-300
            border border-gray-100 shadow-sm hover:shadow-md
-           hover:border-gray-200 w-full overflow-hidden;
+           hover:border-gray-200 w-full;
+    background-color: #F9FAFB;
   }
   
   .donation-card.selected {
@@ -128,11 +129,34 @@
   }
   
   .donation-card.popular-tier {
-    @apply border-purple-200 bg-[#F9F5FF] shadow-md;
+    @apply border-purple-200 shadow-md;
+    background-color: #7C3AED;
+    color: white;
+  }
+  
+  .donation-card.popular-tier .text-gray-800,
+  .donation-card.popular-tier .text-gray-700,
+  .donation-card.popular-tier .text-gray-500 {
+    color: white;
+  }
+  
+  .donation-card.popular-tier .border-purple-200 {
+    @apply border-white border-opacity-30;
   }
   
   .donation-card.popular-tier.selected {
     @apply bg-gray-100 border-gray-300;
+    color: #1F2937;
+  }
+  
+  .donation-card.popular-tier.selected .text-gray-800,
+  .donation-card.popular-tier.selected .text-gray-700,
+  .donation-card.popular-tier.selected .text-gray-500 {
+    color: initial;
+  }
+  
+  .donation-card.popular-tier.selected .border-white {
+    @apply border-gray-300;
   }
   
   .donation-card.custom-amount {
@@ -147,3 +171,4 @@
            focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed;
   }
 }
+

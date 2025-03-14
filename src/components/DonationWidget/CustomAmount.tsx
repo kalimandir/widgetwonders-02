@@ -22,9 +22,9 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
   return (
     <div 
       className={cn(
-        "donation-card custom-amount",
+        "donation-card custom-amount w-full overflow-hidden",
         active && "selected",
-        "transition-all duration-300 ease-in-out hover:scale-[1.02]"
+        "transition-all duration-300 ease-in-out"
       )}
     >
       <div className="flex flex-col w-full">
@@ -38,17 +38,14 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
           </div>
           
           <div className="flex items-center flex-1 overflow-hidden">
-            <DollarSign className={cn(
-              "h-4 w-4 mr-0.5 flex-shrink-0",
-              active ? "text-gray-600" : "text-gray-600"
-            )} />
+            <DollarSign className="h-4 w-4 mr-0.5 flex-shrink-0 text-gray-600" />
             <input
               type="number"
               inputMode="numeric"
               pattern="[0-9]*"
               className={cn(
                 "w-full bg-transparent text-xl font-bold focus:outline-none overflow-hidden",
-                active ? "text-gray-800 placeholder-gray-400" : "text-gray-800 placeholder-gray-400"
+                "text-gray-800 placeholder-gray-400"
               )}
               value={value}
               onChange={(e) => onChange(e.target.value)}
@@ -61,19 +58,19 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
         </div>
         
         <p className={cn(
-          "text-xs font-medium leading-tight ml-7 mt-1 break-words",
-          active ? "text-gray-700" : "text-gray-700"
+          "text-xs font-medium leading-tight ml-7 mt-1 break-words pr-2",
+          "text-gray-700"
         )}>
           Enter custom amount
         </p>
         
         <div className={cn(
-          "ml-7 mt-2 border-l-2 pl-2.5",
+          "ml-7 mt-2 border-l-2 pl-2.5 pr-2",
           active ? "border-gray-300" : "border-purple-200"
         )}>
           <p className={cn(
-            "text-2xs break-words pr-1",
-            active ? "text-gray-500" : "text-gray-500"
+            "text-2xs break-words",
+            "text-gray-500"
           )}>
             Receive benefits based on donation level
           </p>

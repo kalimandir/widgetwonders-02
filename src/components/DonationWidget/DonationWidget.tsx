@@ -1,10 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Progress } from "@/components/ui/progress";
+import { HandHeart } from "lucide-react";
 
 interface DonationWidgetProps {
   organizationName: string;
@@ -89,15 +89,11 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
     )}>
       <div className="p-3 sm:p-6 flex flex-col items-center">
         <div className={cn(
-          "w-16 h-16 rounded-2xl overflow-hidden shadow-md mb-3 sm:mb-4 transition-all",
-          "bg-gray-50 duration-700 delay-100",
+          "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center mb-3 sm:mb-4 transition-all",
+          "bg-purple-100 duration-700 delay-100",
           animateIn ? "opacity-100 scale-100" : "opacity-0 scale-95"
         )}>
-          <img
-            src={logoUrl}
-            alt={`${organizationName} logo`}
-            className="w-full h-full object-cover"
-          />
+          <HandHeart className="w-10 h-10 text-purple-600" />
         </div>
 
         <div className={cn(

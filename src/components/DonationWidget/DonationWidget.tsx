@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
@@ -21,14 +20,6 @@ const IMPACT_STATEMENTS = {
   50: "Sponsors a student's education for an entire month"
 };
 
-const TESTIMONIALS = {
-  5: "The supplies helped my daughter feel confident on her first day",
-  10: "A day of education changed my perspective on learning",
-  25: "Mia accessed textbooks for her entire semester",
-  50: "This monthly sponsorship transformed Miguel's future"
-};
-
-// Define the popular tier (25 is the suggested donation)
 const POPULAR_TIER = 25;
 
 const DonationWidget: React.FC<DonationWidgetProps> = ({
@@ -160,7 +151,6 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
               selected={selectedAmount === amount}
               onClick={handleAmountSelect}
               impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
-              testimonial={TESTIMONIALS[amount as keyof typeof TESTIMONIALS]}
               isPopular={amount === POPULAR_TIER}
               boxSize={index + 1}
               iconType={

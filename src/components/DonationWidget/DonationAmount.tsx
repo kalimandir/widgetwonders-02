@@ -112,7 +112,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
             "text-2xs italic leading-tight ml-7 mt-1 border-l-2 pl-2",
             selected ? "text-white/80 border-white/30" : "text-gray-500 border-purple-200"
           )}>
-            "{testimonial}"
+            {testimonial}
           </p>
         )}
       </div>

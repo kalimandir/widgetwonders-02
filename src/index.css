@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -109,6 +110,147 @@
 }
 
 @layer components {
+  /* Donation Circle Buttons */
+  .donation-slider {
+    @apply flex items-center justify-center gap-4 overflow-x-auto py-2 px-4;
+  }
+  
+  .donation-amount-container {
+    @apply flex flex-col items-center;
+  }
+  
+  .donation-circle {
+    @apply flex items-center justify-center rounded-full bg-[#F9FAFB] border border-gray-100
+           w-14 h-14 cursor-pointer transition-all duration-300 shadow-sm
+           hover:shadow-md hover:border-gray-200;
+  }
+  
+  .donation-circle.selected {
+    @apply bg-donation-purple border-donation-purple shadow-md text-white;
+  }
+  
+  .donation-circle.custom {
+    @apply bg-gray-50 text-gray-600 hover:bg-gray-100;
+  }
+  
+  .donation-circle.custom.selected {
+    @apply bg-donation-purple text-white;
+  }
+  
+  .impact-statement {
+    @apply text-center w-20 mx-auto;
+  }
+  
+  /* Create Classroom Button */
+  .create-classroom-button {
+    @apply w-full py-3 sm:py-4 px-4 sm:px-6 bg-donation-purple text-white rounded-xl
+           text-base sm:text-lg font-semibold tracking-wide transition-all duration-300
+           hover:bg-donation-purple-dark active:scale-[0.98] shadow-md
+           hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-donation-purple
+           focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  /* Classroom Visualization */
+  .classroom-container {
+    @apply w-full max-w-[350px] mx-auto bg-gray-50 rounded-xl p-3 mb-4;
+  }
+  
+  .classroom-visualization {
+    @apply w-full h-[180px] rounded-lg bg-white border border-gray-200 relative
+           overflow-hidden transition-all duration-500 ease-in-out;
+  }
+  
+  .classroom-outline {
+    @apply w-full h-full relative;
+  }
+  
+  /* Classroom Elements */
+  .chalkboard {
+    @apply absolute top-3 left-1/2 -translate-x-1/2 w-[60%] h-[30px]
+           bg-gray-200 rounded;
+  }
+  
+  .window {
+    @apply absolute top-3 w-[15%] h-[30px] border border-gray-300 rounded
+           bg-blue-50 opacity-60;
+  }
+  
+  .window.left {
+    @apply left-5;
+  }
+  
+  .window.right {
+    @apply right-5;
+  }
+  
+  .desk {
+    @apply absolute w-[40px] h-[30px] bg-gray-200 rounded-sm
+           transition-all duration-300;
+  }
+  
+  .desk.with-supplies {
+    @apply bg-orange-100 after:content-[''] after:absolute after:top-[5px]
+           after:left-[12px] after:w-[15px] after:h-[8px] after:bg-blue-300
+           after:rounded-sm;
+  }
+  
+  .desk-1 {
+    @apply bottom-10 left-[25%];
+  }
+  
+  .desk-2 {
+    @apply bottom-10 left-[50%] -translate-x-1/2;
+  }
+  
+  .desk-3 {
+    @apply bottom-10 right-[25%];
+  }
+  
+  .student {
+    @apply absolute w-[20px] h-[35px] bg-yellow-300 rounded-full
+           after:content-[''] after:absolute after:top-[-15px] after:left-[3px]
+           after:w-[14px] after:h-[14px] after:bg-orange-200 after:rounded-full
+           transition-all duration-500;
+  }
+  
+  .student-1 {
+    @apply bottom-[50px] left-[25%] translate-x-[10px];
+  }
+  
+  .student-2 {
+    @apply bottom-[50px] left-[50%] -translate-x-1/2 translate-x-[10px];
+  }
+  
+  .student-3 {
+    @apply bottom-[50px] right-[25%] translate-x-[-10px];
+  }
+  
+  .material {
+    @apply absolute bg-green-200 transition-all duration-300;
+  }
+  
+  .book {
+    @apply w-[20px] h-[15px] bottom-[70px] left-[30%] bg-red-200;
+  }
+  
+  .globe {
+    @apply w-[15px] h-[15px] rounded-full bottom-[70px] left-[55%] bg-blue-200;
+  }
+  
+  .poster {
+    @apply w-[25px] h-[20px] right-[25%] top-[50px] bg-yellow-200;
+  }
+  
+  .teacher {
+    @apply absolute bottom-0 left-1/2 -translate-x-1/2 w-[25px] h-[45px]
+           bg-purple-300 rounded-t-full;
+  }
+  
+  .visualization-description {
+    @apply text-center text-xs text-gray-600 mt-2 h-5;
+  }
+  
+  /* Legacy donation card styles - kept for reference but not used */
   .donation-card {
     @apply flex flex-col items-center justify-center p-4 rounded-xl bg-[#F9FAFB]
            cursor-pointer transition-all duration-300 text-center

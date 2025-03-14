@@ -3,9 +3,10 @@ import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
+import ClassroomVisualization from './ClassroomVisualization';
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Progress } from "@/components/ui/progress";
-import { HandHeart } from "lucide-react";
+import { HandHeart, CreditCard } from "lucide-react";
 
 interface DonationWidgetProps {
   organizationName: string;
@@ -15,10 +16,10 @@ interface DonationWidgetProps {
 
 const PREDEFINED_AMOUNTS = [5, 10, 25, 50];
 const IMPACT_STATEMENTS = {
-  5: "Provides school supplies for one student",
-  10: "Funds a day of education",
-  25: "Supports a week of learning materials",
-  50: "Sponsors a student for a month"
+  5: "Add supplies to desks",
+  10: "Bring students to class",
+  25: "Fill classroom with materials",
+  50: "Complete with teacher"
 };
 
 const DonationWidget: React.FC<DonationWidgetProps> = ({
@@ -129,39 +130,47 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           />
         </div>
 
+        {/* Classroom Visualization */}
         <div className={cn(
-          "w-full grid grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4 transition-all duration-700 delay-300",
+          "w-full max-w-[350px] mb-5 transition-all duration-700 delay-300",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
-          {PREDEFINED_AMOUNTS.map((amount) => (
-            <DonationAmount
-              key={amount}
-              value={amount}
-              selected={selectedAmount === amount}
-              onClick={handleAmountSelect}
-              impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
-            />
-          ))}
-        </div>
-
-        <div className={cn(
-          "w-full mb-5 transition-all duration-700 delay-400",
-          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        )}>
-          <CustomAmount
-            active={isCustomActive}
-            value={customAmount}
-            onChange={handleCustomAmountChange}
-            onFocus={handleCustomFocus}
+          <ClassroomVisualization 
+            donationAmount={selectedAmount} 
+            customAmount={customAmount}
           />
         </div>
 
+        {/* Donation Amount Slider */}
         <div className={cn(
-          "w-full transition-all duration-700 delay-500",
+          "w-full mb-5 transition-all duration-700 delay-350",
+          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        )}>
+          <div className="donation-slider">
+            {PREDEFINED_AMOUNTS.map((amount) => (
+              <DonationAmount
+                key={amount}
+                value={amount}
+                selected={selectedAmount === amount}
+                onClick={handleAmountSelect}
+                impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
+              />
+            ))}
+            <CustomAmount
+              active={isCustomActive}
+              value={customAmount}
+              onChange={handleCustomAmountChange}
+              onFocus={handleCustomFocus}
+            />
+          </div>
+        </div>
+
+        <div className={cn(
+          "w-full transition-all duration-700 delay-400",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           <button
-            className="donation-button"
+            className="create-classroom-button"
             disabled={!isValidAmount || isSubmitting}
             onClick={handleDonate}
           >
@@ -174,7 +183,10 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                 Processing...
               </span>
             ) : (
-              <span>Donate Now</span>
+              <span className="inline-flex items-center">
+                <CreditCard className="h-5 w-5 mr-2" />
+                Create This Classroom
+              </span>
             )}
           </button>
         </div>

@@ -107,6 +107,12 @@
   input[type=number] {
     -moz-appearance: textfield;
   }
+  
+  /* Define the text-2xs size for very small text (testimonials) */
+  .text-2xs {
+    font-size: 0.7rem;
+    line-height: 1rem;
+  }
 }
 
 @layer components {
@@ -130,7 +136,7 @@
   }
   
   .donation-card.custom-amount {
-    @apply w-full items-start px-5;
+    @apply w-full items-start px-4;
   }
   
   .donation-button {

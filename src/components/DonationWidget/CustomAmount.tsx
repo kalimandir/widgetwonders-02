@@ -2,6 +2,7 @@
 import React from 'react';
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { DollarSign } from "lucide-react";
 
 interface CustomAmountProps {
   active: boolean;
@@ -23,35 +24,43 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
       className={cn(
         "donation-card custom-amount",
         active && "selected",
-        "transition-all duration-300 ease-in-out"
+        "transition-all duration-300 ease-in-out hover:scale-[1.02]"
       )}
     >
-      <div className="flex items-center w-full">
-        <span className={cn(
-          "text-xl font-bold",
-          active ? "text-white" : "text-gray-800"
+      <div className="flex items-center w-full gap-2">
+        <div className={cn(
+          "w-5 h-5 rounded-full border-2 flex items-center justify-center",
+          active ? "border-white bg-white/20" : "border-gray-300",
+          "transition-all duration-200"
         )}>
-          $
-        </span>
-        <input
-          type="number"
-          inputMode="numeric"
-          pattern="[0-9]*"
-          className={cn(
-            "w-full bg-transparent text-xl font-bold pl-0.5 focus:outline-none",
-            active ? "text-white placeholder-white/70" : "text-gray-800 placeholder-gray-400"
-          )}
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          onFocus={onFocus}
-          placeholder="Other amount"
-          min="1"
-          step="1"
-        />
+          {active && <div className="w-2.5 h-2.5 bg-white rounded-full"></div>}
+        </div>
+        
+        <div className="flex items-center flex-1">
+          <DollarSign className={cn(
+            "h-4 w-4 mr-0.5",
+            active ? "text-white" : "text-gray-600"
+          )} />
+          <input
+            type="number"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            className={cn(
+              "w-full bg-transparent text-xl font-bold focus:outline-none",
+              active ? "text-white placeholder-white/70" : "text-gray-800 placeholder-gray-400"
+            )}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onFocus={onFocus}
+            placeholder="Other amount"
+            min="1"
+            step="1"
+          />
+        </div>
       </div>
       
       <p className={cn(
-        "text-xs font-normal mt-1.5 leading-tight text-left",
+        "text-xs font-normal mt-1 ml-7 leading-tight",
         active ? "text-white/90" : "text-gray-600"
       )}>
         Enter custom amount

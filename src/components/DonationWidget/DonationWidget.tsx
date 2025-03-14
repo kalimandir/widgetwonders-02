@@ -5,7 +5,8 @@ import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Progress } from "@/components/ui/progress";
-import { HandHeart } from "lucide-react";
+import { HandHeart, Repeat } from "lucide-react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 interface DonationWidgetProps {
   organizationName: string;
@@ -15,10 +16,17 @@ interface DonationWidgetProps {
 
 const PREDEFINED_AMOUNTS = [5, 10, 25, 50];
 const IMPACT_STATEMENTS = {
-  5: "Provides school supplies for one student",
-  10: "Funds a day of education",
-  25: "Supports a week of learning materials",
-  50: "Sponsors a student for a month"
+  5: "Equips a student with essential school supplies",
+  10: "Funds a full day of quality education",
+  25: "Supports a week of comprehensive learning materials",
+  50: "Sponsors a student's education for an entire month"
+};
+
+const TESTIMONIALS = {
+  5: "The supplies helped my daughter feel confident on her first day",
+  10: "A day of education changed my perspective on learning",
+  25: "Mia accessed textbooks for her entire semester",
+  50: "This monthly sponsorship transformed Miguel's future"
 };
 
 // Define the popular tier (25 is the suggested donation)
@@ -35,6 +43,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
+  const [isMonthly, setIsMonthly] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -84,9 +93,19 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
     setIsSubmitting(true);
     
     setTimeout(() => {
-      console.log(`Donating $${amount} to ${organizationName}`);
+      console.log(`Donating $${amount} ${isMonthly ? 'monthly' : 'once'} to ${organizationName}`);
       setIsSubmitting(false);
     }, 1000);
+  };
+
+  const getImpactSummary = () => {
+    const amount = getDonationAmount();
+    if (amount <= 0) return "";
+    
+    if (amount <= 5) return `Your $${amount} donation equips a student with school supplies`;
+    if (amount <= 10) return `Your $${amount} donation funds ${Math.floor(amount/10)} day${amount >= 20 ? 's' : ''} of education`;
+    if (amount <= 25) return `Your $${amount} donation supports learning materials for ${Math.ceil(amount/5)} students`;
+    return `Your $${amount} donation sponsors ${Math.floor(amount/50)} student${amount >= 100 ? 's' : ''} for a month`;
   };
 
   const isValidAmount = getDonationAmount() > 0;
@@ -133,6 +152,32 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         </div>
 
         <div className={cn(
+          "w-full flex mb-4 justify-center transition-all duration-700 delay-275",
+          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        )}>
+          <ToggleGroup type="single" value={isMonthly ? "monthly" : "once"} className="bg-gray-100 rounded-lg p-0.5">
+            <ToggleGroupItem value="once" 
+              onClick={() => setIsMonthly(false)}
+              className={cn(
+                "text-sm py-1.5 px-4 rounded-md data-[state=on]:bg-white data-[state=on]:shadow-sm",
+                !isMonthly ? "bg-white shadow-sm" : "hover:bg-gray-200"
+              )}
+            >
+              One-time
+            </ToggleGroupItem>
+            <ToggleGroupItem value="monthly" 
+              onClick={() => setIsMonthly(true)}
+              className={cn(
+                "text-sm py-1.5 px-4 rounded-md flex items-center gap-1.5 data-[state=on]:bg-white data-[state=on]:shadow-sm",
+                isMonthly ? "bg-white shadow-sm" : "hover:bg-gray-200"
+              )}
+            >
+              <Repeat className="h-3.5 w-3.5" /> Monthly
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
+
+        <div className={cn(
           "w-full flex flex-col gap-3 mb-4 transition-all duration-700 delay-300",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
@@ -144,14 +189,21 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
               selected={selectedAmount === amount}
               onClick={handleAmountSelect}
               impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
+              testimonial={TESTIMONIALS[amount as keyof typeof TESTIMONIALS]}
               isPopular={amount === POPULAR_TIER}
               boxSize={index + 1} // Increase size factor based on index
+              iconType={
+                amount === 5 ? 'supplies' :
+                amount === 10 ? 'day' :
+                amount === 25 ? 'week' :
+                'month'
+              }
             />
           ))}
         </div>
 
         <div className={cn(
-          "w-full mb-6 transition-all duration-700 delay-400",
+          "w-full mb-4 transition-all duration-700 delay-400",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           <CustomAmount
@@ -161,6 +213,16 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
             onFocus={handleCustomFocus}
           />
         </div>
+
+        {isValidAmount && (
+          <div className={cn(
+            "w-full mb-4 p-3 bg-purple-50 border border-purple-100 rounded-xl text-sm text-purple-800",
+            "transition-all duration-300"
+          )}>
+            {getImpactSummary()}
+            {isMonthly && " every month"}
+          </div>
+        )}
 
         <div className={cn(
           "w-full transition-all duration-700 delay-500",
@@ -180,7 +242,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                 Processing...
               </span>
             ) : (
-              <span>Donate Now</span>
+              <span>{isMonthly ? `Donate $${getDonationAmount()} Monthly` : `Donate $${getDonationAmount()} Now`}</span>
             )}
           </button>
         </div>

@@ -44,7 +44,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
               inputMode="numeric"
               pattern="[0-9]*"
               className={cn(
-                "w-full bg-transparent text-xl font-bold focus:outline-none overflow-hidden",
+                "w-full bg-transparent text-xl font-bold focus:outline-none",
                 "text-gray-800 placeholder-gray-400"
               )}
               value={value}

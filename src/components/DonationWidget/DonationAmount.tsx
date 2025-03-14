@@ -31,13 +31,13 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
   const getIcon = () => {
     switch(iconType) {
       case 'supplies':
-        return <Pencil className="h-4 w-4 text-purple-600" />;
+        return <Pencil className={cn("h-4 w-4", selected ? "text-gray-600" : isPopular ? "text-white" : "text-purple-600")} />;
       case 'day':
-        return <Clock className="h-4 w-4 text-purple-600" />;
+        return <Clock className={cn("h-4 w-4", selected ? "text-gray-600" : isPopular ? "text-white" : "text-purple-600")} />;
       case 'week':
-        return <BookOpen className="h-4 w-4 text-purple-600" />;
+        return <BookOpen className={cn("h-4 w-4", selected ? "text-gray-600" : isPopular ? "text-white" : "text-purple-600")} />;
       case 'month':
-        return <Users className="h-4 w-4 text-purple-600" />;
+        return <Users className={cn("h-4 w-4", selected ? "text-gray-600" : isPopular ? "text-white" : "text-purple-600")} />;
       default:
         return null;
     }
@@ -47,16 +47,15 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
     <div
       className={cn(
         "donation-card relative w-full overflow-hidden",
-        selected && !isPopular && "selected",
-        isPopular && !selected && "popular-tier",
-        isPopular && selected && "popular-tier selected",
+        selected && "selected",
+        !selected && isPopular && "popular-tier",
         "transition-all duration-300 ease-in-out"
       )}
       onClick={() => onClick(value)}
     >
-      {isPopular && (
-        <div className="absolute top-0 right-0 bg-donation-purple text-white text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
-          <span className="inline-block h-1.5 w-1.5 bg-white rounded-full animate-pulse"></span>
+      {isPopular && !selected && (
+        <div className="absolute top-0 right-0 bg-white text-purple-600 text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+          <span className="inline-block h-1.5 w-1.5 bg-purple-600 rounded-full animate-pulse"></span>
           Popular
         </div>
       )}
@@ -66,14 +65,14 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
           <div className="flex items-center gap-2">
             <div className={cn(
               "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0",
-              selected ? "border-gray-500 bg-gray-100" : "border-gray-300",
+              selected ? "border-gray-500 bg-gray-100" : isPopular ? "border-white" : "border-gray-300",
               "transition-all duration-200"
             )}>
               {selected && <div className="w-2.5 h-2.5 bg-gray-500 rounded-full"></div>}
             </div>
             <span className={cn(
               "text-xl font-bold",
-              "text-gray-800"
+              selected ? "text-gray-800" : isPopular ? "text-white" : "text-gray-800"
             )}>
               ${value}
             </span>
@@ -82,7 +81,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
           {getIcon() && (
             <div className={cn(
               "flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0",
-              selected ? "bg-gray-100" : "bg-purple-100"
+              selected ? "bg-gray-100" : isPopular ? "bg-white bg-opacity-20" : "bg-purple-100"
             )}>
               {getIcon()}
             </div>
@@ -92,7 +91,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         {impactStatement && (
           <p className={cn(
             "text-xs font-medium leading-tight ml-7 mt-1 break-words pr-2",
-            "text-gray-700"
+            selected ? "text-gray-700" : isPopular ? "text-white" : "text-gray-700"
           )}>
             {impactStatement}
           </p>
@@ -101,11 +100,11 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         {specialItem && (
           <div className={cn(
             "ml-7 mt-2 border-l-2 pl-2.5 pr-2",
-            selected ? "border-gray-300" : "border-purple-200"
+            selected ? "border-gray-300" : isPopular ? "border-white border-opacity-30" : "border-purple-200"
           )}>
             <p className={cn(
               "text-2xs break-words",
-              "text-gray-500"
+              selected ? "text-gray-500" : isPopular ? "text-white text-opacity-80" : "text-gray-500"
             )}>
               {specialItem}
             </p>

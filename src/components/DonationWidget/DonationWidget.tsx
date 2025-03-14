@@ -69,7 +69,10 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
   const handleCustomAmountChange = (value: string) => {
     setCustomAmount(value);
-    setSelectedAmount(null);
+    if (value) {
+      setSelectedAmount(null);
+      setIsCustomActive(true);
+    }
   };
 
   const handleCustomFocus = () => {
@@ -203,7 +206,11 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           <button
-            className="donation-button"
+            className="w-full py-3 px-4 bg-donation-purple text-white rounded-xl
+                     text-base font-semibold tracking-wide transition-all duration-300
+                     hover:bg-[#7C3AED] active:scale-[0.98] shadow-md
+                     hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-donation-purple
+                     focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={!isValidAmount || isSubmitting}
             onClick={handleDonate}
           >

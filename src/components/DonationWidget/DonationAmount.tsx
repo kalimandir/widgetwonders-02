@@ -28,7 +28,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
       onClick={() => onClick(value)}
     >
       <span className={cn(
-        "text-lg sm:text-xl font-bold",
+        "text-xl font-bold",
         selected ? "text-white" : "text-gray-800"
       )}>
         ${value}
@@ -37,7 +37,8 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
       {impactStatement && (
         <p className={cn(
           "text-xs font-normal mt-1.5 leading-tight",
-          selected ? "text-white/90" : "text-gray-600"
+          selected ? "text-white/90" : "text-gray-600",
+          "text-center px-1"
         )}>
           {impactStatement}
         </p>

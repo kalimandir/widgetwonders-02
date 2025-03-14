@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -112,7 +113,7 @@
   .donation-card {
     @apply flex flex-col items-center justify-center p-4 rounded-xl bg-[#F9FAFB]
            cursor-pointer transition-all duration-300 text-center
-           border border-gray-100 shadow-sm h-[100px] hover:shadow-md
+           border border-gray-100 shadow-sm hover:shadow-md
            hover:border-gray-200;
   }
   
@@ -125,9 +126,9 @@
   }
   
   .donation-button {
-    @apply w-full py-3 sm:py-4 px-4 sm:px-6 bg-donation-purple text-white rounded-xl
-           text-base sm:text-lg font-semibold tracking-wide transition-all duration-300
-           hover:bg-donation-purple-dark active:scale-[0.98] shadow-md
+    @apply w-full py-3 px-4 bg-[#9b87f5] text-white rounded-xl
+           text-base font-semibold tracking-wide transition-all duration-300
+           hover:bg-[#8B5CF6] active:scale-[0.98] shadow-md
            hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-donation-purple
            focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed;
   }

@@ -94,25 +94,25 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
       "border border-gray-100",
       animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
     )}>
-      <div className="p-3 sm:p-6 flex flex-col items-center">
+      <div className="p-6 flex flex-col items-center">
         <div className={cn(
-          "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center mb-3 sm:mb-4 transition-all",
+          "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center mb-4 transition-all",
           "bg-purple-100 duration-700 delay-100",
           animateIn ? "opacity-100 scale-100" : "opacity-0 scale-95"
         )}>
-          <HandHeart className="w-10 h-10 text-purple-600" />
+          <HandHeart className="w-8 h-8 text-purple-600" />
         </div>
 
         <div className={cn(
-          "text-center mb-4 transition-all duration-700 delay-200",
+          "text-center mb-5 transition-all duration-700 delay-200",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
-          <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">{organizationName}</h2>
-          <p className="text-xs sm:text-sm text-gray-600 px-2">{missionStatement}</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-1">{organizationName}</h2>
+          <p className="text-sm text-gray-600">{missionStatement}</p>
         </div>
 
         <div className={cn(
-          "w-full px-4 mb-5 transition-all duration-700 delay-250",
+          "w-full mb-6 transition-all duration-700 delay-250",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           <div className="flex justify-between mb-2">
@@ -125,12 +125,12 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           </div>
           <Progress 
             value={progressValue} 
-            className="h-2.5 bg-gray-100 rounded-full w-[95%] mx-auto" 
+            className="h-2.5 bg-gray-100 rounded-full" 
           />
         </div>
 
         <div className={cn(
-          "w-full grid grid-cols-2 gap-3 sm:gap-4 mb-3 sm:mb-4 transition-all duration-700 delay-300",
+          "w-full grid grid-cols-2 gap-4 mb-4 transition-all duration-700 delay-300",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           {PREDEFINED_AMOUNTS.map((amount) => (
@@ -145,7 +145,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         </div>
 
         <div className={cn(
-          "w-full mb-5 transition-all duration-700 delay-400",
+          "w-full mb-6 transition-all duration-700 delay-400",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           <CustomAmount

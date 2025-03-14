@@ -28,7 +28,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
     >
       <div className="flex items-center w-full">
         <span className={cn(
-          "text-lg sm:text-xl font-bold",
+          "text-xl font-bold",
           active ? "text-white" : "text-gray-800"
         )}>
           $
@@ -38,7 +38,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
           inputMode="numeric"
           pattern="[0-9]*"
           className={cn(
-            "w-full bg-transparent text-lg sm:text-xl font-bold pl-0.5 focus:outline-none",
+            "w-full bg-transparent text-xl font-bold pl-0.5 focus:outline-none",
             active ? "text-white placeholder-white/70" : "text-gray-800 placeholder-gray-400"
           )}
           value={value}
@@ -51,7 +51,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
       </div>
       
       <p className={cn(
-        "text-xs font-normal mt-1 leading-tight text-left",
+        "text-xs font-normal mt-1.5 leading-tight text-left",
         active ? "text-white/90" : "text-gray-600"
       )}>
         Enter custom amount

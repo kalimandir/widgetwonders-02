@@ -5,8 +5,7 @@ import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Progress } from "@/components/ui/progress";
-import { HandHeart, Repeat } from "lucide-react";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { HandHeart } from "lucide-react";
 
 interface DonationWidgetProps {
   organizationName: string;
@@ -43,7 +42,6 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
-  const [isMonthly, setIsMonthly] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -93,7 +91,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
     setIsSubmitting(true);
     
     setTimeout(() => {
-      console.log(`Donating $${amount} ${isMonthly ? 'monthly' : 'once'} to ${organizationName}`);
+      console.log(`Donating $${amount} to ${organizationName}`);
       setIsSubmitting(false);
     }, 1000);
   };
@@ -152,32 +150,6 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         </div>
 
         <div className={cn(
-          "w-full flex mb-4 justify-center transition-all duration-700 delay-275",
-          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        )}>
-          <ToggleGroup type="single" value={isMonthly ? "monthly" : "once"} className="bg-gray-100 rounded-lg p-0.5">
-            <ToggleGroupItem value="once" 
-              onClick={() => setIsMonthly(false)}
-              className={cn(
-                "text-sm py-1.5 px-4 rounded-md data-[state=on]:bg-white data-[state=on]:shadow-sm",
-                !isMonthly ? "bg-white shadow-sm" : "hover:bg-gray-200"
-              )}
-            >
-              One-time
-            </ToggleGroupItem>
-            <ToggleGroupItem value="monthly" 
-              onClick={() => setIsMonthly(true)}
-              className={cn(
-                "text-sm py-1.5 px-4 rounded-md flex items-center gap-1.5 data-[state=on]:bg-white data-[state=on]:shadow-sm",
-                isMonthly ? "bg-white shadow-sm" : "hover:bg-gray-200"
-              )}
-            >
-              <Repeat className="h-3.5 w-3.5" /> Monthly
-            </ToggleGroupItem>
-          </ToggleGroup>
-        </div>
-
-        <div className={cn(
           "w-full flex flex-col gap-3 mb-4 transition-all duration-700 delay-300",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
@@ -220,7 +192,6 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
             "transition-all duration-300"
           )}>
             {getImpactSummary()}
-            {isMonthly && " every month"}
           </div>
         )}
 
@@ -242,7 +213,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                 Processing...
               </span>
             ) : (
-              <span>{isMonthly ? `Donate $${getDonationAmount()} Monthly` : `Donate $${getDonationAmount()} Now`}</span>
+              <span>Donate ${getDonationAmount()} Now</span>
             )}
           </button>
         </div>

@@ -66,12 +66,17 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
         Enter custom amount
       </p>
       
-      <p className={cn(
-        "text-2xs ml-7 mt-1 pl-2 border-l-2",
-        active ? "text-white/80 border-white/30" : "text-gray-500 border-purple-200"
+      <div className={cn(
+        "ml-7 mt-2 border-l-2 pl-2.5 py-0.5",
+        active ? "border-white/30" : "border-purple-200"
       )}>
-        Receive benefits based on donation level
-      </p>
+        <p className={cn(
+          "text-2xs",
+          active ? "text-white/80" : "text-gray-500"
+        )}>
+          Receive benefits based on donation level
+        </p>
+      </div>
     </div>
   );
 };

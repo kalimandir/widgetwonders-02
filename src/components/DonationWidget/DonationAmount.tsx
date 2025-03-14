@@ -108,12 +108,17 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         )}
         
         {specialItem && (
-          <p className={cn(
-            "text-2xs ml-7 mt-1 pl-2 border-l-2",
-            selected ? "text-white/80 border-white/30" : "text-gray-500 border-purple-200"
+          <div className={cn(
+            "ml-7 mt-2 border-l-2 pl-2.5 py-0.5",
+            selected ? "border-white/30" : "border-purple-200"
           )}>
-            {specialItem}
-          </p>
+            <p className={cn(
+              "text-2xs",
+              selected ? "text-white/80" : "text-gray-500"
+            )}>
+              {specialItem}
+            </p>
+          </div>
         )}
       </div>
     </div>

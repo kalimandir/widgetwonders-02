@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
@@ -13,6 +14,12 @@ interface DonationWidgetProps {
 }
 
 const PREDEFINED_AMOUNTS = [5, 10, 25, 50];
+const IMPACT_STATEMENTS = {
+  5: "Provides school supplies for one student",
+  10: "Funds a day of education",
+  25: "Supports a week of learning materials",
+  50: "Sponsors a student for a month"
+};
 
 const DonationWidget: React.FC<DonationWidgetProps> = ({
   organizationName,
@@ -123,7 +130,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         </div>
 
         <div className={cn(
-          "w-full grid grid-cols-2 gap-2.5 sm:gap-4 mb-4 sm:mb-5 transition-all duration-700 delay-300",
+          "w-full grid grid-cols-2 gap-x-2.5 gap-y-4 sm:gap-x-4 sm:gap-y-6 mb-5 sm:mb-6 transition-all duration-700 delay-300",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           {PREDEFINED_AMOUNTS.map((amount) => (
@@ -132,6 +139,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
               value={amount}
               selected={selectedAmount === amount}
               onClick={handleAmountSelect}
+              impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
             />
           ))}
         </div>

@@ -9,7 +9,7 @@ interface DonationAmountProps {
   selected: boolean;
   onClick: (amount: number) => void;
   impactStatement?: string;
-  testimonial?: string;
+  specialItem?: string;
   isPopular?: boolean;
   boxSize?: number;
   iconType?: 'supplies' | 'day' | 'week' | 'month';
@@ -20,7 +20,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
   selected,
   onClick,
   impactStatement,
-  testimonial,
+  specialItem,
   isPopular = false,
   boxSize = 1,
   iconType
@@ -29,7 +29,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
   
   // Calculate the height based on the boxSize (1-4)
   const getHeight = () => {
-    const baseHeight = testimonial ? 96 : 74; // Base height, larger if we have testimonial
+    const baseHeight = specialItem ? 96 : 74; // Base height, larger if we have special item
     const increment = 8; // Height increment per size
     return baseHeight + (boxSize - 1) * increment;
   };
@@ -107,12 +107,12 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
           </p>
         )}
         
-        {testimonial && (
+        {specialItem && (
           <p className={cn(
-            "text-2xs italic leading-tight ml-7 mt-1 border-l-2 pl-2",
+            "text-2xs ml-7 mt-1 pl-2 border-l-2",
             selected ? "text-white/80 border-white/30" : "text-gray-500 border-purple-200"
           )}>
-            {testimonial}
+            {specialItem}
           </p>
         )}
       </div>

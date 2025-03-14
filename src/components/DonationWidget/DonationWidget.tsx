@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
@@ -18,6 +19,13 @@ const IMPACT_STATEMENTS = {
   10: "Funds a full day of quality education",
   25: "Supports a week of comprehensive learning materials",
   50: "Sponsors a student's education for an entire month"
+};
+
+const SPECIAL_ITEMS = {
+  5: "Includes: Digital thank you card with student artwork",
+  10: "Includes: Digital impact certificate + quarterly newsletter",
+  25: "Includes: \"Supporter\" digital badge + thank you video",
+  50: "Includes: Personalized impact report + leadership recognition"
 };
 
 const POPULAR_TIER = 25;
@@ -151,6 +159,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
               selected={selectedAmount === amount}
               onClick={handleAmountSelect}
               impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
+              specialItem={SPECIAL_ITEMS[amount as keyof typeof SPECIAL_ITEMS]}
               isPopular={amount === POPULAR_TIER}
               boxSize={index + 1}
               iconType={

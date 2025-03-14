@@ -153,7 +153,6 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           "w-full flex flex-col gap-3 mb-4 transition-all duration-700 delay-300",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
-          {/* Sort the amounts from smallest to largest */}
           {PREDEFINED_AMOUNTS.map((amount, index) => (
             <DonationAmount
               key={amount}
@@ -163,7 +162,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
               impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
               testimonial={TESTIMONIALS[amount as keyof typeof TESTIMONIALS]}
               isPopular={amount === POPULAR_TIER}
-              boxSize={index + 1} // Increase size factor based on index
+              boxSize={index + 1}
               iconType={
                 amount === 5 ? 'supplies' :
                 amount === 10 ? 'day' :
@@ -213,7 +212,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                 Processing...
               </span>
             ) : (
-              <span>Donate ${getDonationAmount()} Now</span>
+              <span>Donate ${getDonationAmount()}</span>
             )}
           </button>
         </div>

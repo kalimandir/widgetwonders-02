@@ -21,12 +21,12 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
       className={cn(
         "donation-amount-button animate-scale-in",
         selected && "selected",
-        isMobile ? "h-14" : "h-16" // Slightly shorter on mobile
+        isMobile ? "h-12" : "h-16" // Even shorter on mobile
       )}
       onClick={() => onClick(value)}
     >
       <span className={cn(
-        "text-xl sm:text-2xl font-semibold transition-colors duration-300",
+        "text-lg sm:text-2xl font-semibold transition-colors duration-300",
         selected ? "text-donation-purple" : "text-gray-800"
       )}>
         ${value}

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
@@ -111,9 +112,12 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           "w-full px-4 mb-5 transition-all duration-700 delay-250",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
-          <div className="mb-2">
+          <div className="flex justify-between mb-2">
             <span className="text-sm text-gray-700 font-medium">
-              $3,250 raised toward $5,000 goal
+              $3,250 raised
+            </span>
+            <span className="text-sm text-gray-600">
+              $5,000 goal
             </span>
           </div>
           <Progress 

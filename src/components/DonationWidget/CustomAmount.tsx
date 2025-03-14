@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface CustomAmountProps {
   active: boolean;
@@ -15,10 +16,13 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
   onChange,
   onFocus
 }) => {
+  const isMobile = useIsMobile();
+  
   return (
     <div 
       className={cn(
-        "relative w-full h-16 rounded-xl transition-all duration-300 animate-scale-in",
+        "relative w-full rounded-xl transition-all duration-300 animate-scale-in",
+        isMobile ? "h-14" : "h-16", // Slightly shorter on mobile
         active 
           ? "border-2 border-donation-purple bg-white" 
           : "bg-donation-gray border-2 border-transparent"
@@ -26,7 +30,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
     >
       <div className="absolute inset-0 flex items-center px-4">
         <span className={cn(
-          "text-2xl font-semibold transition-colors duration-300",
+          "text-xl sm:text-2xl font-semibold transition-colors duration-300",
           active ? "text-donation-purple" : "text-gray-800"
         )}>
           $
@@ -36,7 +40,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
           inputMode="numeric"
           pattern="[0-9]*"
           className={cn(
-            "w-full h-full bg-transparent text-2xl font-semibold pl-2 focus:outline-none",
+            "w-full h-full bg-transparent text-xl sm:text-2xl font-semibold pl-2 focus:outline-none",
             active ? "text-donation-purple" : "text-gray-800"
           )}
           value={value}

@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DonationAmountProps {
   value: number;
@@ -13,16 +14,19 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
   selected,
   onClick 
 }) => {
+  const isMobile = useIsMobile();
+  
   return (
     <div 
       className={cn(
         "donation-amount-button animate-scale-in",
-        selected && "selected"
+        selected && "selected",
+        isMobile ? "h-14" : "h-16" // Slightly shorter on mobile
       )}
       onClick={() => onClick(value)}
     >
       <span className={cn(
-        "text-2xl font-semibold transition-colors duration-300",
+        "text-xl sm:text-2xl font-semibold transition-colors duration-300",
         selected ? "text-donation-purple" : "text-gray-800"
       )}>
         ${value}

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface DonationWidgetProps {
   organizationName: string;
@@ -22,6 +23,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const [isCustomActive, setIsCustomActive] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     // Animate in elements with a slight delay for a nice entrance
@@ -68,14 +70,14 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
   return (
     <div className={cn(
-      "w-full max-w-md mx-auto bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-500",
+      "w-full max-w-[calc(100%-16px)] mx-auto bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-500",
       "border border-gray-100",
       animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
     )}>
-      <div className="p-6 sm:p-8 flex flex-col items-center">
+      <div className="p-4 sm:p-8 flex flex-col items-center">
         {/* Logo */}
         <div className={cn(
-          "w-20 h-20 rounded-2xl overflow-hidden shadow-md mb-4 transition-all",
+          "w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden shadow-md mb-3 sm:mb-4 transition-all",
           "bg-gray-50 duration-700 delay-100",
           animateIn ? "opacity-100 scale-100" : "opacity-0 scale-95"
         )}>
@@ -88,16 +90,16 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
         {/* Organization info */}
         <div className={cn(
-          "text-center mb-8 transition-all duration-700 delay-200",
+          "text-center mb-6 sm:mb-8 transition-all duration-700 delay-200",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
-          <h2 className="text-2xl font-bold text-gray-900 mb-1">{organizationName}</h2>
-          <p className="text-gray-600">{missionStatement}</p>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-1">{organizationName}</h2>
+          <p className="text-sm sm:text-base text-gray-600">{missionStatement}</p>
         </div>
 
         {/* Donation amounts */}
         <div className={cn(
-          "w-full grid grid-cols-2 gap-4 mb-6 transition-all duration-700 delay-300",
+          "w-full grid grid-cols-2 gap-3 sm:gap-4 mb-5 sm:mb-6 transition-all duration-700 delay-300",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           {PREDEFINED_AMOUNTS.map((amount) => (
@@ -112,7 +114,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
         {/* Custom amount */}
         <div className={cn(
-          "w-full mb-8 transition-all duration-700 delay-400",
+          "w-full mb-6 sm:mb-8 transition-all duration-700 delay-400",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           <CustomAmount

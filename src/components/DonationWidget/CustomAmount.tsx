@@ -31,16 +31,16 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
         <div className="flex items-center w-full gap-2">
           <div className={cn(
             "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0",
-            active ? "border-white bg-white/20" : "border-gray-300",
+            active ? "border-gray-500 bg-gray-100" : "border-gray-300",
             "transition-all duration-200"
           )}>
-            {active && <div className="w-2.5 h-2.5 bg-white rounded-full"></div>}
+            {active && <div className="w-2.5 h-2.5 bg-gray-500 rounded-full"></div>}
           </div>
           
           <div className="flex items-center flex-1 overflow-hidden">
             <DollarSign className={cn(
               "h-4 w-4 mr-0.5 flex-shrink-0",
-              active ? "text-white" : "text-gray-600"
+              active ? "text-gray-600" : "text-gray-600"
             )} />
             <input
               type="number"
@@ -48,7 +48,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
               pattern="[0-9]*"
               className={cn(
                 "w-full bg-transparent text-xl font-bold focus:outline-none overflow-hidden",
-                active ? "text-white placeholder-white/70" : "text-gray-800 placeholder-gray-400"
+                active ? "text-gray-800 placeholder-gray-400" : "text-gray-800 placeholder-gray-400"
               )}
               value={value}
               onChange={(e) => onChange(e.target.value)}
@@ -62,18 +62,18 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
         
         <p className={cn(
           "text-xs font-medium leading-tight ml-7 mt-1 break-words",
-          active ? "text-white/90" : "text-gray-700"
+          active ? "text-gray-700" : "text-gray-700"
         )}>
           Enter custom amount
         </p>
         
         <div className={cn(
           "ml-7 mt-2 border-l-2 pl-2.5",
-          active ? "border-white/30" : "border-purple-200"
+          active ? "border-gray-300" : "border-purple-200"
         )}>
           <p className={cn(
             "text-2xs break-words pr-1",
-            active ? "text-white/80" : "text-gray-500"
+            active ? "text-gray-500" : "text-gray-500"
           )}>
             Receive benefits based on donation level
           </p>

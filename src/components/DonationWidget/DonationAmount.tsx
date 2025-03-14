@@ -37,13 +37,13 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
   const getIcon = () => {
     switch(iconType) {
       case 'supplies':
-        return <Pencil className={cn("h-4 w-4", selected ? "text-white" : "text-purple-600")} />;
+        return <Pencil className={cn("h-4 w-4", selected ? "text-purple-600" : "text-purple-600")} />;
       case 'day':
-        return <Clock className={cn("h-4 w-4", selected ? "text-white" : "text-purple-600")} />;
+        return <Clock className={cn("h-4 w-4", selected ? "text-purple-600" : "text-purple-600")} />;
       case 'week':
-        return <BookOpen className={cn("h-4 w-4", selected ? "text-white" : "text-purple-600")} />;
+        return <BookOpen className={cn("h-4 w-4", selected ? "text-purple-600" : "text-purple-600")} />;
       case 'month':
-        return <Users className={cn("h-4 w-4", selected ? "text-white" : "text-purple-600")} />;
+        return <Users className={cn("h-4 w-4", selected ? "text-purple-600" : "text-purple-600")} />;
       default:
         return null;
     }
@@ -75,14 +75,14 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
           <div className="flex items-center gap-2">
             <div className={cn(
               "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0",
-              selected ? "border-white bg-white/20" : "border-gray-300",
+              selected ? "border-gray-500 bg-gray-100" : "border-gray-300",
               "transition-all duration-200"
             )}>
-              {selected && <div className="w-2.5 h-2.5 bg-white rounded-full"></div>}
+              {selected && <div className="w-2.5 h-2.5 bg-gray-500 rounded-full"></div>}
             </div>
             <span className={cn(
               "text-xl font-bold",
-              selected ? "text-white" : "text-gray-800"
+              selected ? "text-gray-800" : "text-gray-800"
             )}>
               ${value}
             </span>
@@ -91,7 +91,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
           {getIcon() && (
             <div className={cn(
               "flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0",
-              selected ? "bg-white/20" : "bg-purple-100"
+              selected ? "bg-gray-100" : "bg-purple-100"
             )}>
               {getIcon()}
             </div>
@@ -101,7 +101,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         {impactStatement && (
           <p className={cn(
             "text-xs font-medium leading-tight ml-7 mt-1 break-words",
-            selected ? "text-white/90" : "text-gray-700"
+            selected ? "text-gray-700" : "text-gray-700"
           )}>
             {impactStatement}
           </p>
@@ -110,11 +110,11 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         {specialItem && (
           <div className={cn(
             "ml-7 mt-2 border-l-2 pl-2.5",
-            selected ? "border-white/30" : "border-purple-200"
+            selected ? "border-gray-300" : "border-purple-200"
           )}>
             <p className={cn(
               "text-2xs break-words pr-1",
-              selected ? "text-white/80" : "text-gray-500"
+              selected ? "text-gray-500" : "text-gray-500"
             )}>
               {specialItem}
             </p>

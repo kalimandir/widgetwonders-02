@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -119,7 +120,7 @@
     @apply flex items-start p-4 rounded-xl bg-[#F9FAFB]
            cursor-pointer transition-all duration-300
            border border-gray-100 shadow-sm hover:shadow-md
-           hover:border-gray-200 w-full;
+           hover:border-gray-200 w-full overflow-hidden;
   }
   
   .donation-card.selected {

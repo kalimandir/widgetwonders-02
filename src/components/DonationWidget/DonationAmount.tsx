@@ -59,7 +59,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
       )}
       onClick={() => onClick(value)}
       style={{ 
-        height: `${getHeight()}px`,
+        minHeight: `${getHeight()}px`,
         transform: isPopular ? 'scale(1.02) translateX(4px)' : undefined
       }}
     >
@@ -74,7 +74,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-2">
             <div className={cn(
-              "w-5 h-5 rounded-full border-2 flex items-center justify-center",
+              "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0",
               selected ? "border-white bg-white/20" : "border-gray-300",
               "transition-all duration-200"
             )}>
@@ -90,7 +90,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
           
           {getIcon() && (
             <div className={cn(
-              "flex items-center justify-center w-6 h-6 rounded-full",
+              "flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0",
               selected ? "bg-white/20" : "bg-purple-100"
             )}>
               {getIcon()}
@@ -100,7 +100,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         
         {impactStatement && (
           <p className={cn(
-            "text-xs font-medium leading-tight ml-7 mt-1",
+            "text-xs font-medium leading-tight ml-7 mt-1 break-words",
             selected ? "text-white/90" : "text-gray-700"
           )}>
             {impactStatement}
@@ -109,11 +109,11 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         
         {specialItem && (
           <div className={cn(
-            "ml-7 mt-2 border-l-2 pl-2.5 py-0",
+            "ml-7 mt-2 border-l-2 pl-2.5",
             selected ? "border-white/30" : "border-purple-200"
           )}>
             <p className={cn(
-              "text-2xs",
+              "text-2xs break-words pr-1",
               selected ? "text-white/80" : "text-gray-500"
             )}>
               {specialItem}

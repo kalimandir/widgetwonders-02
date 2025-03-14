@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
@@ -29,10 +28,8 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Animate in elements with a slight delay for a nice entrance
     setAnimateIn(true);
     
-    // Animate progress bar from 0 to 65%
     const timer = setTimeout(() => {
       const animateProgress = () => {
         setProgressValue(prev => {
@@ -76,11 +73,9 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
     setIsSubmitting(true);
     
-    // Simulate API call
     setTimeout(() => {
       console.log(`Donating $${amount} to ${organizationName}`);
       setIsSubmitting(false);
-      // Here you would redirect to payment processor or next step
     }, 1000);
   };
 
@@ -93,9 +88,8 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
       animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
     )}>
       <div className="p-3 sm:p-6 flex flex-col items-center">
-        {/* Logo */}
         <div className={cn(
-          "w-16 h-16 rounded-2xl overflow-hidden shadow-md mb-2 sm:mb-4 transition-all",
+          "w-16 h-16 rounded-2xl overflow-hidden shadow-md mb-3 sm:mb-4 transition-all",
           "bg-gray-50 duration-700 delay-100",
           animateIn ? "opacity-100 scale-100" : "opacity-0 scale-95"
         )}>
@@ -106,22 +100,20 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           />
         </div>
 
-        {/* Organization info */}
         <div className={cn(
-          "text-center mb-4 sm:mb-6 transition-all duration-700 delay-200",
+          "text-center mb-4 transition-all duration-700 delay-200",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-1">{organizationName}</h2>
-          <p className="text-xs sm:text-sm text-gray-600">{missionStatement}</p>
+          <p className="text-xs sm:text-sm text-gray-600 px-2">{missionStatement}</p>
         </div>
 
-        {/* Progress bar section */}
         <div className={cn(
-          "w-full px-1 mb-4 sm:mb-5 transition-all duration-700 delay-250",
+          "w-full px-4 mb-5 transition-all duration-700 delay-250",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-xs sm:text-sm text-gray-700">
+          <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between mb-2">
+            <span className="text-sm text-gray-700 font-medium mb-1 xs:mb-0">
               $3,250 raised toward $5,000 goal
             </span>
             <div className="flex items-center text-xs text-green-600 font-medium">
@@ -131,13 +123,12 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           </div>
           <Progress 
             value={progressValue} 
-            className="h-2 bg-gray-100 rounded-full w-[90%] mx-auto" 
+            className="h-2.5 bg-gray-100 rounded-full w-[95%] mx-auto" 
           />
         </div>
 
-        {/* Donation amounts */}
         <div className={cn(
-          "w-full grid grid-cols-2 gap-2 sm:gap-4 mb-4 sm:mb-6 transition-all duration-700 delay-300",
+          "w-full grid grid-cols-2 gap-2.5 sm:gap-4 mb-4 sm:mb-5 transition-all duration-700 delay-300",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           {PREDEFINED_AMOUNTS.map((amount) => (
@@ -150,9 +141,8 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           ))}
         </div>
 
-        {/* Custom amount */}
         <div className={cn(
-          "w-full mb-4 sm:mb-6 transition-all duration-700 delay-400",
+          "w-full mb-5 transition-all duration-700 delay-400",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           <CustomAmount
@@ -163,7 +153,6 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           />
         </div>
 
-        {/* Donate button */}
         <div className={cn(
           "w-full transition-all duration-700 delay-500",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"

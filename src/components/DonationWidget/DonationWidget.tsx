@@ -21,6 +21,9 @@ const IMPACT_STATEMENTS = {
   50: "Sponsors a student for a month"
 };
 
+// Define the popular tier (25 is the suggested donation)
+const POPULAR_TIER = 25;
+
 const DonationWidget: React.FC<DonationWidgetProps> = ({
   organizationName,
   missionStatement,
@@ -130,16 +133,19 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         </div>
 
         <div className={cn(
-          "w-full grid grid-cols-2 gap-4 mb-4 transition-all duration-700 delay-300",
+          "w-full flex flex-col gap-3 mb-4 transition-all duration-700 delay-300",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
-          {PREDEFINED_AMOUNTS.map((amount) => (
+          {/* Sort the amounts from smallest to largest */}
+          {PREDEFINED_AMOUNTS.map((amount, index) => (
             <DonationAmount
               key={amount}
               value={amount}
               selected={selectedAmount === amount}
               onClick={handleAmountSelect}
               impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
+              isPopular={amount === POPULAR_TIER}
+              boxSize={index + 1} // Increase size factor based on index
             />
           ))}
         </div>

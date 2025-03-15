@@ -53,7 +53,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
       )}
       onClick={() => onClick(value)}
     >
-      {isPopular && !selected && (
+      {isPopular && (
         <div className="absolute top-0 right-0 bg-white text-purple-600 text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
           <span className="inline-block h-1.5 w-1.5 bg-purple-600 rounded-full animate-pulse"></span>
           Popular
@@ -81,7 +81,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
           {getIcon() && (
             <div className={cn(
               "flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0",
-              selected ? "bg-purple-100" : isPopular ? "bg-purple-100" : "bg-purple-100"
+              "bg-purple-100" // Always keep the purple background
             )}>
               {getIcon()}
             </div>

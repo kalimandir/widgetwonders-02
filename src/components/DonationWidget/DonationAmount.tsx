@@ -31,13 +31,13 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
   const getIcon = () => {
     switch(iconType) {
       case 'supplies':
-        return <Pencil className="h-4 w-4 text-purple-600" />;
+        return <Pencil className="h-5 w-5 text-purple-600" />;
       case 'day':
-        return <Clock className="h-4 w-4 text-purple-600" />;
+        return <Clock className="h-5 w-5 text-purple-600" />;
       case 'week':
-        return <BookOpen className="h-4 w-4 text-purple-600" />;
+        return <BookOpen className="h-5 w-5 text-purple-600" />;
       case 'month':
-        return <Users className="h-4 w-4 text-purple-600" />;
+        return <Users className="h-5 w-5 text-purple-600" />;
       default:
         return null;
     }
@@ -80,8 +80,8 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
           
           {getIcon() && (
             <div className={cn(
-              "flex items-center justify-center w-6 h-6 rounded-full flex-shrink-0",
-              selected ? "bg-gray-100" : isPopular ? "bg-purple-100" : "bg-purple-100"
+              "flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0",
+              selected ? "bg-purple-100" : isPopular ? "bg-purple-100" : "bg-purple-100"
             )}>
               {getIcon()}
             </div>

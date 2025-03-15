@@ -38,7 +38,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
           </div>
           
           <div className="flex items-center flex-1 overflow-hidden">
-            <DollarSign className="h-4 w-4 mr-0.5 flex-shrink-0 text-gray-600" />
+            <DollarSign className="h-5 w-5 mr-0.5 flex-shrink-0 text-gray-600" />
             <input
               type="number"
               inputMode="numeric"

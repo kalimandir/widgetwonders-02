@@ -35,7 +35,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   missionStatement,
   logoUrl
 }) => {
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(null); // Changed from 25 to null
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [isCustomActive, setIsCustomActive] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -118,8 +118,9 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   return (
     <div className={cn(
       "w-full bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-500",
-      "border border-gray-100",
-      animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+      "border border-gray-100 flex flex-col",
+      animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
+      "relative pb-32" // Add bottom padding to accommodate fixed footer
     )}>
       <div className="p-6 flex flex-col items-center">
         <div className={cn(
@@ -191,10 +192,19 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
             onFocus={handleCustomFocus}
           />
         </div>
+      </div>
 
+      {/* Fixed footer with impact summary and donate button */}
+      <div className={cn(
+        "fixed bottom-0 left-0 right-0 bg-white py-4 px-6 transition-all duration-300 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]",
+        "flex flex-col gap-3 mx-auto max-w-[496px] rounded-b-3xl",
+        "border-t border-gray-100",
+        isValidAmount ? "translate-y-0" : "translate-y-full",
+        "z-10"
+      )}>
         {isValidAmount && (
           <div className={cn(
-            "w-full mb-4 p-3 bg-purple-50 border border-purple-100 rounded-xl text-sm text-purple-800",
+            "w-full p-3 bg-purple-50 border border-purple-100 rounded-xl text-sm text-purple-800",
             "transition-all duration-300"
           )}>
             {getImpactSummary()}

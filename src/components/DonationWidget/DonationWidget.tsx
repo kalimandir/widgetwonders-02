@@ -120,9 +120,10 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
       "w-full bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-500",
       "border border-gray-100 flex flex-col",
       animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
-      "relative pb-32"
+      "relative"
     )}>
-      <div className="p-6 flex flex-col items-center">
+      <div className="p-6 flex flex-col items-center pb-28">
+        {/* Logo and header content */}
         <div className={cn(
           "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center mb-4 transition-all",
           "bg-purple-100 duration-700 delay-100",
@@ -139,6 +140,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           <p className="text-sm text-gray-600">{missionStatement}</p>
         </div>
 
+        {/* Progress bar */}
         <div className={cn(
           "w-full mb-6 transition-all duration-700 delay-250",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -157,6 +159,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           />
         </div>
 
+        {/* Donation amount options */}
         <div className={cn(
           "w-full flex flex-col gap-3 mb-4 transition-all duration-700 delay-300",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -181,6 +184,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           ))}
         </div>
 
+        {/* Custom amount input */}
         <div className={cn(
           "w-full mb-4 transition-all duration-700 delay-400",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
@@ -194,12 +198,13 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         </div>
       </div>
 
+      {/* Fixed footer panel */}
       <div className={cn(
-        "fixed bottom-0 left-0 right-0 bg-white py-4 px-6 transition-all duration-300 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]",
+        "fixed bottom-0 left-0 right-0 bg-white py-4 px-6 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]",
         "flex flex-col gap-3 mx-auto max-w-[496px] rounded-b-3xl",
-        "border-t border-gray-100",
-        isValidAmount ? "translate-y-0" : "translate-y-[120%]", // Adjusted to ensure it's properly hidden/shown
-        "z-10"
+        "border-t border-gray-100 transition-all duration-300",
+        isValidAmount ? "translate-y-0" : "translate-y-full",
+        "z-20"
       )}>
         {isValidAmount && (
           <div className={cn(

@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
@@ -129,19 +130,18 @@
   
   .donation-card.popular-tier:not(.selected) {
     @apply shadow-md;
-    background-color: #7C3AED;
-    color: white;
-    border-color: rgba(233, 213, 255, 0.5);
+    background-color: #F5F1FF; /* Light purple gray background */
+    border-color: rgba(156, 132, 252, 0.4); /* Light purple border */
   }
   
   .donation-card.popular-tier:not(.selected) .text-gray-800,
   .donation-card.popular-tier:not(.selected) .text-gray-700,
   .donation-card.popular-tier:not(.selected) .text-gray-500 {
-    color: white;
+    color: #1F2937; /* Keeping text dark for better readability */
   }
   
   .donation-card.popular-tier:not(.selected) .border-divider {
-    border-color: rgba(255, 255, 255, 0.3);
+    border-color: rgba(156, 132, 252, 0.4); /* Light purple border for dividers */
   }
   
   .donation-card.popular-tier.selected {

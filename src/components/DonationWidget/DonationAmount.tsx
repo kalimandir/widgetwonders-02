@@ -48,7 +48,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
       className={cn(
         "donation-card relative w-full overflow-hidden",
         selected && "selected",
-        !selected && isPopular && "popular-tier",
+        isPopular && "popular-tier",
         "transition-all duration-300 ease-in-out"
       )}
       onClick={() => onClick(value)}

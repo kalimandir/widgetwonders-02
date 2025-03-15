@@ -125,12 +125,12 @@
   }
   
   .donation-card.selected {
-    @apply bg-gray-100 border-gray-300 shadow-md;
+    @apply bg-gray-100 border-purple-200 shadow-md;
   }
   
   .donation-card.popular-tier:not(.selected) {
     @apply shadow-md;
-    background-color: #F5F1FF; /* Light purple gray background */
+    /* Removed light purple background */
     border-color: rgba(156, 132, 252, 0.4); /* Light purple border */
   }
   
@@ -145,7 +145,7 @@
   }
   
   .donation-card.popular-tier.selected {
-    @apply bg-gray-100 border-gray-300;
+    @apply bg-gray-100 border-purple-200;
     color: #1F2937;
   }
   

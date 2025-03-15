@@ -38,15 +38,12 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
           </div>
           
           <div className="flex items-center flex-1 overflow-hidden">
-            <DollarSign className="h-5 w-5 mr-0.5 flex-shrink-0 text-gray-600" />
+            <DollarSign className="h-6 w-6 mr-0.5 flex-shrink-0 text-gray-600" />
             <input
               type="number"
               inputMode="numeric"
               pattern="[0-9]*"
-              className={cn(
-                "w-full bg-transparent text-xl font-bold focus:outline-none",
-                "text-gray-800 placeholder-gray-400"
-              )}
+              className="w-full bg-transparent text-xl font-bold focus:outline-none text-gray-800 placeholder-gray-400"
               value={value}
               onChange={(e) => onChange(e.target.value)}
               onFocus={onFocus}
@@ -57,10 +54,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
           </div>
         </div>
         
-        <p className={cn(
-          "text-xs font-medium leading-tight ml-7 mt-1 break-words pr-2",
-          "text-gray-700"
-        )}>
+        <p className="text-xs font-medium leading-tight ml-7 mt-1 break-words pr-2 text-gray-700">
           Enter custom amount
         </p>
         
@@ -68,10 +62,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
           "ml-7 mt-2 border-l-2 pl-2.5 pr-2",
           active ? "border-gray-300" : "border-purple-200"
         )}>
-          <p className={cn(
-            "text-2xs break-words",
-            "text-gray-500"
-          )}>
+          <p className="text-2xs break-words text-gray-500">
             Receive benefits based on donation level
           </p>
         </div>

@@ -31,13 +31,13 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
   const getIcon = () => {
     switch(iconType) {
       case 'supplies':
-        return <Pencil className="h-5 w-5 text-purple-600" />;
+        return <Pencil className="h-6 w-6 text-purple-600" />;
       case 'day':
-        return <Clock className="h-5 w-5 text-purple-600" />;
+        return <Clock className="h-6 w-6 text-purple-600" />;
       case 'week':
-        return <BookOpen className="h-5 w-5 text-purple-600" />;
+        return <BookOpen className="h-6 w-6 text-purple-600" />;
       case 'month':
-        return <Users className="h-5 w-5 text-purple-600" />;
+        return <Users className="h-6 w-6 text-purple-600" />;
       default:
         return null;
     }
@@ -72,27 +72,21 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
             </div>
             <span className={cn(
               "text-xl font-bold",
-              selected ? "text-gray-800" : "text-gray-800"
+              "text-gray-800"
             )}>
               ${value}
             </span>
           </div>
           
           {getIcon() && (
-            <div className={cn(
-              "flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0",
-              "bg-purple-100" // Always keep the purple background
-            )}>
+            <div className="flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0 bg-purple-100">
               {getIcon()}
             </div>
           )}
         </div>
         
         {impactStatement && (
-          <p className={cn(
-            "text-xs font-medium leading-tight ml-7 mt-1 break-words pr-2",
-            selected ? "text-gray-700" : "text-gray-700"
-          )}>
+          <p className="text-xs font-medium leading-tight ml-7 mt-1 break-words pr-2 text-gray-700">
             {impactStatement}
           </p>
         )}
@@ -100,12 +94,9 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         {specialItem && (
           <div className={cn(
             "ml-7 mt-2 border-l-2 pl-2.5 pr-2",
-            selected ? "border-gray-300" : isPopular ? "border-divider" : "border-purple-200"
+            selected ? "border-gray-300" : isPopular ? "border-purple-200" : "border-purple-200"
           )}>
-            <p className={cn(
-              "text-2xs break-words",
-              selected ? "text-gray-500" : "text-gray-500"
-            )}>
+            <p className="text-2xs break-words text-gray-500">
               {specialItem}
             </p>
           </div>

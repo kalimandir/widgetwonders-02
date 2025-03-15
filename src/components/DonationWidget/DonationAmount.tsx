@@ -31,13 +31,13 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
   const getIcon = () => {
     switch(iconType) {
       case 'supplies':
-        return <Pencil className={cn("h-4 w-4", selected ? "text-gray-600" : isPopular ? "text-purple-600" : "text-purple-600")} />;
+        return <Pencil className="h-4 w-4 text-purple-600" />;
       case 'day':
-        return <Clock className={cn("h-4 w-4", selected ? "text-gray-600" : isPopular ? "text-purple-600" : "text-purple-600")} />;
+        return <Clock className="h-4 w-4 text-purple-600" />;
       case 'week':
-        return <BookOpen className={cn("h-4 w-4", selected ? "text-gray-600" : isPopular ? "text-purple-600" : "text-purple-600")} />;
+        return <BookOpen className="h-4 w-4 text-purple-600" />;
       case 'month':
-        return <Users className={cn("h-4 w-4", selected ? "text-gray-600" : isPopular ? "text-purple-600" : "text-purple-600")} />;
+        return <Users className="h-4 w-4 text-purple-600" />;
       default:
         return null;
     }
@@ -65,10 +65,10 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
           <div className="flex items-center gap-2">
             <div className={cn(
               "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0",
-              selected ? "border-gray-500 bg-gray-100" : isPopular ? "border-purple-400" : "border-gray-300",
+              selected ? "border-purple-500 bg-purple-50" : isPopular ? "border-purple-400" : "border-gray-300",
               "transition-all duration-200"
             )}>
-              {selected && <div className="w-2.5 h-2.5 bg-gray-500 rounded-full"></div>}
+              {selected && <div className="w-2.5 h-2.5 bg-purple-500 rounded-full"></div>}
             </div>
             <span className={cn(
               "text-xl font-bold",

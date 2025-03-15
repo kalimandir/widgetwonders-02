@@ -35,7 +35,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   missionStatement,
   logoUrl
 }) => {
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(25); // Default to the popular tier
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(null); // Changed from 25 to null
   const [customAmount, setCustomAmount] = useState<string>("");
   const [isCustomActive, setIsCustomActive] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);

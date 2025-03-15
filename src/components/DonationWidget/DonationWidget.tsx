@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
@@ -197,7 +198,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         "fixed bottom-0 left-0 right-0 bg-white py-4 px-6 transition-all duration-300 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)]",
         "flex flex-col gap-3 mx-auto max-w-[496px] rounded-b-3xl",
         "border-t border-gray-100",
-        isValidAmount ? "translate-y-0" : "translate-y-[200%]",
+        isValidAmount ? "translate-y-0" : "translate-y-[120%]", // Adjusted to ensure it's properly hidden/shown
         "z-10"
       )}>
         {isValidAmount && (

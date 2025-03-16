@@ -1,21 +1,14 @@
-import React, { useState } from 'react';
-import { cn } from "@/lib/utils";
-import { Award, Activity, Target, Users } from "lucide-react";
+
+import React from 'react';
+import { Users, Activity, Target, Award, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 
-interface Donor {
-  id: string;
-  name: string;
-  ens?: string;
-  avatarUrl?: string;
-  totalDonated: number;
-  tier: 'bronze' | 'silver' | 'gold' | 'platinum';
-}
-
-// Sample data for the leaderboard
-const SAMPLE_DONORS: Donor[] = [
+// Sample data for the top donors leaderboard
+const TOP_DONORS = [
   { 
     id: '1', 
     name: 'Alex Johnson', 
@@ -55,126 +48,53 @@ const SAMPLE_DONORS: Donor[] = [
   },
 ];
 
-// Component that displays buttons for navigation between different community views
-const CommunityNav: React.FC<{
-  activeView: string;
-  setActiveView: (view: string) => void;
-}> = ({ activeView, setActiveView }) => {
-  return (
-    <div className="grid grid-cols-4 gap-2 mb-4">
-      <Button 
-        variant={activeView === 'leaderboard' ? 'default' : 'outline'} 
-        onClick={() => setActiveView('leaderboard')}
-        className="flex flex-col items-center justify-center gap-1 py-2 px-1"
-      >
-        <Award className="h-5 w-5" />
-        <span className="text-xs">Leaderboard</span>
-      </Button>
-      <Button 
-        variant={activeView === 'activity' ? 'default' : 'outline'} 
-        onClick={() => setActiveView('activity')}
-        className="flex flex-col items-center justify-center gap-1 py-2 px-1"
-      >
-        <Activity className="h-5 w-5" />
-        <span className="text-xs">Activity</span>
-      </Button>
-      <Button 
-        variant={activeView === 'challenges' ? 'default' : 'outline'} 
-        onClick={() => setActiveView('challenges')}
-        className="flex flex-col items-center justify-center gap-1 py-2 px-1"
-      >
-        <Target className="h-5 w-5" />
-        <span className="text-xs">Challenges</span>
-      </Button>
-      <Button 
-        variant={activeView === 'social' ? 'default' : 'outline'} 
-        onClick={() => setActiveView('social')}
-        className="flex flex-col items-center justify-center gap-1 py-2 px-1"
-      >
-        <Users className="h-5 w-5" />
-        <span className="text-xs">Social</span>
-      </Button>
-    </div>
-  );
-};
+// Sample data for recent activity
+const RECENT_ACTIVITY = [
+  { id: '1', name: 'Jordan Lee', ens: 'jlee.eth', amount: 120, timestamp: '10 minutes ago' },
+  { id: '2', name: 'Emma Chang', amount: 75, timestamp: '2 hours ago' },
+  { id: '3', name: 'Daniel Kim', ens: 'dkim.eth', amount: 500, timestamp: '5 hours ago' },
+  { id: '4', name: 'Olivia Park', amount: 25, timestamp: '1 day ago' },
+  { id: '5', name: 'Liam Johnson', ens: 'ljohnson.eth', amount: 150, timestamp: '2 days ago' },
+];
 
-// Component that displays leaderboard filters
-const LeaderboardFilters: React.FC<{
-  timeFilter: string;
-  setTimeFilter: (filter: string) => void;
-  viewType: string;
-  setViewType: (type: string) => void;
-}> = ({ timeFilter, setTimeFilter, viewType, setViewType }) => {
-  return (
-    <div className="space-y-2 mb-4">
-      <div className="flex space-x-2">
-        <Button 
-          variant={timeFilter === 'all' ? 'default' : 'outline'} 
-          size="sm"
-          onClick={() => setTimeFilter('all')}
-          className={cn(
-            "rounded-full px-4 py-1 h-auto text-sm",
-            timeFilter === 'all' ? "bg-purple-700 hover:bg-purple-800" : ""
-          )}
-        >
-          All Time
-        </Button>
-        <Button 
-          variant={timeFilter === 'month' ? 'default' : 'outline'} 
-          size="sm"
-          onClick={() => setTimeFilter('month')}
-          className={cn(
-            "rounded-full px-4 py-1 h-auto text-sm",
-            timeFilter === 'month' ? "bg-purple-700 hover:bg-purple-800" : ""
-          )}
-        >
-          This Month
-        </Button>
-        <Button 
-          variant={timeFilter === 'week' ? 'default' : 'outline'} 
-          size="sm"
-          onClick={() => setTimeFilter('week')}
-          className={cn(
-            "rounded-full px-4 py-1 h-auto text-sm",
-            timeFilter === 'week' ? "bg-purple-700 hover:bg-purple-800" : ""
-          )}
-        >
-          This Week
-        </Button>
-      </div>
-      <div className="flex space-x-2">
-        <Button 
-          variant={viewType === 'individual' ? 'default' : 'outline'} 
-          size="sm"
-          onClick={() => setViewType('individual')}
-          className={cn(
-            "rounded-full px-4 py-1 h-auto text-sm",
-            viewType === 'individual' ? "bg-purple-700 hover:bg-purple-800" : ""
-          )}
-        >
-          <Users className="h-3.5 w-3.5 mr-1.5" />
-          Individual
-        </Button>
-        <Button 
-          variant={viewType === 'group' ? 'default' : 'outline'} 
-          size="sm"
-          onClick={() => setViewType('group')}
-          className={cn(
-            "rounded-full px-4 py-1 h-auto text-sm",
-            viewType === 'group' ? "bg-purple-700 hover:bg-purple-800" : ""
-          )}
-        >
-          <Users className="h-3.5 w-3.5 mr-1.5" />
-          Groups
-        </Button>
-      </div>
-    </div>
-  );
-};
+// Sample data for active challenges
+const ACTIVE_CHALLENGES = [
+  { 
+    id: '1', 
+    name: 'Summer School Drive', 
+    goal: 10000, 
+    current: 6500, 
+    participants: 48,
+    daysLeft: 14
+  },
+  { 
+    id: '2', 
+    name: 'Teacher Support Fund', 
+    goal: 5000, 
+    current: 2200, 
+    participants: 25,
+    daysLeft: 7
+  },
+  { 
+    id: '3', 
+    name: 'Classroom Technology', 
+    goal: 12000, 
+    current: 3600, 
+    participants: 32,
+    daysLeft: 21
+  },
+];
+
+// Sample data for community stats
+const COMMUNITY_STATS = [
+  { name: 'Total Donors', value: 523, icon: <Users className="h-5 w-5 text-purple-600" /> },
+  { name: 'This Month', value: 82, icon: <Activity className="h-5 w-5 text-purple-600" /> },
+  { name: 'Challenge Participants', value: 137, icon: <Target className="h-5 w-5 text-purple-600" /> },
+];
 
 // Helper function to generate tier badges
-const getTierBadge = (tier: Donor['tier']) => {
-  const tiers = {
+const getTierBadge = (tier: string) => {
+  const tiers: Record<string, { color: string, label: string }> = {
     bronze: { color: 'bg-amber-700 text-amber-100', label: 'Bronze' },
     silver: { color: 'bg-gray-400 text-gray-800', label: 'Silver' },
     gold: { color: 'bg-yellow-400 text-yellow-800', label: 'Gold' },
@@ -182,7 +102,7 @@ const getTierBadge = (tier: Donor['tier']) => {
   };
   
   return (
-    <Badge className={cn("ml-2 px-3 py-1 rounded-full", tiers[tier].color)}>
+    <Badge className={`ml-2 px-2 py-0.5 rounded-full text-xs ${tiers[tier].color}`}>
       {tiers[tier].label}
     </Badge>
   );
@@ -190,97 +110,143 @@ const getTierBadge = (tier: Donor['tier']) => {
 
 // Main Community Tab component
 const CommunityTab: React.FC = () => {
-  const [activeView, setActiveView] = useState('leaderboard');
-  const [timeFilter, setTimeFilter] = useState('all');
-  const [viewType, setViewType] = useState('individual');
-  
-  // Filter and sort donors for the leaderboard
-  const filteredDonors = SAMPLE_DONORS.sort((a, b) => b.totalDonated - a.totalDonated);
-
-  // Only render the leaderboard view for now
   return (
-    <div className="space-y-4">
-      <CommunityNav 
-        activeView={activeView}
-        setActiveView={setActiveView}
-      />
-
-      {activeView === 'leaderboard' && (
-        <>
-          <LeaderboardFilters
-            timeFilter={timeFilter}
-            setTimeFilter={setTimeFilter}
-            viewType={viewType}
-            setViewType={setViewType}
-          />
-          
-          <div className="mt-6">
-            {/* Table header */}
-            <div className="grid grid-cols-3 mb-2 px-4 text-sm text-gray-500 font-medium">
-              <div>Rank</div>
-              <div>Donor</div>
-              <div className="text-right">Amount</div>
-            </div>
-            
-            {/* Donor rows */}
-            <div className="space-y-4">
-              {filteredDonors.map((donor, index) => (
-                <div 
-                  key={donor.id}
-                  className="grid grid-cols-3 items-center py-3 px-4 border-b border-gray-100"
-                >
-                  <div className="text-lg font-semibold text-gray-700">
-                    {index + 1}
-                  </div>
-                  <div className="flex items-center">
-                    <Avatar className="h-10 w-10 mr-3">
-                      {donor.avatarUrl ? (
-                        <AvatarImage src={donor.avatarUrl} alt={donor.name} />
-                      ) : (
-                        <AvatarFallback className="bg-purple-100 text-purple-800">
-                          {donor.name.split(' ').map(n => n[0]).join('')}
-                        </AvatarFallback>
-                      )}
-                    </Avatar>
-                    <div>
-                      <div className="font-medium text-gray-900 flex items-center">
-                        {donor.name}
-                        {getTierBadge(donor.tier)}
-                      </div>
-                      {donor.ens && (
-                        <div className="text-sm text-gray-500">{donor.ens}</div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="text-right font-bold text-xl">${donor.totalDonated}</div>
+    <div className="space-y-6 py-2">
+      {/* Top Donors Section */}
+      <Card className="shadow-sm border-gray-100">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base font-semibold flex items-center gap-2">
+            <Award className="h-4 w-4 text-purple-600" />
+            Top Donors
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {TOP_DONORS.map((donor, index) => (
+              <div 
+                key={donor.id}
+                className="grid grid-cols-[auto_1fr_auto] items-center gap-3 py-2"
+              >
+                <div className="text-lg font-semibold text-gray-500 w-6 text-center">
+                  {index + 1}
                 </div>
-              ))}
+                <div className="flex items-center">
+                  <Avatar className="h-9 w-9 mr-3">
+                    {donor.avatarUrl ? (
+                      <AvatarImage src={donor.avatarUrl} alt={donor.name} />
+                    ) : (
+                      <AvatarFallback className="bg-purple-100 text-purple-800">
+                        {donor.name.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    )}
+                  </Avatar>
+                  <div>
+                    <div className="font-medium text-gray-900 flex items-center text-sm">
+                      {donor.name}
+                      {getTierBadge(donor.tier)}
+                    </div>
+                    {donor.ens && (
+                      <div className="text-xs text-gray-500">{donor.ens}</div>
+                    )}
+                  </div>
+                </div>
+                <div className="text-right font-bold">${donor.totalDonated}</div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Recent Activity Section */}
+      <Card className="shadow-sm border-gray-100">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base font-semibold flex items-center gap-2">
+            <Activity className="h-4 w-4 text-purple-600" />
+            Recent Activity
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-3">
+            {RECENT_ACTIVITY.map((activity) => (
+              <div key={activity.id} className="flex justify-between items-center py-2">
+                <div className="flex items-center gap-3">
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback className="bg-purple-100 text-purple-800 text-xs">
+                      {activity.name.split(' ').map(n => n[0]).join('')}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div>
+                    <div className="font-medium text-gray-900 text-sm">{activity.name}</div>
+                    {activity.ens && <div className="text-xs text-gray-500">{activity.ens}</div>}
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="font-medium text-sm">${activity.amount}</div>
+                  <div className="text-xs text-gray-500">{activity.timestamp}</div>
+                </div>
+              </div>
+            ))}
+            <div className="pt-2 text-right">
+              <Button variant="link" className="text-purple-600 text-sm p-0 h-auto">
+                View More <ArrowRight className="h-3 w-3 ml-1" />
+              </Button>
             </div>
           </div>
-        </>
-      )}
+        </CardContent>
+      </Card>
 
-      {/* Other views would be implemented here */}
-      {activeView === 'activity' && (
-        <div className="py-8 text-center text-gray-500">
-          Activity feed would be displayed here
-        </div>
-      )}
-      
-      {activeView === 'challenges' && (
-        <div className="py-8 text-center text-gray-500">
-          Community challenges would be displayed here
-        </div>
-      )}
-      
-      {activeView === 'social' && (
-        <div className="py-8 text-center text-gray-500">
-          Social connections would be displayed here
-        </div>
-      )}
+      {/* Active Challenges Section */}
+      <Card className="shadow-sm border-gray-100">
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base font-semibold flex items-center gap-2">
+            <Target className="h-4 w-4 text-purple-600" />
+            Active Challenges
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            {ACTIVE_CHALLENGES.map((challenge) => (
+              <div key={challenge.id} className="bg-gray-50 rounded-lg p-3">
+                <div className="flex justify-between items-center mb-2">
+                  <div className="font-medium text-gray-900">{challenge.name}</div>
+                  <Badge className="bg-purple-100 text-purple-800 font-normal">
+                    {challenge.daysLeft} days left
+                  </Badge>
+                </div>
+                <div className="space-y-1 mb-3">
+                  <div className="flex justify-between text-xs text-gray-600">
+                    <span>{challenge.participants} participants</span>
+                    <span>${challenge.current} of ${challenge.goal}</span>
+                  </div>
+                  <Progress 
+                    value={(challenge.current / challenge.goal) * 100} 
+                    className="h-2 bg-gray-200" 
+                  />
+                </div>
+                <Button size="sm" className="w-full bg-purple-600 hover:bg-purple-700">
+                  Join Challenge
+                </Button>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
 
-      <div className="text-center text-sm text-gray-500 pt-2">
-        Connect with the Hope Foundation community
+      {/* Community Stats Section */}
+      <div className="grid grid-cols-3 gap-3">
+        {COMMUNITY_STATS.map((stat, index) => (
+          <Card key={index} className="shadow-sm border-gray-100">
+            <CardContent className="p-3 flex flex-col items-center justify-center text-center">
+              <div className="mb-1">{stat.icon}</div>
+              <span className="text-lg font-bold text-purple-800">{stat.value}</span>
+              <span className="text-xs text-gray-600">{stat.name}</span>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="text-center text-xs text-gray-500 pt-1 pb-2">
+        Join the Hope Foundation community and make a difference
       </div>
     </div>
   );

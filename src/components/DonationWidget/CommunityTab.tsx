@@ -325,6 +325,7 @@ const CommunityTab: React.FC = () => {
   const isMobile = useIsMobile();
   const screenWidth = useScreenWidth();
   const isXSmallScreen = useIsBreakpoint(Breakpoint.XS);
+  const isSmallScreen = useIsBreakpoint(Breakpoint.SM);
 
   const toggleExpandMessage = (id: string) => {
     setExpandedMessage(expandedMessage === id ? null : id);
@@ -462,7 +463,7 @@ const CommunityTab: React.FC = () => {
                         <span className="truncate">{donor.name}</span>
                         {!isSmallScreen && getTierBadge(donor.tier)}
                       </div>
-                      <div className="flex items-center">
+                      <div className={`flex items-center ${isSmallScreen ? 'flex-col items-start' : 'items-center'}`}>
                         {donor.ens && (
                           <div className="text-xs text-gray-500 truncate">{donor.ens}</div>
                         )}
@@ -495,47 +496,40 @@ const CommunityTab: React.FC = () => {
             <div className="space-y-4">
               {WELCOME_CARDS.map(donor => (
                 <div key={donor.id} className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className={`${isXSmallScreen ? 'flex-col' : 'flex'} items-start gap-3`}>
-                    <div className={`flex items-center ${isXSmallScreen ? 'w-full mb-3' : ''}`}>
-                      <Avatar className={`${isXSmallScreen ? 'h-10 w-10' : 'h-12 w-12'} mr-3`}>
-                        {donor.avatarUrl ? (
-                          <AvatarImage src={donor.avatarUrl} alt={donor.name} />
-                        ) : (
-                          <AvatarFallback className="bg-blue-100 text-blue-800">
-                            {donor.name.split(' ').map(n => n[0]).join('')}
-                          </AvatarFallback>
-                        )}
-                      </Avatar>
-                      <div className="min-w-0">
-                        <div className="flex items-center">
-                          <h3 className="font-medium text-gray-900 truncate">{donor.name}</h3>
-                          {donor.ens && !isXSmallScreen && (
-                            <span className="ml-2 text-sm text-gray-500 truncate">{donor.ens}</span>
+                  <div className="flex flex-col space-y-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center">
+                        <Avatar className="h-10 w-10 mr-3">
+                          {donor.avatarUrl ? (
+                            <AvatarImage src={donor.avatarUrl} alt={donor.name} />
+                          ) : (
+                            <AvatarFallback className="bg-blue-100 text-blue-800">
+                              {donor.name.split(' ').map(n => n[0]).join('')}
+                            </AvatarFallback>
+                          )}
+                        </Avatar>
+                        <div className="min-w-0">
+                          <h3 className="font-medium text-gray-900">{donor.name}</h3>
+                          {donor.ens && (
+                            <div className="text-sm text-gray-500">{donor.ens}</div>
                           )}
                         </div>
-                        {donor.ens && isXSmallScreen && (
-                          <div className="text-sm text-gray-500 truncate">{donor.ens}</div>
-                        )}
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm text-gray-600">
+                          Initial donation:
+                        </p>
+                        <p className="font-medium">${donor.initialDonation}</p>
                       </div>
                     </div>
-                    <div className={`${isXSmallScreen ? 'w-full' : 'flex-1'}`}>
-                      <p className="text-sm text-gray-600 mb-1">
-                        Initial donation: ${donor.initialDonation}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Joined {donor.joinDate}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
-                    <span className={`text-sm font-medium text-purple-600 ${isXSmallScreen ? 'hidden sm:block' : ''}`}>
-                      Welcome to our community! 🎉
-                    </span>
-                    <div className={`${isXSmallScreen ? 'flex w-full justify-between items-center' : ''}`}>
-                      {isXSmallScreen && (
-                        <span className="text-sm font-medium text-purple-600">Welcome! 🎉</span>
-                      )}
-                      <Button variant="outline" size="sm" className={`text-xs h-8 ${isXSmallScreen ? 'px-2' : ''}`}>
+                    <p className="text-xs text-gray-500">
+                      Joined {donor.joinDate}
+                    </p>
+                    <div className="pt-3 border-t border-gray-100 flex justify-between items-center">
+                      <span className="text-sm text-purple-600">
+                        Welcome to our community! 🎉
+                      </span>
+                      <Button variant="outline" size="sm" className="text-xs h-8">
                         Send Welcome
                       </Button>
                     </div>
@@ -560,59 +554,46 @@ const CommunityTab: React.FC = () => {
             <div className="space-y-4">
               {APPRECIATION_CARDS.map(donor => (
                 <div key={donor.id} className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className={`${isXSmallScreen ? 'flex-col' : 'flex'} items-start gap-3`}>
-                    <div className={`flex items-center ${isXSmallScreen ? 'w-full mb-3' : ''}`}>
-                      <div className="relative mr-3">
-                        <Avatar className={`${isXSmallScreen ? 'h-10 w-10' : 'h-12 w-12'}`}>
-                          {donor.avatarUrl ? (
-                            <AvatarImage src={donor.avatarUrl} alt={donor.name} />
-                          ) : (
-                            <AvatarFallback className="bg-amber-100 text-amber-800">
-                              {donor.name.split(' ').map(n => n[0]).join('')}
-                            </AvatarFallback>
-                          )}
-                        </Avatar>
-                        <div className="absolute -bottom-1 -right-1 bg-amber-400 rounded-full p-1">
-                          <Gift className="h-3 w-3 text-white" />
+                  <div className="flex flex-col space-y-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center">
+                        <div className="relative mr-3">
+                          <Avatar className="h-10 w-10">
+                            {donor.avatarUrl ? (
+                              <AvatarImage src={donor.avatarUrl} alt={donor.name} />
+                            ) : (
+                              <AvatarFallback className="bg-amber-100 text-amber-800">
+                                {donor.name.split(' ').map(n => n[0]).join('')}
+                              </AvatarFallback>
+                            )}
+                          </Avatar>
+                          <div className="absolute -bottom-1 -right-1 bg-amber-400 rounded-full p-1">
+                            <Gift className="h-3 w-3 text-white" />
+                          </div>
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="font-medium text-gray-900">{donor.name}</h3>
+                          <p className="text-sm text-gray-700">
+                            {donor.name.split(' ')[0]}'s {donor.milestone}! 🎉
+                          </p>
                         </div>
                       </div>
-                      <div className="min-w-0">
-                        <h3 className="font-medium text-gray-900 truncate">{donor.name}</h3>
-                        <p className="text-sm text-gray-700 truncate">
-                          {donor.name.split(' ')[0]}'s {donor.milestone}! 🎉
-                        </p>
+                      <div className="flex flex-col items-center">
+                        <span className="text-xl font-bold text-amber-500">{donor.streak}</span>
+                        <span className="text-xs text-gray-500">streak</span>
                       </div>
-                      {!isXSmallScreen && (
-                        <div className="flex flex-col items-center ml-auto">
-                          <span className="text-xl font-bold text-amber-500">{donor.streak}</span>
-                          <span className="text-xs text-gray-500">streak</span>
-                        </div>
-                      )}
                     </div>
-                    <div className={`${isXSmallScreen ? 'flex w-full justify-between items-center' : 'flex-1'}`}>
-                      <p className="text-xs text-gray-500">
-                        Total: ${donor.totalContribution}
-                      </p>
-                      {isXSmallScreen && (
-                        <div className="flex flex-col items-center">
-                          <span className="text-xl font-bold text-amber-500">{donor.streak}</span>
-                          <span className="text-xs text-gray-500">streak</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                  <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
-                    <span className={`text-sm font-medium text-amber-600 ${isXSmallScreen ? 'hidden sm:block' : ''}`}>
-                      Send a thank you message
-                    </span>
-                    <div className={`${isXSmallScreen ? 'flex w-full justify-between items-center' : ''}`}>
-                      {isXSmallScreen && (
-                        <span className="text-sm font-medium text-amber-600">Thank you!</span>
-                      )}
+                    <p className="text-xs text-gray-500">
+                      Total: ${donor.totalContribution}
+                    </p>
+                    <div className="pt-3 border-t border-gray-100 flex justify-between items-center">
+                      <span className="text-sm font-medium text-amber-600">
+                        Send a thank you message
+                      </span>
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className={`text-xs h-8 border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 ${isXSmallScreen ? 'px-2' : ''}`}
+                        className="text-xs h-8 border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100"
                       >
                         <Heart className="h-3 w-3 mr-1 text-red-500" /> Thanks
                       </Button>

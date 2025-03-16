@@ -11,6 +11,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Cell, PieChart as RechartsPieChart, Pie, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
+import AdminControls from '../admin/AdminControls';
+import WalletConnect from '../admin/WalletConnect';
 
 interface DonationWidgetProps {
   organizationName: string;
@@ -35,61 +37,6 @@ const SPECIAL_ITEMS = {
 
 const POPULAR_TIER = 25;
 
-const ALLOCATION_DATA = [
-  { name: 'School Supplies', value: 40, color: '#4016ad' },
-  { name: 'Teaching Programs', value: 30, color: '#7c54e1' },
-  { name: 'Infrastructure', value: 20, color: '#9d7eeb' },
-  { name: 'Admin & Operations', value: 10, color: '#bea9f3' },
-];
-
-const IMPACT_METRICS = [
-  { name: 'Students Supported', count: 156, icon: <Users className="h-5 w-5 text-purple-600" /> },
-  { name: 'Classrooms Equipped', count: 42, icon: <Award className="h-5 w-5 text-purple-600" /> },
-  { name: 'Books Provided', count: 1208, icon: <BookOpen className="h-5 w-5 text-purple-600" /> },
-];
-
-const GOAL_PROGRESS = [
-  { name: 'Laptops', current: 28, goal: 50 },
-  { name: 'Teacher Training', current: 15, goal: 20 },
-  { name: 'School Meals', current: 8500, goal: 10000 },
-];
-
-const IMPACT_IMAGES = [
-  {
-    src: "/lovable-uploads/626b1e7c-b8d4-44de-8562-dfe51d48d007.png",
-    alt: "Students collaborating on schoolwork",
-    caption: "Students working together on an assignment in rural community school"
-  },
-  {
-    src: "/lovable-uploads/f78bcef6-f92f-4076-9fc6-d323611c46b2.png",
-    alt: "Students in classroom with masks",
-    caption: "Safe learning environment with proper health protocols in place"
-  },
-  {
-    src: "/lovable-uploads/d7d25a2a-6e15-4fa5-bc93-32cd62937878.png",
-    alt: "Boys studying with textbooks",
-    caption: "Young students using new learning materials provided by donors"
-  }
-];
-
-const BENEFICIARY_STORIES = [
-  {
-    name: "Maria, 9th Grade",
-    content: "With the new laptops and textbooks, I can now do research for my projects efficiently. I hope to become a doctor someday.",
-    date: "January 2025"
-  },
-  {
-    name: "James, 7th Grade",
-    content: "The after-school program has helped me improve my math skills. I used to struggle, but now I'm at the top of my class!",
-    date: "February 2025"
-  },
-  {
-    name: "Sarah, Teacher",
-    content: "The teaching resources have transformed how I engage students. They're more enthusiastic and invested in learning.",
-    date: "March 2025"
-  }
-];
-
 const DonationWidget: React.FC<DonationWidgetProps> = ({
   organizationName,
   missionStatement,
@@ -102,6 +49,70 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const [animateIn, setAnimateIn] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
   const [activeTab, setActiveTab] = useState("donate");
+  const [ALLOCATION_DATA, setAllocationData] = useState([
+    { name: 'School Supplies', value: 40, color: '#4016ad' },
+    { name: 'Teaching Programs', value: 30, color: '#7c54e1' },
+    { name: 'Infrastructure', value: 20, color: '#9d7eeb' },
+    { name: 'Admin & Operations', value: 10, color: '#bea9f3' },
+  ]);
+  const [IMPACT_METRICS, setImpactMetrics] = useState([
+    { name: 'Students Supported', count: 156, icon: <Users className="h-5 w-5 text-purple-600" /> },
+    { name: 'Classrooms Equipped', count: 42, icon: <Award className="h-5 w-5 text-purple-600" /> },
+    { name: 'Books Provided', count: 1208, icon: <BookOpen className="h-5 w-5 text-purple-600" /> },
+  ]);
+  const [GOAL_PROGRESS] = useState([
+    { name: 'Laptops', current: 28, goal: 50 },
+    { name: 'Teacher Training', current: 15, goal: 20 },
+    { name: 'School Meals', current: 8500, goal: 10000 },
+  ]);
+  const [BENEFICIARY_STORIES, setBeneficiaryStories] = useState([
+    {
+      name: "Maria, 9th Grade",
+      content: "With the new laptops and textbooks, I can now do research for my projects efficiently. I hope to become a doctor someday.",
+      date: "January 2025"
+    },
+    {
+      name: "James, 7th Grade",
+      content: "The after-school program has helped me improve my math skills. I used to struggle, but now I'm at the top of my class!",
+      date: "February 2025"
+    },
+    {
+      name: "Sarah, Teacher",
+      content: "The teaching resources have transformed how I engage students. They're more enthusiastic and invested in learning.",
+      date: "March 2025"
+    }
+  ]);
+
+  const IMPACT_IMAGES = [
+    {
+      src: "/lovable-uploads/626b1e7c-b8d4-44de-8562-dfe51d48d007.png",
+      alt: "Students collaborating on schoolwork",
+      caption: "Students working together on an assignment in rural community school"
+    },
+    {
+      src: "/lovable-uploads/f78bcef6-f92f-4076-9fc6-d323611c46b2.png",
+      alt: "Students in classroom with masks",
+      caption: "Safe learning environment with proper health protocols in place"
+    },
+    {
+      src: "/lovable-uploads/d7d25a2a-6e15-4fa5-bc93-32cd62937878.png",
+      alt: "Boys studying with textbooks",
+      caption: "Young students using new learning materials provided by donors"
+    }
+  ];
+
+  const handleUpdateMetrics = (updatedMetrics: any[]) => {
+    setImpactMetrics(updatedMetrics);
+  };
+
+  const handleUpdateAllocation = (updatedAllocation: any[]) => {
+    setAllocationData(updatedAllocation);
+  };
+
+  const handleAddStory = (newStory: any) => {
+    setBeneficiaryStories(prev => [newStory, ...prev]);
+  };
+
   const isMobile = useIsMobile();
   const screenWidth = useScreenWidth();
 
@@ -184,10 +195,12 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
   return (
     <div className={cn(
-      "w-full bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-500",
+      "w-full bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-500 relative",
       "border border-gray-100",
       animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
     )}>
+      <WalletConnect />
+      
       <div className="p-6 flex flex-col items-center">
         <div className={cn(
           "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center mb-4 transition-all",
@@ -318,7 +331,15 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           </TabsContent>
 
           <TabsContent value="impact">
-            <div className="space-y-5">
+            <div className="space-y-5 relative">
+              <AdminControls 
+                impactMetrics={IMPACT_METRICS}
+                onUpdateMetrics={handleUpdateMetrics}
+                fundAllocation={ALLOCATION_DATA}
+                onUpdateAllocation={handleUpdateAllocation}
+                onAddStory={handleAddStory}
+              />
+              
               <div className="grid grid-cols-3 gap-2 mb-4">
                 {IMPACT_METRICS.map((metric) => (
                   <Card key={metric.name} className="shadow-sm border-purple-100">

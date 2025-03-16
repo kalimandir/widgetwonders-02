@@ -167,7 +167,10 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
     setIsSubmitting(true);
     
     try {
-      openYodlCheckout({ amount });
+      openYodlCheckout({ 
+        amount,
+        organizationName 
+      });
       
       console.log(`Redirecting to Yodl checkout for $${amount} donation to ${organizationName}`);
       

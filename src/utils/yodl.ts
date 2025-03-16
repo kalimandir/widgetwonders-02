@@ -5,6 +5,7 @@ interface YodlCheckoutParams {
   amount: number;
   token?: string;
   chain?: string;
+  organizationName?: string;
 }
 
 /**
@@ -13,23 +14,27 @@ interface YodlCheckoutParams {
  * @returns The complete checkout URL
  */
 export const generateYodlCheckoutUrl = (params: YodlCheckoutParams): string => {
-  const { amount, token = 'ETH', chain = 'ethereum' } = params;
+  const { amount, token = 'ETH', chain = 'ethereum', organizationName } = params;
   
   // Construct query parameters
-  const queryParams = new URLSearchParams({
-    recipient: donationConfig.recipient, // Primary parameter name
-    amount: amount.toString(),
-    token,
-    chain,
-    redirectUrl: donationConfig.redirectUrl
-  });
+  const queryParams = new URLSearchParams();
+  
+  // Add the recipient parameter - ensure this is the first parameter
+  queryParams.append('recipient', donationConfig.recipient);
+  
+  // Add other parameters
+  queryParams.append('amount', amount.toString());
+  queryParams.append('token', token);
+  queryParams.append('chain', chain);
+  queryParams.append('redirectUrl', donationConfig.redirectUrl);
   
   // Build the complete URL using the /send endpoint
   const url = `${donationConfig.host}/send?${queryParams.toString()}`;
   
-  // Debug logs
+  // Enhanced debugging logs
   console.log('Generated Yodl URL:', url);
   console.log(`Redirecting to Yodl checkout for $${amount} donation`);
+  console.log('ENS recipient:', donationConfig.recipient);
   
   return url;
 };

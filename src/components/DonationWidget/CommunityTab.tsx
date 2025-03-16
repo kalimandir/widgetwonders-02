@@ -33,6 +33,10 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { useIsMobile, useScreenWidth, useIsBreakpoint, Breakpoint, useResponsivePadding } from "@/hooks/use-mobile";
 
+interface CommunityTabProps {
+  onSwitchToDonateTab?: () => void;
+}
+
 // Sample data for the top donors leaderboard
 const TOP_DONORS = [
   { 
@@ -324,7 +328,7 @@ const getMatchingStateBadge = (state: string) => {
 };
 
 // Main Community Tab component
-const CommunityTab: React.FC = () => {
+const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
   const [expandedMessage, setExpandedMessage] = useState<string | null>(null);
   const isMobile = useIsMobile();
   const screenWidth = useScreenWidth();
@@ -372,7 +376,10 @@ const CommunityTab: React.FC = () => {
                 <div className={`mt-1 text-sm text-gray-600 ${isMobile ? 'text-center' : ''}`}>
                   <span>${MATCHING_CARDS[0].remainingFunds.toLocaleString()} matching funds available</span>
                 </div>
-                <Button className="mt-4 bg-purple-600 hover:bg-purple-700 w-full">
+                <Button 
+                  className="mt-4 bg-purple-600 hover:bg-purple-700 w-full"
+                  onClick={onSwitchToDonateTab}
+                >
                   Donate Now - Get {MATCHING_CARDS[0].matchRatio.split(' ')[0]} Your Impact
                 </Button>
               </div>

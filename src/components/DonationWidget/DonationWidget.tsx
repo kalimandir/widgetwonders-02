@@ -101,6 +101,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
+  const [activeTab, setActiveTab] = useState("donate");
   const isMobile = useIsMobile();
   const screenWidth = useScreenWidth();
 
@@ -176,6 +177,10 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
   const isValidAmount = getDonationAmount() > 0;
 
+  const handleTabChange = (value: string) => {
+    setActiveTab(value);
+  };
+
   return (
     <div className={cn(
       "w-full bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-500",
@@ -217,7 +222,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           />
         </div>
 
-        <Tabs defaultValue="donate" className="w-full">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
           <TabsList className="w-full grid grid-cols-4">
             <TabsTrigger value="donate" className="flex items-center justify-center gap-1.5">
               <HandHeart className="h-5 w-5" />
@@ -417,7 +422,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           </TabsContent>
 
           <TabsContent value="community">
-            <CommunityTab />
+            <CommunityTab onSwitchToDonateTab={() => handleTabChange("donate")} />
           </TabsContent>
 
           <TabsContent value="history">

@@ -76,17 +76,17 @@ const BENEFICIARY_STORIES = [
   {
     name: "Maria, 9th Grade",
     content: "With the new laptops and textbooks, I can now do research for my projects efficiently. I hope to become a doctor someday.",
-    date: "April 2023"
+    date: "April 2025"
   },
   {
     name: "James, 7th Grade",
     content: "The after-school program has helped me improve my math skills. I used to struggle, but now I'm at the top of my class!",
-    date: "June 2023"
+    date: "June 2025"
   },
   {
     name: "Sarah, Teacher",
     content: "The teaching resources have transformed how I engage students. They're more enthusiastic and invested in learning.",
-    date: "August 2023"
+    date: "August 2025"
   }
 ];
 

@@ -15,7 +15,7 @@ const ThemeSwitcher = () => {
       variant="outline" 
       size="icon"
       onClick={toggleTheme}
-      className="fixed top-4 right-4 z-50 rounded-full w-10 h-10 p-2 shadow-md transition-all duration-300 
+      className="fixed top-4 left-4 z-50 rounded-full w-10 h-10 p-2 shadow-md transition-all duration-300 
         bg-white hover:bg-gray-50
         dark:bg-donation-dark-card dark:text-donation-dark-text dark:border-donation-dark-border dark:hover:bg-donation-dark-card-hover"
     >

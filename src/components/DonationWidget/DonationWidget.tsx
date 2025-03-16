@@ -157,24 +157,24 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           />
         </div>
 
-        {/* Tabs navigation */}
+        {/* Tabs navigation - Fixed the overflow issue */}
         <Tabs defaultValue="donate" className="w-full mb-6">
           <TabsList className="w-full grid grid-cols-4 mb-4">
-            <TabsTrigger value="donate" className="flex flex-col items-center gap-1 py-2">
+            <TabsTrigger value="donate" className="flex flex-col items-center gap-1 py-2 px-1 text-xs">
               <HandHeart className="h-4 w-4" />
-              <span className="text-xs font-medium">Donate</span>
+              <span className="text-xs font-medium truncate">Donate</span>
             </TabsTrigger>
-            <TabsTrigger value="impact" className="flex flex-col items-center gap-1 py-2">
+            <TabsTrigger value="impact" className="flex flex-col items-center gap-1 py-2 px-1 text-xs">
               <Target className="h-4 w-4" />
-              <span className="text-xs font-medium">Impact</span>
+              <span className="text-xs font-medium truncate">Impact</span>
             </TabsTrigger>
-            <TabsTrigger value="community" className="flex flex-col items-center gap-1 py-2">
+            <TabsTrigger value="community" className="flex flex-col items-center gap-1 py-2 px-1 text-xs">
               <Users className="h-4 w-4" />
-              <span className="text-xs font-medium">Community</span>
+              <span className="text-xs font-medium truncate">Community</span>
             </TabsTrigger>
-            <TabsTrigger value="history" className="flex flex-col items-center gap-1 py-2">
+            <TabsTrigger value="history" className="flex flex-col items-center gap-1 py-2 px-1 text-xs">
               <History className="h-4 w-4" />
-              <span className="text-xs font-medium">History</span>
+              <span className="text-xs font-medium truncate">History</span>
             </TabsTrigger>
           </TabsList>
 

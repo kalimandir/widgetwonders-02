@@ -330,7 +330,7 @@ const CommunityTab: React.FC = () => {
   const screenWidth = useScreenWidth();
   const isXSmallScreen = useIsBreakpoint(Breakpoint.XS);
   const isSmallScreen = useIsBreakpoint(Breakpoint.SM);
-  const { cardSpacing, cardPadding, sectionSpacing, textSpacing, elementSpacing, buttonSpacing } = useResponsivePadding();
+  const { cardSpacing, cardPadding, avatarSize, sectionSpacing, textSpacing, elementSpacing, buttonSpacing } = useResponsivePadding();
 
   const toggleExpandMessage = (id: string) => {
     setExpandedMessage(expandedMessage === id ? null : id);
@@ -488,7 +488,7 @@ const CommunityTab: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* New Donor Welcome Cards - Improved mobile layout */}
+      {/* New Donor Welcome Cards - Minimalist layout */}
       {WELCOME_CARDS.length > 0 && (
         <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-blue-50 to-purple-50">
           <CardHeader className="pb-2">
@@ -502,65 +502,39 @@ const CommunityTab: React.FC = () => {
               {WELCOME_CARDS.map(donor => (
                 <div key={donor.id} className="bg-white rounded-lg shadow-sm">
                   <div className={cardPadding}>
-                    {/* Main donor info area with improved spacing and hierarchy */}
-                    <div className="flex items-start gap-3">
-                      {/* Reduced avatar size */}
-                      <Avatar className="h-10 w-10 shrink-0 mt-0.5">
-                        {donor.avatarUrl ? (
-                          <AvatarImage src={donor.avatarUrl} alt={donor.name} />
-                        ) : (
-                          <AvatarFallback className="bg-blue-100 text-blue-800 text-sm">
-                            {donor.name.split(' ').map(n => n[0]).join('')}
-                          </AvatarFallback>
-                        )}
-                      </Avatar>
-                      
-                      {/* Donor details with improved typography */}
-                      <div className="min-w-0 flex-1">
-                        <div className={textSpacing}>
-                          {/* Larger, bolder donor name */}
-                          <h3 className="text-base font-semibold text-gray-900 leading-tight">
+                    <div className="flex justify-between items-start">
+                      <div className="flex gap-3">
+                        <Avatar className={`${avatarSize} shrink-0`}>
+                          {donor.avatarUrl ? (
+                            <AvatarImage src={donor.avatarUrl} alt={donor.name} />
+                          ) : (
+                            <AvatarFallback className="bg-blue-100 text-blue-800">
+                              {donor.name.split(' ').map(n => n[0]).join('')}
+                            </AvatarFallback>
+                          )}
+                        </Avatar>
+                        <div className="min-w-0 flex-1">
+                          <div className="text-gray-900 font-medium">
                             {donor.name}
-                          </h3>
-                          
-                          {/* Lighter, smaller ENS with truncation */}
+                          </div>
                           {donor.ens && (
-                            <div className="text-sm text-gray-500/70 truncate">
+                            <div className="text-sm text-gray-500/80 truncate">
                               {donor.ens}
                             </div>
                           )}
-                          
-                          {/* Subtle join date */}
-                          <div className="flex items-center text-sm text-gray-500/60">
-                            <Clock3 className="h-3.5 w-3.5 mr-1.5 text-gray-400" />
-                            <span>Joined {donor.joinDate}</span>
+                          <div className="text-xs text-gray-500/70 mt-1 flex items-center">
+                            <Clock3 className="h-3 w-3 mr-1 text-gray-400/80" />
+                            {donor.joinDate}
                           </div>
                         </div>
                       </div>
-                      
-                      {/* Donation amount with better emphasis */}
                       <div className="flex flex-col items-end">
-                        <div className="flex items-center gap-1">
-                          <span className="text-xs text-gray-500">Initial</span>
-                          <Circle className="h-1.5 w-1.5 text-gray-300" />
-                          <Sparkles className="h-3.5 w-3.5 text-amber-400" />
-                        </div>
-                        <span className="font-medium text-lg leading-tight">
+                        <span className="font-medium text-lg text-purple-700">
                           ${donor.initialDonation}
                         </span>
                       </div>
                     </div>
-                    
-                    {/* Subtle divider with proper spacing */}
-                    <div className={`${buttonSpacing} -mx-4 px-4`}>
-                      <div className="h-px bg-gray-100"></div>
-                    </div>
-                    
-                    {/* Welcome message and action button with proper spacing */}
-                    <div className={`flex flex-col gap-3 pt-3`}>
-                      <span className="text-sm text-purple-600 font-medium">
-                        Welcome to our community! 🎉
-                      </span>
+                    <div className={buttonSpacing}>
                       <Button 
                         variant="outline" 
                         size="sm" 
@@ -577,7 +551,7 @@ const CommunityTab: React.FC = () => {
         </Card>
       )}
 
-      {/* Donor Appreciation Cards - Improved mobile layout */}
+      {/* Donor Appreciation Cards - Minimalist layout */}
       {APPRECIATION_CARDS.length > 0 && (
         <Card className="shadow-sm border-gray-100 bg-gradient-to-r from-amber-50 to-yellow-50">
           <CardHeader className="pb-2">
@@ -591,64 +565,42 @@ const CommunityTab: React.FC = () => {
               {APPRECIATION_CARDS.map(donor => (
                 <div key={donor.id} className="bg-white rounded-lg shadow-sm">
                   <div className={cardPadding}>
-                    {/* Main donor info area with improved spacing and hierarchy */}
-                    <div className="flex items-start gap-3">
-                      {/* Reduced avatar size with badge */}
-                      <div className="relative shrink-0 mt-0.5">
-                        <Avatar className="h-10 w-10">
-                          {donor.avatarUrl ? (
-                            <AvatarImage src={donor.avatarUrl} alt={donor.name} />
-                          ) : (
-                            <AvatarFallback className="bg-amber-100 text-amber-800 text-sm">
-                              {donor.name.split(' ').map(n => n[0]).join('')}
-                            </AvatarFallback>
-                          )}
-                        </Avatar>
-                        <div className="absolute -bottom-1 -right-1 bg-amber-400 rounded-full p-0.75">
-                          <Gift className="h-3 w-3 text-white" />
+                    <div className="flex justify-between items-start">
+                      <div className="flex gap-3">
+                        <div className="relative shrink-0">
+                          <Avatar className={avatarSize}>
+                            {donor.avatarUrl ? (
+                              <AvatarImage src={donor.avatarUrl} alt={donor.name} />
+                            ) : (
+                              <AvatarFallback className="bg-amber-100 text-amber-800">
+                                {donor.name.split(' ').map(n => n[0]).join('')}
+                              </AvatarFallback>
+                            )}
+                          </Avatar>
+                          <div className="absolute -bottom-1 -right-1 bg-amber-400 rounded-full p-0.5">
+                            <Gift className="h-3 w-3 text-white" />
+                          </div>
                         </div>
-                      </div>
-                      
-                      {/* Donor details with improved typography */}
-                      <div className="min-w-0 flex-1">
-                        <div className={textSpacing}>
-                          {/* Larger, bolder donor name */}
-                          <h3 className="text-base font-semibold text-gray-900 leading-tight">
+                        <div className="min-w-0 flex-1">
+                          <div className="text-gray-900 font-medium">
                             {donor.name}
-                          </h3>
-                          
-                          {/* Milestone text with better emphasis */}
-                          <p className="text-sm text-amber-600 font-medium">
-                            {donor.name.split(' ')[0]}'s {donor.milestone}! 🎉
-                          </p>
-                          
-                          {/* Total contribution with subtle styling */}
-                          <div className="flex items-center text-sm text-gray-500/60">
-                            <BadgeDollarSign className="h-3.5 w-3.5 mr-1.5 text-gray-400" />
-                            <span>Total: ${donor.totalContribution}</span>
+                          </div>
+                          <div className="text-sm text-amber-600 font-medium">
+                            {donor.milestone}
+                          </div>
+                          <div className="text-xs text-gray-500/70 mt-1">
+                            Total: ${donor.totalContribution}
                           </div>
                         </div>
                       </div>
-                      
-                      {/* Donation streak with better visual */}
-                      <div className="flex flex-col items-center justify-center bg-amber-50 p-2 rounded-lg min-w-12">
-                        <span className="text-xl font-bold text-amber-500 leading-tight">
+                      <div className="flex flex-col items-center bg-amber-50 px-3 py-1 rounded-lg">
+                        <span className="text-lg font-bold text-amber-500 leading-none">
                           {donor.streak}
                         </span>
                         <span className="text-2xs text-amber-600/70">streak</span>
                       </div>
                     </div>
-                    
-                    {/* Subtle divider with proper spacing */}
-                    <div className={`${buttonSpacing} -mx-4 px-4`}>
-                      <div className="h-px bg-gray-100"></div>
-                    </div>
-                    
-                    {/* Thank you message and action button with proper spacing */}
-                    <div className={`flex flex-col gap-3 pt-3`}>
-                      <span className="text-sm font-medium text-amber-600">
-                        Send a thank you message for their continued support
-                      </span>
+                    <div className={buttonSpacing}>
                       <Button 
                         variant="outline" 
                         size="sm" 

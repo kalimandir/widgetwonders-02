@@ -71,32 +71,37 @@ export function useActiveBreakpoint() {
   return 'xxl'
 }
 
-// Enhanced responsive padding hook with more options
+// Enhanced responsive spacing and alignment hook
 export function useResponsivePadding() {
   const screenWidth = useScreenWidth()
   
-  // Card spacing (gap between cards)
+  // Extra small screens (under 340px)
   if (screenWidth < Breakpoint.XS) return {
-    cardSpacing: 'space-y-4', // 16px vertical gap between cards
-    cardPadding: 'p-4',       // 16px internal padding
+    cardSpacing: 'space-y-6',      // 24px vertical gap between cards
+    cardPadding: 'p-3',            // 12px internal padding
+    avatarSize: 'h-8 w-8',         // smaller avatar
     sectionSpacing: 'space-y-2',
-    textSpacing: 'space-y-2',
+    textSpacing: 'space-y-1.5',
     elementSpacing: 'space-y-3',
-    buttonSpacing: 'mt-4'
+    buttonSpacing: 'mt-3'
   }
   
+  // Small screens (340px to 640px)
   if (screenWidth < Breakpoint.SM) return {
-    cardSpacing: 'space-y-4',
-    cardPadding: 'p-4',
+    cardSpacing: 'space-y-6',      // 24px vertical gap between cards
+    cardPadding: 'p-4',            // 16px internal padding
+    avatarSize: 'h-9 w-9',         // medium avatar
     sectionSpacing: 'space-y-3',
-    textSpacing: 'space-y-2',
+    textSpacing: 'space-y-1.5',
     elementSpacing: 'space-y-4',
     buttonSpacing: 'mt-4'
   }
   
+  // Default (larger screens)
   return {
-    cardSpacing: 'space-y-5', // 20px vertical gap between cards
-    cardPadding: 'p-5',       // 20px internal padding
+    cardSpacing: 'space-y-6',      // 24px vertical gap between cards
+    cardPadding: 'p-5',            // 20px internal padding
+    avatarSize: 'h-10 w-10',       // larger avatar
     sectionSpacing: 'space-y-4',
     textSpacing: 'space-y-2',
     elementSpacing: 'space-y-4',

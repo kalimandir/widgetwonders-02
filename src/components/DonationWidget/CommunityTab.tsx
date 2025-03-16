@@ -170,14 +170,14 @@ const MILESTONE_CARDS = [
     title: "We've reached 65% of our goal!",
     currentAmount: 6500,
     goalAmount: 10000,
-    dateReached: "June 15, 2023",
+    dateReached: "February 15, 2025",
     icon: <Trophy className="h-6 w-6 text-yellow-400" />
   },
   {
     id: 'm2',
     title: "500 Donors Milestone!",
     subtitle: "Our community keeps growing stronger",
-    dateReached: "May 28, 2023",
+    dateReached: "January 28, 2025",
     icon: <Star className="h-6 w-6 text-yellow-400" />
   }
 ];
@@ -188,7 +188,7 @@ const MATCHING_CARDS = [
     id: 'mp1',
     matchRatio: "2X MATCH",
     sponsor: "The Smith Foundation",
-    endDate: "July 15, 2023",
+    endDate: "March 15, 2025",
     timeRemaining: "2 days, 4 hours",
     remainingFunds: 25000,
     state: "active" // active, ending-soon, completed
@@ -203,7 +203,7 @@ const WELCOME_CARDS = [
     ens: "emily.eth",
     avatarUrl: null,
     initialDonation: 50,
-    joinDate: "July 1, 2023"
+    joinDate: "March 1, 2025"
   },
   {
     id: 'w2',
@@ -211,7 +211,7 @@ const WELCOME_CARDS = [
     ens: "davidw.eth",
     avatarUrl: null,
     initialDonation: 25,
-    joinDate: "July 3, 2023"
+    joinDate: "March 3, 2025"
   }
 ];
 

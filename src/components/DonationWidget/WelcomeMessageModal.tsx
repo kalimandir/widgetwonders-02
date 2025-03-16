@@ -175,7 +175,7 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
               <label htmlFor="personal-note" className="text-sm font-medium">
                 Add a personal note (optional)
               </label>
-              <span className="text-xs text-muted-foreground">
+              <span className={`text-xs ${personalNote.length >= maxChars * 0.9 ? 'text-amber-600' : 'text-muted-foreground'}`}>
                 {personalNote.length}/{maxChars} characters
               </span>
             </div>
@@ -207,7 +207,7 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
           
           {/* Conditional tip options */}
           {includeTip && (
-            <div className="rounded-md bg-blue-50 p-3 border border-blue-100 space-y-4">
+            <div className="rounded-md bg-blue-50 p-3 border border-blue-100 space-y-4 animate-in fade-in-50 duration-200">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm font-medium">Your tip amount</span>
@@ -246,7 +246,10 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
                 </Select>
                 <div className="text-xs text-gray-600 flex justify-between pt-1">
                   <span>Your balance:</span>
-                  <span>{tokenBalances[tokenType]} {tokenType}</span>
+                  <span className={tokenBalances[tokenType] < tipAmount ? 'text-red-500 font-medium' : ''}>
+                    {tokenBalances[tokenType]} {tokenType}
+                    {tokenBalances[tokenType] < tipAmount && ' (insufficient)'}
+                  </span>
                 </div>
               </div>
             </div>
@@ -271,7 +274,7 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
           </Button>
           <Button 
             onClick={handleSendMessage} 
-            disabled={status === 'sending'}
+            disabled={status === 'sending' || (includeTip && tokenBalances[tokenType] < tipAmount)}
             className="bg-purple-600 hover:bg-purple-700 gap-2"
           >
             {status === 'sending' ? (

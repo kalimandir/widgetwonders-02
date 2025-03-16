@@ -4,7 +4,7 @@ import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
 import CommunityTab from './CommunityTab';
 import HistoryTab from './HistoryTab';
-import { useIsMobile, useScreenWidth } from "@/hooks/use-mobile";
+import { useIsMobile, useScreenWidth, useResponsiveChartDimensions } from "@/hooks/use-mobile";
 import { Progress } from "@/components/ui/progress";
 import { HandHeart, Target, Users, History, BookOpen, Calendar, BarChart3, PieChart, Award, Image } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -116,6 +116,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
   const isMobile = useIsMobile();
   const screenWidth = useScreenWidth();
+  const chartDimensions = useResponsiveChartDimensions();
 
   useEffect(() => {
     setAnimateIn(true);
@@ -369,16 +370,16 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                   Fund Allocation
                 </h3>
                 <div className="flex flex-col items-center">
-                  <div className="h-64 w-full mb-4">
-                    <ChartContainer config={ALLOCATION_DATA.reduce((acc, curr) => ({ ...acc, [curr.name]: { color: curr.color } }), {})} className="h-full">
-                      <RechartsPieChart>
+                  <div className="h-64 w-full mb-4 flex justify-center items-center">
+                    <ChartContainer config={ALLOCATION_DATA.reduce((acc, curr) => ({ ...acc, [curr.name]: { color: curr.color } }), {})} className="h-full flex justify-center">
+                      <RechartsPieChart width={isMobile ? 300 : 400} height={isMobile ? 250 : 300}>
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <Pie
                           data={ALLOCATION_DATA}
                           cx="50%"
                           cy="50%"
                           labelLine={false}
-                          outerRadius={100}
+                          outerRadius={chartDimensions.pieChart.outerRadius}
                           fill="#8884d8"
                           dataKey="value"
                         >

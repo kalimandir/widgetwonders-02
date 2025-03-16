@@ -108,3 +108,19 @@ export function useResponsivePadding() {
     buttonSpacing: 'mt-5'
   }
 }
+
+// New hook for responsive chart dimensions
+export function useResponsiveChartDimensions() {
+  const screenWidth = useScreenWidth()
+  const isMobile = screenWidth < MOBILE_BREAKPOINT
+  
+  return {
+    pieChart: {
+      outerRadius: isMobile ? 80 : 100,
+      width: '100%',
+      height: isMobile ? 250 : 300,
+      centerOffset: isMobile ? { x: 0, y: 0 } : { x: 0, y: 0 },
+      legendLayout: isMobile ? 'horizontal' : 'vertical'
+    }
+  }
+}

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Users, 
@@ -34,6 +33,7 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { useIsMobile, useScreenWidth, useIsBreakpoint, Breakpoint, useResponsivePadding } from "@/hooks/use-mobile";
 import WelcomeMessageModal from "./WelcomeMessageModal";
+import ThanksMessageModal from "./ThanksMessageModal";
 
 interface CommunityTabProps {
   onSwitchToDonateTab: () => void; // Make this required, not optional
@@ -334,6 +334,8 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
   const [expandedMessage, setExpandedMessage] = useState<string | null>(null);
   const [selectedDonor, setSelectedDonor] = useState<any | null>(null);
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
+  const [thanksModalOpen, setThanksModalOpen] = useState(false);
+  const [selectedAppreciationDonor, setSelectedAppreciationDonor] = useState<any | null>(null);
   const isMobile = useIsMobile();
   const screenWidth = useScreenWidth();
   const isXSmallScreen = useIsBreakpoint(Breakpoint.XS);
@@ -349,6 +351,18 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
     setWelcomeModalOpen(true);
   };
 
+  const handleOpenThanksModal = (donor: any) => {
+    setSelectedAppreciationDonor({
+      ...donor,
+      donationDate: new Date().toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      })
+    });
+    setThanksModalOpen(true);
+  };
+
   return (
     <div className="space-y-6 py-2">
       {/* Welcome Message Modal */}
@@ -357,6 +371,15 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
           open={welcomeModalOpen}
           onOpenChange={setWelcomeModalOpen}
           donor={selectedDonor}
+        />
+      )}
+
+      {/* Thanks Message Modal */}
+      {selectedAppreciationDonor && (
+        <ThanksMessageModal
+          open={thanksModalOpen}
+          onOpenChange={setThanksModalOpen}
+          donor={selectedAppreciationDonor}
         />
       )}
 
@@ -638,6 +661,7 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                         variant="outline" 
                         size="sm" 
                         className="w-full justify-center h-10 px-4 border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100"
+                        onClick={() => handleOpenThanksModal(donor)}
                       >
                         <Heart className="h-4 w-4 mr-2 text-red-500" /> Send Thanks
                       </Button>
@@ -695,3 +719,4 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
 };
 
 export default CommunityTab;
+

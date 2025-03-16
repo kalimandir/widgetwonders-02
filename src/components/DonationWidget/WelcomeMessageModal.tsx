@@ -4,10 +4,14 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Check, AlertCircle, Loader2, Send } from "lucide-react";
+import { Check, AlertCircle, Loader2, Send, Wallet, CreditCard, ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Switch } from "@/components/ui/switch";
+import { Slider } from "@/components/ui/slider";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type MessageStatus = 'idle' | 'sending' | 'success' | 'error';
+type TokenType = 'USDC' | 'USDT' | 'DAI';
 
 interface WelcomeMessageModalProps {
   open: boolean;
@@ -27,8 +31,21 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
 }) => {
   const [personalNote, setPersonalNote] = useState('');
   const [status, setStatus] = useState<MessageStatus>('idle');
+  const [includeTip, setIncludeTip] = useState(false);
+  const [tipAmount, setTipAmount] = useState(2);
+  const [tokenType, setTokenType] = useState<TokenType>('USDC');
   const { toast } = useToast();
   const maxChars = 150;
+
+  // Mock token balances (in a real app these would come from a wallet connection)
+  const tokenBalances: Record<TokenType, number> = {
+    'USDC': 25.45,
+    'USDT': 12.75,
+    'DAI': 8.20
+  };
+
+  // Mock gas fee estimate (in a real app this would be calculated based on network conditions)
+  const gasEstimate = 0.12;
 
   // Example impact message based on donation amount
   const getImpactMessage = (amount: number) => {
@@ -41,7 +58,11 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
     }
   };
 
-  const defaultMessage = `Thank you for your contribution to Hope Foundation! Your $${donor.initialDonation} will help us ${getImpactMessage(donor.initialDonation)}.`;
+  // Updated message template with conditional tip text
+  const getDefaultMessage = () => {
+    const baseMessage = `Thank you for your generous $${donor.initialDonation} donation to Hope Foundation! Your contribution will help ${getImpactMessage(donor.initialDonation)}.`;
+    return includeTip ? `${baseMessage} We've included a small token of our appreciation.` : baseMessage;
+  };
   
   const handleSendMessage = async () => {
     // Prevent sending if already in progress
@@ -68,6 +89,8 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
         setTimeout(() => {
           setStatus('idle');
           setPersonalNote('');
+          setIncludeTip(false);
+          setTipAmount(2);
         }, 300);
       }, 1500);
     } catch (error) {
@@ -115,7 +138,7 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
         
         <DialogHeader>
           <DialogTitle className="text-center sm:text-left">
-            Send Welcome to {donor.name}
+            Thank {donor.name} for Donation
           </DialogTitle>
         </DialogHeader>
         
@@ -125,7 +148,7 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
             <div className="flex flex-col gap-1">
               {donor.ens && (
                 <div className="flex justify-between">
-                  <span className="text-sm font-medium">ENS</span>
+                  <span className="text-sm font-medium">Sending to {donor.name}'s wallet</span>
                   <span className="text-sm">{donor.ens}</span>
                 </div>
               )}
@@ -142,7 +165,7 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
           
           {/* Default message */}
           <div className="rounded-md bg-purple-50 p-3 border border-purple-100">
-            <p className="text-sm text-gray-700">{defaultMessage}</p>
+            <p className="text-sm text-gray-700">{getDefaultMessage()}</p>
             <p className="text-sm text-gray-700 mt-2">Join our community discussions to see your impact grow!</p>
           </div>
           
@@ -170,10 +193,72 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
             />
           </div>
           
+          {/* Include tip toggle */}
+          <div className="flex items-center justify-between pt-2">
+            <div className="flex flex-col">
+              <span className="text-sm font-medium">Include tip with message</span>
+              <span className="text-xs text-muted-foreground">Send a small token of appreciation</span>
+            </div>
+            <Switch
+              checked={includeTip}
+              onCheckedChange={setIncludeTip}
+            />
+          </div>
+          
+          {/* Conditional tip options */}
+          {includeTip && (
+            <div className="rounded-md bg-blue-50 p-3 border border-blue-100 space-y-4">
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium">Tip amount</span>
+                  <span className="text-sm font-medium text-blue-700">${tipAmount}</span>
+                </div>
+                <Slider
+                  value={[tipAmount]}
+                  min={1}
+                  max={10}
+                  step={1}
+                  onValueChange={(value) => setTipAmount(value[0])}
+                  className="py-1"
+                />
+                <p className="text-xs text-gray-600 pt-1">
+                  Send ${tipAmount} tip via Yodl Protocol
+                </p>
+              </div>
+              
+              {/* Token selection */}
+              <div className="space-y-2">
+                <label htmlFor="token-select" className="text-sm font-medium">
+                  Select token
+                </label>
+                <Select 
+                  value={tokenType}
+                  onValueChange={(value) => setTokenType(value as TokenType)}
+                >
+                  <SelectTrigger id="token-select" className="w-full">
+                    <SelectValue placeholder="Select token" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="USDC">USDC</SelectItem>
+                    <SelectItem value="USDT">USDT</SelectItem>
+                    <SelectItem value="DAI">DAI</SelectItem>
+                  </SelectContent>
+                </Select>
+                <div className="text-xs text-gray-600 flex justify-between pt-1">
+                  <span>Your balance:</span>
+                  <span>{tokenBalances[tokenType]} {tokenType}</span>
+                </div>
+              </div>
+            </div>
+          )}
+          
           {/* Blockchain note */}
           <div className="rounded-md bg-blue-50 p-3 border border-blue-100">
             <p className="text-xs text-gray-600">
-              This will create a blockchain transaction. The recipient will see this message in their wallet or notifications.
+              This will create a blockchain transaction. {includeTip && "If you include a tip, you'll need to confirm the payment in your wallet."}
+            </p>
+            <p className="text-xs text-gray-600 mt-2 flex items-center">
+              <Wallet className="h-3 w-3 mr-1 inline" /> Estimated gas fee: ~${gasEstimate.toFixed(2)}
             </p>
           </div>
         </div>
@@ -191,6 +276,11 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
                 Sending...
+              </>
+            ) : includeTip ? (
+              <>
+                <CreditCard className="h-4 w-4" />
+                Send Message + ${tipAmount} Tip
               </>
             ) : (
               <>

@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Users, 
@@ -463,11 +462,6 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
       {/* Matching Period Card - Pinned at top when active */}
       {MATCHING_CARDS.length > 0 && MATCHING_CARDS[0].state !== 'completed' && (
         <Card className="border-2 border-purple-300 dark:border-purple-500/50 bg-purple-50/60 dark:bg-purple-900/20 shadow-sm overflow-hidden">
-          <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden">
-            <div className="bg-purple-600 dark:bg-purple-500 text-white font-bold text-xs py-1 px-6 rotate-45 absolute top-[19px] right-[-21px]">
-              ACTIVE
-            </div>
-          </div>
           <CardContent className={`p-4 ${isMobile ? 'pb-5' : ''}`}>
             <div className={`flex ${isMobile ? 'flex-col' : 'items-start'} gap-4`}>
               <div className={`${isMobile ? 'mx-auto mb-2' : ''} h-14 w-14 rounded-full bg-purple-100 dark:bg-purple-800/50 flex items-center justify-center`}>

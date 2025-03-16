@@ -45,13 +45,13 @@ const generateMockTransactions = (): Transaction[] => {
   
   const transactions: Transaction[] = [];
   
-  // Generate transactions spanning multiple days
-  const now = new Date();
+  // Generate transactions spanning multiple days in March 2025
+  const baseDate = new Date(2025, 2, 15); // March 15, 2025
   
   for (let i = 0; i < 15; i++) {
-    const daysAgo = Math.floor(i / 3); // Every 3 transactions is a new day
-    const date = new Date(now);
-    date.setDate(date.getDate() - daysAgo);
+    const daysOffset = Math.floor(i / 3); // Every 3 transactions is a new day
+    const date = new Date(baseDate);
+    date.setDate(date.getDate() - daysOffset);
     
     // Set random hour and minute
     date.setHours(Math.floor(Math.random() * 12) + 1);

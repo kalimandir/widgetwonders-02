@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
@@ -284,35 +283,6 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
           <TabsContent value="impact">
             <div className="space-y-5">
-              <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                <div className="flex items-center gap-1">
-                  <Calendar className="h-3.5 w-3.5" />
-                  <span>Last updated: May 10, 2024</span>
-                </div>
-              </div>
-              
-              {/* Image Gallery */}
-              <div className="mb-5">
-                <h3 className="text-sm font-semibold mb-3 text-gray-800 flex items-center gap-1.5">
-                  <Image className="h-4 w-4 text-purple-600" />
-                  Your Impact in Action
-                </h3>
-                <div className="space-y-3">
-                  {IMPACT_IMAGES.map((image, index) => (
-                    <div key={index} className="overflow-hidden rounded-lg border border-purple-100">
-                      <img 
-                        src={image.src} 
-                        alt={image.alt} 
-                        className="w-full h-auto object-cover aspect-video"
-                      />
-                      <div className="p-2 bg-purple-50">
-                        <p className="text-xs text-gray-700">{image.caption}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
               <div className="grid grid-cols-3 gap-2 mb-4">
                 {IMPACT_METRICS.map((metric) => (
                   <Card key={metric.name} className="shadow-sm border-purple-100">
@@ -390,9 +360,22 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                   {BENEFICIARY_STORIES.map((story, index) => (
                     <Card key={index} className="shadow-sm border-purple-100">
                       <CardContent className="p-3.5">
-                        <h4 className="text-sm font-medium text-purple-800 mb-1">{story.name}</h4>
-                        <p className="text-xs text-gray-600 mb-2">{story.content}</p>
-                        <span className="text-[10px] text-gray-400 block text-right">{story.date}</span>
+                        <div className="flex flex-col sm:flex-row gap-2">
+                          {index < IMPACT_IMAGES.length && (
+                            <div className="w-full sm:w-1/3 mb-2 sm:mb-0">
+                              <img 
+                                src={IMPACT_IMAGES[index].src} 
+                                alt={IMPACT_IMAGES[index].alt} 
+                                className="w-full h-auto object-cover rounded-md aspect-[4/3]"
+                              />
+                            </div>
+                          )}
+                          <div className="flex-1">
+                            <h4 className="text-sm font-medium text-purple-800 mb-1">{story.name}</h4>
+                            <p className="text-xs text-gray-600 mb-2">{story.content}</p>
+                            <span className="text-[10px] text-gray-400 block text-right">{story.date}</span>
+                          </div>
+                        </div>
                       </CardContent>
                     </Card>
                   ))}

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Users, 
@@ -435,37 +436,48 @@ const CommunityTab: React.FC = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {TOP_DONORS.map((donor, index) => (
-              <div 
-                key={donor.id}
-                className="grid grid-cols-[auto_1fr_auto] items-center gap-3 py-2"
-              >
-                <div className="text-lg font-semibold text-gray-500 w-6 text-center">
-                  {index + 1}
-                </div>
-                <div className="flex items-center">
-                  <Avatar className="h-9 w-9 mr-3">
-                    {donor.avatarUrl ? (
-                      <AvatarImage src={donor.avatarUrl} alt={donor.name} />
-                    ) : (
-                      <AvatarFallback className="bg-purple-100 text-purple-800">
-                        {donor.name.split(' ').map(n => n[0]).join('')}
-                      </AvatarFallback>
-                    )}
-                  </Avatar>
-                  <div>
-                    <div className="font-medium text-gray-900 flex items-center text-sm">
-                      {donor.name}
-                      {getTierBadge(donor.tier)}
+            {TOP_DONORS.map((donor, index) => {
+              const isSmallScreen = screenWidth < 340;
+              
+              return (
+                <div 
+                  key={donor.id}
+                  className={`flex items-center gap-2 py-2 ${isSmallScreen ? 'flex-wrap' : ''}`}
+                >
+                  <div className="text-lg font-semibold text-gray-500 w-6 text-center shrink-0">
+                    {index + 1}
+                  </div>
+                  <div className="flex items-center flex-1 min-w-0">
+                    <Avatar className="h-9 w-9 mr-3 shrink-0">
+                      {donor.avatarUrl ? (
+                        <AvatarImage src={donor.avatarUrl} alt={donor.name} />
+                      ) : (
+                        <AvatarFallback className="bg-purple-100 text-purple-800">
+                          {donor.name.split(' ').map(n => n[0]).join('')}
+                        </AvatarFallback>
+                      )}
+                    </Avatar>
+                    <div className="min-w-0 flex-1">
+                      <div className={`font-medium text-gray-900 flex ${isSmallScreen ? 'flex-col items-start' : 'items-center'} text-sm`}>
+                        <span className="truncate">{donor.name}</span>
+                        {!isSmallScreen && getTierBadge(donor.tier)}
+                      </div>
+                      <div className="flex items-center">
+                        {donor.ens && (
+                          <div className="text-xs text-gray-500 truncate">{donor.ens}</div>
+                        )}
+                        {isSmallScreen && (
+                          <div className="ml-2">{getTierBadge(donor.tier)}</div>
+                        )}
+                      </div>
                     </div>
-                    {donor.ens && (
-                      <div className="text-xs text-gray-500">{donor.ens}</div>
-                    )}
+                  </div>
+                  <div className={`text-right font-bold ${isSmallScreen ? 'w-full justify-end flex pr-2' : ''}`}>
+                    ${donor.totalDonated}
                   </div>
                 </div>
-                <div className="text-right font-bold">${donor.totalDonated}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </CardContent>
       </Card>
@@ -693,4 +705,3 @@ const CommunityTab: React.FC = () => {
 };
 
 export default CommunityTab;
-

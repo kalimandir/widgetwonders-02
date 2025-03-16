@@ -19,16 +19,20 @@ export const generateYodlCheckoutUrl = (params: YodlCheckoutParams): string => {
   // Get the recipient address from config
   const recipient = donationConfig.recipient;
   
-  // Directly build the URL with query parameters to ensure correct format
-  // Note: We're not using URLSearchParams to have more control over the URL structure
-  const baseUrl = `${donationConfig.host}/send`;
+  // Build the URL using the format: https://yodl.me/{recipient}?amount={amount}
+  const baseUrl = `https://yodl.me/${recipient}`;
   
-  // Manually construct query string with recipient as first parameter
-  let url = `${baseUrl}?to=${encodeURIComponent(recipient)}`;
-  url += `&amount=${encodeURIComponent(amount.toString())}`;
-  url += `&token=${encodeURIComponent(token)}`;
-  url += `&chain=${encodeURIComponent(chain)}`;
-  url += `&redirectUrl=${encodeURIComponent(donationConfig.redirectUrl)}`;
+  // Add amount as query parameter
+  let url = `${baseUrl}?amount=${encodeURIComponent(amount.toString())}`;
+  
+  // Add optional parameters if needed
+  if (token && token !== 'ETH') {
+    url += `&token=${encodeURIComponent(token)}`;
+  }
+  
+  if (chain && chain !== 'ethereum') {
+    url += `&chain=${encodeURIComponent(chain)}`;
+  }
   
   // Enhanced debugging logs
   console.log('Generated Yodl URL:', url);

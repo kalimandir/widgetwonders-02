@@ -269,7 +269,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
               value="community" 
               className="flex items-center justify-center gap-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-donation-dark-card dark:text-donation-dark-text-secondary dark:data-[state=active]:text-donation-dark-text"
             >
-              <Users className="h-5 w-5" />
+              <Users className="h-5 w-5 text-purple-600 dark:text-purple-300" />
               {!isMobile && <span>Community</span>}
             </TabsTrigger>
             <TabsTrigger 

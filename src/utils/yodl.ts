@@ -17,18 +17,19 @@ export const generateYodlCheckoutUrl = (params: YodlCheckoutParams): string => {
   
   // Construct query parameters
   const queryParams = new URLSearchParams({
-    recipient: donationConfig.recipient, // Changed from 'to' to 'recipient'
+    recipient: donationConfig.recipient, // Primary parameter name
     amount: amount.toString(),
     token,
     chain,
     redirectUrl: donationConfig.redirectUrl
   });
   
-  // Build the complete URL using the /send endpoint instead of /checkout
+  // Build the complete URL using the /send endpoint
   const url = `${donationConfig.host}/send?${queryParams.toString()}`;
   
-  // Debug log
+  // Debug logs
   console.log('Generated Yodl URL:', url);
+  console.log(`Redirecting to Yodl checkout for $${amount} donation to ${organizationName}`);
   
   return url;
 };

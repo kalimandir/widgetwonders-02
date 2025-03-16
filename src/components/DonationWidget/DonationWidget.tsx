@@ -4,7 +4,7 @@ import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
 import CommunityTab from './CommunityTab';
 import HistoryTab from './HistoryTab';
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile, useScreenWidth } from "@/hooks/use-mobile";
 import { Progress } from "@/components/ui/progress";
 import { HandHeart, Target, Users, History, BookOpen, Calendar, BarChart3, PieChart, Award, Image } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -102,6 +102,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const [animateIn, setAnimateIn] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
   const isMobile = useIsMobile();
+  const screenWidth = useScreenWidth();
 
   useEffect(() => {
     setAnimateIn(true);
@@ -220,19 +221,19 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           <TabsList className="w-full grid grid-cols-4">
             <TabsTrigger value="donate" className="flex items-center justify-center gap-1.5">
               <HandHeart className="h-5 w-5" />
-              <span>Donate</span>
+              {!isMobile && <span>Donate</span>}
             </TabsTrigger>
             <TabsTrigger value="impact" className="flex items-center justify-center gap-1.5">
               <Target className="h-5 w-5" />
-              <span>Impact</span>
+              {!isMobile && <span>Impact</span>}
             </TabsTrigger>
             <TabsTrigger value="community" className="flex items-center justify-center gap-1.5">
               <Users className="h-5 w-5" />
-              <span>Community</span>
+              {!isMobile && <span>Community</span>}
             </TabsTrigger>
             <TabsTrigger value="history" className="flex items-center justify-center gap-1.5">
               <History className="h-5 w-5" />
-              <span>History</span>
+              {!isMobile && <span>History</span>}
             </TabsTrigger>
           </TabsList>
 

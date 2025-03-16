@@ -330,34 +330,36 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                   <PieChart className="h-4 w-4 text-purple-600" />
                   Fund Allocation
                 </h3>
-                <div className="h-52 mb-2">
-                  <ChartContainer config={ALLOCATION_DATA.reduce((acc, curr) => ({ ...acc, [curr.name]: { color: curr.color } }), {})} className="h-full">
-                    <RechartsPieChart>
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Pie
-                        data={ALLOCATION_DATA}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        dataKey="value"
-                      >
-                        {ALLOCATION_DATA.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                    </RechartsPieChart>
-                  </ChartContainer>
-                </div>
-                <div className="grid grid-cols-2 gap-1">
-                  {ALLOCATION_DATA.map((item) => (
-                    <div key={item.name} className="flex items-center gap-1.5 text-xs">
-                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }}></div>
-                      <span className="text-gray-700">{item.name}</span>
-                      <span className="font-medium ml-auto">{item.value}%</span>
-                    </div>
-                  ))}
+                <div className="flex flex-col items-center">
+                  <div className="h-64 w-full mb-4">
+                    <ChartContainer config={ALLOCATION_DATA.reduce((acc, curr) => ({ ...acc, [curr.name]: { color: curr.color } }), {})} className="h-full">
+                      <RechartsPieChart>
+                        <ChartTooltip content={<ChartTooltipContent />} />
+                        <Pie
+                          data={ALLOCATION_DATA}
+                          cx="50%"
+                          cy="50%"
+                          labelLine={false}
+                          outerRadius={100}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {ALLOCATION_DATA.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                      </RechartsPieChart>
+                    </ChartContainer>
+                  </div>
+                  <div className="grid grid-cols-2 gap-x-4 gap-y-1 w-full max-w-xs">
+                    {ALLOCATION_DATA.map((item) => (
+                      <div key={item.name} className="flex items-center gap-1.5 text-xs">
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
+                        <span className="text-gray-700">{item.name}</span>
+                        <span className="font-medium ml-auto">{item.value}%</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </div>
               

@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
@@ -157,22 +158,22 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         </div>
 
         <Tabs defaultValue="donate" className="w-full mb-6">
-          <TabsList className="w-full grid grid-cols-4 mb-4">
-            <TabsTrigger value="donate" className="flex flex-col items-center gap-1 py-1.5 px-0.5 text-[10px]">
-              <HandHeart className="h-3.5 w-3.5" />
-              <span className="font-medium truncate w-full">Donate</span>
+          <TabsList className="w-full grid grid-cols-4 mb-4 min-h-[60px]">
+            <TabsTrigger value="donate" className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full">
+              <HandHeart className="h-4 w-4" />
+              <span className="text-xs font-medium w-full text-center">Donate</span>
             </TabsTrigger>
-            <TabsTrigger value="impact" className="flex flex-col items-center gap-1 py-1.5 px-0.5 text-[10px]">
-              <Target className="h-3.5 w-3.5" />
-              <span className="font-medium truncate w-full">Impact</span>
+            <TabsTrigger value="impact" className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full">
+              <Target className="h-4 w-4" />
+              <span className="text-xs font-medium w-full text-center">Impact</span>
             </TabsTrigger>
-            <TabsTrigger value="community" className="flex flex-col items-center gap-1 py-1.5 px-0.5 text-[10px]">
-              <Users className="h-3.5 w-3.5" />
-              <span className="font-medium truncate w-full">Community</span>
+            <TabsTrigger value="community" className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full">
+              <Users className="h-4 w-4" />
+              <span className="text-xs font-medium w-full text-center">Community</span>
             </TabsTrigger>
-            <TabsTrigger value="history" className="flex flex-col items-center gap-1 py-1.5 px-0.5 text-[10px]">
-              <History className="h-3.5 w-3.5" />
-              <span className="font-medium truncate w-full">History</span>
+            <TabsTrigger value="history" className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full">
+              <History className="h-4 w-4" />
+              <span className="text-xs font-medium w-full text-center">History</span>
             </TabsTrigger>
           </TabsList>
 

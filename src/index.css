@@ -115,6 +115,13 @@
   }
 }
 
+@layer utilities {
+  /* Adding minimum width utilities for badges and other elements */
+  .min-w-16 {
+    min-width: 4rem;
+  }
+}
+
 @layer components {
   .donation-card {
     @apply flex items-start p-4 rounded-xl 

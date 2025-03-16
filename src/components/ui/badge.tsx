@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 
@@ -15,6 +16,11 @@ const badgeVariants = cva(
         destructive:
           "border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80",
         outline: "text-foreground",
+        // New variants for indicators that prevent text wrapping
+        indicator:
+          "border-transparent bg-purple-100 text-purple-800 whitespace-nowrap px-3 py-1 hover:bg-purple-100",
+        timeIndicator:
+          "border-transparent bg-purple-100 text-purple-800 whitespace-nowrap min-w-16 justify-center px-3 py-1 hover:bg-purple-100",
       },
     },
     defaultVariants: {

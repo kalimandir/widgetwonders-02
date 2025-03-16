@@ -468,7 +468,7 @@ const CommunityTab: React.FC = () => {
                         <span className="truncate">{donor.name}</span>
                         {!isSmallScreen && getTierBadge(donor.tier)}
                       </div>
-                      <div className={`flex items-center ${isSmallScreen ? 'flex-col items-start' : 'items-center'}`}>
+                      <div className={`flex items-center ${isSmallScreen ? 'flex-col items-start' : 'flex-col items-center'}`}>
                         {donor.ens && (
                           <div className="text-xs text-gray-500 truncate">{donor.ens}</div>
                         )}
@@ -631,7 +631,7 @@ const CommunityTab: React.FC = () => {
               <div key={challenge.id} className="bg-gray-50 rounded-lg p-3">
                 <div className="flex justify-between items-center mb-2">
                   <div className="font-medium text-gray-900">{challenge.name}</div>
-                  <Badge className="bg-purple-100 text-purple-800 font-normal">
+                  <Badge variant="timeIndicator">
                     {challenge.daysLeft} days left
                   </Badge>
                 </div>

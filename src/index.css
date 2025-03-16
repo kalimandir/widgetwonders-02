@@ -48,32 +48,32 @@
   }
 
   .dark {
-    --background: 240 10% 3.9%;
+    --background: 226 25% 10%;
     --foreground: 210 40% 98%;
 
-    --card: 240 10% 3.9%;
+    --card: 224 31% 14%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 240 10% 3.9%;
+    --popover: 224 31% 14%;
     --popover-foreground: 210 40% 98%;
 
     --primary: 259 81% 58%;
     --primary-foreground: 0 0% 98%;
 
-    --secondary: 240 3.7% 15.9%;
+    --secondary: 226 25% 20%;
     --secondary-foreground: 0 0% 98%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 226 25% 20%;
+    --muted-foreground: 240 5% 75%;
 
-    --accent: 240 3.7% 15.9%;
+    --accent: 226 25% 20%;
     --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+    --border: 226 25% 22%;
+    --input: 226 25% 22%;
     --ring: 240 4.9% 83.9%;
     
     --sidebar-background: 240 5.9% 10%;
@@ -133,78 +133,78 @@
   }
   
   .dark .donation-card {
-    @apply border-gray-700 hover:border-gray-600;
+    @apply border-donation-dark-border hover:border-donation-dark-selected-accent/50;
     background-color: #1A1F2C;
   }
   
   .donation-card.selected {
     @apply border-purple-200 shadow-md;
-    background-color: #F0EBFF; /* Light purple-gray background for selected state */
+    background-color: #F0EBFF;
   }
   
   .dark .donation-card.selected {
-    @apply border-purple-400 shadow-md;
-    background-color: #2A1A5E; /* Dark purple background for selected state */
+    @apply border-donation-dark-selected-accent shadow-md;
+    background-color: #2A1A5E;
   }
   
   .donation-card.popular-tier:not(.selected) {
     @apply shadow-md;
-    border-color: rgba(64, 22, 173, 0.4); /* Light purple border using new color */
+    border-color: rgba(64, 22, 173, 0.4);
   }
   
   .dark .donation-card.popular-tier:not(.selected) {
     @apply shadow-md;
-    border-color: rgba(103, 66, 202, 0.6); /* Lighter purple border for dark mode */
+    border-color: rgba(103, 66, 202, 0.6);
   }
   
   .donation-card.popular-tier:not(.selected) .text-gray-800,
   .donation-card.popular-tier:not(.selected) .text-gray-700,
   .donation-card.popular-tier:not(.selected) .text-gray-500 {
-    color: #1F2937; /* Keeping text dark for better readability */
+    color: #1F2937;
   }
   
-  .dark .donation-card.popular-tier:not(.selected) .text-gray-800,
-  .dark .donation-card.popular-tier:not(.selected) .text-gray-700,
+  .dark .donation-card.popular-tier:not(.selected) .text-gray-800 {
+    @apply text-donation-dark-text;
+  }
+  
+  .dark .donation-card.popular-tier:not(.selected) .text-gray-700 {
+    @apply text-donation-dark-text-secondary;
+  }
+  
   .dark .donation-card.popular-tier:not(.selected) .text-gray-500 {
-    color: #D1D5DB; /* Light gray text for dark mode */
+    @apply text-donation-dark-gray-light;
   }
   
   .donation-card.popular-tier:not(.selected) .border-divider {
-    border-color: rgba(64, 22, 173, 0.4); /* Light purple border for dividers using new color */
+    border-color: rgba(64, 22, 173, 0.4);
   }
   
   .dark .donation-card.popular-tier:not(.selected) .border-divider {
-    border-color: rgba(103, 66, 202, 0.6); /* Lighter purple border for dark mode */
+    border-color: rgba(103, 66, 202, 0.6);
   }
   
   .donation-card.popular-tier.selected {
     @apply border-purple-200;
-    background-color: #F0EBFF; /* Light purple-gray background for selected popular tier */
+    background-color: #F0EBFF;
     color: #1F2937;
   }
   
   .dark .donation-card.popular-tier.selected {
-    @apply border-purple-400;
-    background-color: #2A1A5E; /* Dark purple background for selected state */
+    @apply border-donation-dark-selected-accent;
+    background-color: #2A1A5E;
     color: #F3F4F6;
   }
   
-  .donation-card.popular-tier.selected .text-gray-800,
-  .donation-card.popular-tier.selected .text-gray-700,
-  .donation-card.popular-tier.selected .text-gray-500 {
-    color: initial;
-  }
-  
   .dark .donation-card.popular-tier.selected .text-gray-800 {
-    color: #F9FAFB;
+    @apply text-donation-dark-text;
   }
   
   .dark .donation-card.popular-tier.selected .text-gray-700 {
-    color: #E5E7EB;
+    @apply text-donation-dark-text-secondary;
   }
   
   .dark .donation-card.popular-tier.selected .text-gray-500 {
-    color: #D1D5DB;
+    @apply text-donation-dark-gray-light;
   }
   
   .donation-card.popular-tier.selected .border-white {
@@ -212,7 +212,7 @@
   }
   
   .dark .donation-card.popular-tier.selected .border-white {
-    @apply border-gray-600;
+    @apply border-donation-dark-border;
   }
   
   .donation-card.custom-amount {
@@ -228,6 +228,6 @@
   }
   
   .dark .donation-button {
-    @apply hover:bg-[#8968e2] focus:ring-donation-dark-purple;
+    @apply bg-donation-dark-purple hover:bg-donation-dark-purple-light focus:ring-donation-dark-purple-dark;
   }
 }

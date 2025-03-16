@@ -4,7 +4,7 @@ import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
 import CommunityTab from './CommunityTab';
 import HistoryTab from './HistoryTab';
-import { useIsMobile, useScreenWidth, useResponsiveChartDimensions } from "@/hooks/use-mobile";
+import { useIsMobile, useScreenWidth, useResponsiveChartDimensions, useThemeUtils } from "@/hooks/use-mobile";
 import { Progress } from "@/components/ui/progress";
 import { HandHeart, Target, Users, History, BookOpen, Calendar, BarChart3, PieChart, Award, Image } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -117,6 +117,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const isMobile = useIsMobile();
   const screenWidth = useScreenWidth();
   const chartDimensions = useResponsiveChartDimensions();
+  const { isDark } = useThemeUtils();
 
   useEffect(() => {
     setAnimateIn(true);
@@ -207,8 +208,8 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
   return (
     <div className={cn(
-      "w-full bg-white rounded-3xl shadow-lg overflow-hidden transition-all duration-500 relative",
-      "border border-gray-100",
+      "w-full bg-white dark:bg-donation-dark-card rounded-3xl shadow-lg overflow-hidden transition-all duration-500 relative",
+      "border border-gray-100 dark:border-donation-dark-border",
       animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
     )}>
       <WalletConnect />
@@ -216,18 +217,18 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
       <div className="p-6 flex flex-col items-center">
         <div className={cn(
           "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center mb-4 transition-all",
-          "bg-purple-100 duration-700 delay-100",
+          "bg-purple-100 dark:bg-donation-dark-selected/60 duration-700 delay-100",
           animateIn ? "opacity-100 scale-100" : "opacity-0 scale-95"
         )}>
-          <HandHeart className="w-8 h-8 text-purple-600" />
+          <HandHeart className="w-8 h-8 text-purple-600 dark:text-purple-300" />
         </div>
 
         <div className={cn(
           "text-center mb-5 transition-all duration-700 delay-200",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
-          <h2 className="text-xl font-bold text-gray-900 mb-1">{organizationName}</h2>
-          <p className="text-sm text-gray-600">{missionStatement}</p>
+          <h2 className="text-xl font-bold text-gray-900 dark:text-donation-dark-text mb-1">{organizationName}</h2>
+          <p className="text-sm text-gray-600 dark:text-donation-dark-text-secondary">{missionStatement}</p>
         </div>
 
         <div className={cn(
@@ -235,34 +236,46 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           <div className="flex justify-between mb-2">
-            <span className="text-sm text-gray-700 font-medium">
+            <span className="text-sm text-gray-700 dark:text-donation-dark-text-secondary font-medium">
               $3,250 raised
             </span>
-            <span className="text-sm text-gray-600">
+            <span className="text-sm text-gray-600 dark:text-donation-dark-gray-light">
               $5,000 goal
             </span>
           </div>
           <Progress 
             value={progressValue} 
-            className="h-2.5 bg-gray-100 rounded-full" 
+            className="h-2.5 bg-gray-100 dark:bg-donation-dark-gray rounded-full" 
           />
         </div>
 
         <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-          <TabsList className="w-full grid grid-cols-4">
-            <TabsTrigger value="donate" className="flex items-center justify-center gap-1.5">
+          <TabsList className="w-full grid grid-cols-4 bg-gray-50 dark:bg-donation-dark-gray">
+            <TabsTrigger 
+              value="donate" 
+              className="flex items-center justify-center gap-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-donation-dark-card dark:text-donation-dark-text-secondary dark:data-[state=active]:text-donation-dark-text"
+            >
               <HandHeart className="h-5 w-5" />
               {!isMobile && <span>Donate</span>}
             </TabsTrigger>
-            <TabsTrigger value="impact" className="flex items-center justify-center gap-1.5">
+            <TabsTrigger 
+              value="impact" 
+              className="flex items-center justify-center gap-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-donation-dark-card dark:text-donation-dark-text-secondary dark:data-[state=active]:text-donation-dark-text"
+            >
               <Target className="h-5 w-5" />
               {!isMobile && <span>Impact</span>}
             </TabsTrigger>
-            <TabsTrigger value="community" className="flex items-center justify-center gap-1.5">
+            <TabsTrigger 
+              value="community" 
+              className="flex items-center justify-center gap-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-donation-dark-card dark:text-donation-dark-text-secondary dark:data-[state=active]:text-donation-dark-text"
+            >
               <Users className="h-5 w-5" />
               {!isMobile && <span>Community</span>}
             </TabsTrigger>
-            <TabsTrigger value="history" className="flex items-center justify-center gap-1.5">
+            <TabsTrigger 
+              value="history" 
+              className="flex items-center justify-center gap-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-donation-dark-card dark:text-donation-dark-text-secondary dark:data-[state=active]:text-donation-dark-text"
+            >
               <History className="h-5 w-5" />
               {!isMobile && <span>History</span>}
             </TabsTrigger>
@@ -307,7 +320,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
             {isValidAmount && (
               <div className={cn(
-                "w-full mb-4 p-3 bg-purple-50 border border-purple-100 rounded-xl text-sm text-purple-800",
+                "w-full mb-4 p-3 bg-purple-50 dark:bg-donation-dark-selected/30 border border-purple-100 dark:border-donation-dark-selected rounded-xl text-sm text-purple-800 dark:text-purple-300",
                 "transition-all duration-300"
               )}>
                 {getImpactSummary()}
@@ -319,11 +332,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
               animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             )}>
               <button
-                className="w-full py-3 px-4 bg-donation-purple text-white rounded-xl
-                         text-base font-semibold tracking-wide transition-all duration-300
-                         hover:bg-[#7C3AED] active:scale-[0.98] shadow-md
-                         hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-donation-purple
-                         focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="donation-button"
                 disabled={!isValidAmount || isSubmitting}
                 onClick={handleDonate}
               >
@@ -354,24 +363,24 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
               
               <div className="grid grid-cols-3 gap-2 mb-4">
                 {IMPACT_METRICS.map((metric) => (
-                  <Card key={metric.name} className="shadow-sm border-purple-100">
+                  <Card key={metric.name} className="shadow-sm border-purple-100 dark:border-donation-dark-border dark:bg-donation-dark-gray">
                     <CardContent className="p-3 flex flex-col items-center justify-center text-center">
                       <div className="mb-1">{metric.icon}</div>
-                      <span className="text-lg font-bold text-purple-800">{metric.count}</span>
-                      <span className="text-xs text-gray-600">{metric.name}</span>
+                      <span className="text-lg font-bold text-purple-800 dark:text-purple-300">{metric.count}</span>
+                      <span className="text-xs text-gray-600 dark:text-donation-dark-text-secondary">{metric.name}</span>
                     </CardContent>
                   </Card>
                 ))}
               </div>
               
               <div className="mb-4">
-                <h3 className="text-sm font-semibold mb-3 text-gray-800 flex items-center gap-1.5">
-                  <PieChart className="h-4 w-4 text-purple-600" />
+                <h3 className="text-sm font-semibold mb-3 text-gray-800 dark:text-donation-dark-text flex items-center gap-1.5">
+                  <PieChart className="h-4 w-4 text-purple-600 dark:text-purple-300" />
                   Fund Allocation
                 </h3>
                 <div className="flex flex-col items-center">
                   <div className="h-64 w-full mb-4 flex justify-center items-center">
-                    <ChartContainer config={ALLOCATION_DATA.reduce((acc, curr) => ({ ...acc, [curr.name]: { color: curr.color } }), {})} className="h-full flex justify-center">
+                    <ChartContainer config={ALLOCATION_DATA.reduce((acc, curr) => ({ ...acc, [curr.name]: { color: isDark ? curr.color.replace('#4016ad', '#8968e2').replace('#7c54e1', '#9d7eeb').replace('#9d7eeb', '#bea9f3').replace('#bea9f3', '#d3c4f7') : curr.color } }), {})} className="h-full flex justify-center">
                       <RechartsPieChart width={isMobile ? 300 : 400} height={isMobile ? 250 : 300}>
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <Pie
@@ -384,7 +393,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                           dataKey="value"
                         >
                           {ALLOCATION_DATA.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
+                            <Cell key={`cell-${index}`} fill={isDark ? entry.color.replace('#4016ad', '#8968e2').replace('#7c54e1', '#9d7eeb').replace('#9d7eeb', '#bea9f3').replace('#bea9f3', '#d3c4f7') : entry.color} />
                           ))}
                         </Pie>
                       </RechartsPieChart>
@@ -393,9 +402,9 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                   <div className="grid grid-cols-2 gap-x-4 gap-y-1 w-full max-w-xs">
                     {ALLOCATION_DATA.map((item) => (
                       <div key={item.name} className="flex items-center gap-1.5 text-xs">
-                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: item.color }}></div>
-                        <span className="text-gray-700">{item.name}</span>
-                        <span className="font-medium ml-auto">{item.value}%</span>
+                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: isDark ? item.color.replace('#4016ad', '#8968e2').replace('#7c54e1', '#9d7eeb').replace('#9d7eeb', '#bea9f3').replace('#bea9f3', '#d3c4f7') : item.color }}></div>
+                        <span className="text-gray-700 dark:text-donation-dark-text-secondary">{item.name}</span>
+                        <span className="font-medium ml-auto dark:text-donation-dark-text">{item.value}%</span>
                       </div>
                     ))}
                   </div>
@@ -403,16 +412,16 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
               </div>
               
               <div className="mb-4">
-                <h3 className="text-sm font-semibold mb-3 text-gray-800 flex items-center gap-1.5">
-                  <BarChart3 className="h-4 w-4 text-purple-600" />
+                <h3 className="text-sm font-semibold mb-3 text-gray-800 dark:text-donation-dark-text flex items-center gap-1.5">
+                  <BarChart3 className="h-4 w-4 text-purple-600 dark:text-purple-300" />
                   Progress Toward Goals
                 </h3>
                 <div className="space-y-3">
                   {GOAL_PROGRESS.map((goal) => (
                     <div key={goal.name} className="space-y-1">
                       <div className="flex justify-between text-xs">
-                        <span className="text-gray-700">{goal.name}</span>
-                        <span className="font-medium text-gray-800">
+                        <span className="text-gray-700 dark:text-donation-dark-text-secondary">{goal.name}</span>
+                        <span className="font-medium text-gray-800 dark:text-donation-dark-text">
                           {goal.current}/{goal.goal}
                         </span>
                       </div>
@@ -423,13 +432,13 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
               </div>
               
               <div>
-                <h3 className="text-sm font-semibold mb-3 text-gray-800 flex items-center gap-1.5">
-                  <BookOpen className="h-4 w-4 text-purple-600" />
+                <h3 className="text-sm font-semibold mb-3 text-gray-800 dark:text-donation-dark-text flex items-center gap-1.5">
+                  <BookOpen className="h-4 w-4 text-purple-600 dark:text-purple-300" />
                   Stories of Impact
                 </h3>
                 <div className="space-y-3">
                   {BENEFICIARY_STORIES.map((story, index) => (
-                    <Card key={index} className="shadow-sm border-purple-100">
+                    <Card key={index} className="shadow-sm border-purple-100 dark:border-donation-dark-border dark:bg-donation-dark-gray">
                       <CardContent className="p-3.5">
                         <div className="flex flex-col sm:flex-row gap-2">
                           {index < IMPACT_IMAGES.length && (
@@ -442,9 +451,9 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                             </div>
                           )}
                           <div className="flex-1">
-                            <h4 className="text-sm font-medium text-purple-800 mb-1">{story.name}</h4>
-                            <p className="text-xs text-gray-600 mb-2">{story.content}</p>
-                            <span className="text-[10px] text-gray-400 block text-right">{story.date}</span>
+                            <h4 className="text-sm font-medium text-purple-800 dark:text-purple-300 mb-1">{story.name}</h4>
+                            <p className="text-xs text-gray-600 dark:text-donation-dark-text-secondary mb-2">{story.content}</p>
+                            <span className="text-[10px] text-gray-400 dark:text-donation-dark-gray-medium block text-right">{story.date}</span>
                           </div>
                         </div>
                       </CardContent>

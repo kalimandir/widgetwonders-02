@@ -74,9 +74,17 @@ export default {
 					'dark-purple': '#6742ca',
 					'dark-purple-light': '#8968e2',
 					'dark-purple-dark': '#33118f',
-					'dark-gray': '#1A1F2C',
-					'dark-gray-medium': '#403E43',
-					'dark-gray-light': '#555555'
+					'dark-background': '#171923',
+					'dark-card': '#1A1F2C',
+					'dark-card-hover': '#232838',
+					'dark-gray': '#333A47',
+					'dark-gray-medium': '#606777',
+					'dark-gray-light': '#A0AEC0',
+					'dark-text': '#F7FAFC',
+					'dark-text-secondary': '#CBD5E0',
+					'dark-border': '#2D3748',
+					'dark-selected': '#2A1A5E',
+					'dark-selected-accent': '#6742ca'
 				}
 			},
 			borderRadius: {

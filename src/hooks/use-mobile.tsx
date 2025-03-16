@@ -71,11 +71,35 @@ export function useActiveBreakpoint() {
   return 'xxl'
 }
 
-// New helper hook to get optimal padding based on screen size
+// Enhanced responsive padding hook with more options
 export function useResponsivePadding() {
   const screenWidth = useScreenWidth()
   
-  if (screenWidth < Breakpoint.XS) return 'px-2 py-3'
-  if (screenWidth < Breakpoint.SM) return 'px-3 py-4'
-  return 'px-4 py-4'
+  // Card spacing (gap between cards)
+  if (screenWidth < Breakpoint.XS) return {
+    cardSpacing: 'space-y-4', // 16px vertical gap between cards
+    cardPadding: 'p-4',       // 16px internal padding
+    sectionSpacing: 'space-y-2',
+    textSpacing: 'space-y-2',
+    elementSpacing: 'space-y-3',
+    buttonSpacing: 'mt-4'
+  }
+  
+  if (screenWidth < Breakpoint.SM) return {
+    cardSpacing: 'space-y-4',
+    cardPadding: 'p-4',
+    sectionSpacing: 'space-y-3',
+    textSpacing: 'space-y-2',
+    elementSpacing: 'space-y-4',
+    buttonSpacing: 'mt-4'
+  }
+  
+  return {
+    cardSpacing: 'space-y-5', // 20px vertical gap between cards
+    cardPadding: 'p-5',       // 20px internal padding
+    sectionSpacing: 'space-y-4',
+    textSpacing: 'space-y-2',
+    elementSpacing: 'space-y-4',
+    buttonSpacing: 'mt-5'
+  }
 }

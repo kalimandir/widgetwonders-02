@@ -1,12 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Progress } from "@/components/ui/progress";
-import { HandHeart, Target, Users, History } from "lucide-react";
+import { HandHeart, Target, Users, History, BookOpen, Calendar, BarChart3, PieChart, Award } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Card, CardContent } from "@/components/ui/card";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { Cell, PieChart as RechartsPieChart, Pie, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
 
 interface DonationWidgetProps {
   organizationName: string;
@@ -30,6 +32,43 @@ const SPECIAL_ITEMS = {
 };
 
 const POPULAR_TIER = 25;
+
+const ALLOCATION_DATA = [
+  { name: 'School Supplies', value: 40, color: '#4016ad' },
+  { name: 'Teaching Programs', value: 30, color: '#7c54e1' },
+  { name: 'Infrastructure', value: 20, color: '#9d7eeb' },
+  { name: 'Admin & Operations', value: 10, color: '#bea9f3' },
+];
+
+const IMPACT_METRICS = [
+  { name: 'Students Supported', count: 156, icon: <Users className="h-5 w-5 text-purple-600" /> },
+  { name: 'Classrooms Equipped', count: 42, icon: <Award className="h-5 w-5 text-purple-600" /> },
+  { name: 'Books Provided', count: 1208, icon: <BookOpen className="h-5 w-5 text-purple-600" /> },
+];
+
+const GOAL_PROGRESS = [
+  { name: 'Laptops', current: 28, goal: 50 },
+  { name: 'Teacher Training', current: 15, goal: 20 },
+  { name: 'School Meals', current: 8500, goal: 10000 },
+];
+
+const BENEFICIARY_STORIES = [
+  {
+    name: "Maria, 9th Grade",
+    content: "With the new laptops and textbooks, I can now do research for my projects efficiently. I hope to become a doctor someday.",
+    date: "April 2023"
+  },
+  {
+    name: "James, 7th Grade",
+    content: "The after-school program has helped me improve my math skills. I used to struggle, but now I'm at the top of my class!",
+    date: "June 2023"
+  },
+  {
+    name: "Sarah, Teacher",
+    content: "The teaching resources have transformed how I engage students. They're more enthusiastic and invested in learning.",
+    date: "August 2023"
+  }
+];
 
 const DonationWidget: React.FC<DonationWidgetProps> = ({
   organizationName,
@@ -225,12 +264,99 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           </TabsContent>
 
           <TabsContent value="impact">
-            <div className="p-4 text-center bg-purple-50 rounded-xl mb-4">
-              <h3 className="font-semibold text-gray-900 mb-2">Our Impact</h3>
-              <p className="text-sm text-gray-600">
-                Your donations help us provide education to underserved communities.
-                Last year, we reached over 2,000 students.
-              </p>
+            <div className="space-y-5">
+              <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                <div className="flex items-center gap-1">
+                  <Calendar className="h-3.5 w-3.5" />
+                  <span>Last updated: May 10, 2024</span>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-2 mb-4">
+                {IMPACT_METRICS.map((metric) => (
+                  <Card key={metric.name} className="shadow-sm border-purple-100">
+                    <CardContent className="p-3 flex flex-col items-center justify-center text-center">
+                      <div className="mb-1">{metric.icon}</div>
+                      <span className="text-lg font-bold text-purple-800">{metric.count}</span>
+                      <span className="text-xs text-gray-600">{metric.name}</span>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+              
+              <div className="mb-4">
+                <h3 className="text-sm font-semibold mb-3 text-gray-800 flex items-center gap-1.5">
+                  <PieChart className="h-4 w-4 text-purple-600" />
+                  Fund Allocation
+                </h3>
+                <div className="h-52 mb-2">
+                  <ChartContainer config={ALLOCATION_DATA.reduce((acc, curr) => ({ ...acc, [curr.name]: { color: curr.color } }), {})} className="h-full">
+                    <RechartsPieChart>
+                      <ChartTooltip content={<ChartTooltipContent />} />
+                      <Pie
+                        data={ALLOCATION_DATA}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {ALLOCATION_DATA.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                    </RechartsPieChart>
+                  </ChartContainer>
+                </div>
+                <div className="grid grid-cols-2 gap-1">
+                  {ALLOCATION_DATA.map((item) => (
+                    <div key={item.name} className="flex items-center gap-1.5 text-xs">
+                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: item.color }}></div>
+                      <span className="text-gray-700">{item.name}</span>
+                      <span className="font-medium ml-auto">{item.value}%</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div className="mb-4">
+                <h3 className="text-sm font-semibold mb-3 text-gray-800 flex items-center gap-1.5">
+                  <BarChart3 className="h-4 w-4 text-purple-600" />
+                  Progress Toward Goals
+                </h3>
+                <div className="space-y-3">
+                  {GOAL_PROGRESS.map((goal) => (
+                    <div key={goal.name} className="space-y-1">
+                      <div className="flex justify-between text-xs">
+                        <span className="text-gray-700">{goal.name}</span>
+                        <span className="font-medium text-gray-800">
+                          {goal.current}/{goal.goal}
+                        </span>
+                      </div>
+                      <Progress value={(goal.current / goal.goal) * 100} className="h-2" />
+                    </div>
+                  ))}
+                </div>
+              </div>
+              
+              <div>
+                <h3 className="text-sm font-semibold mb-3 text-gray-800 flex items-center gap-1.5">
+                  <BookOpen className="h-4 w-4 text-purple-600" />
+                  Stories of Impact
+                </h3>
+                <div className="space-y-3">
+                  {BENEFICIARY_STORIES.map((story, index) => (
+                    <Card key={index} className="shadow-sm border-purple-100">
+                      <CardContent className="p-3.5">
+                        <h4 className="text-sm font-medium text-purple-800 mb-1">{story.name}</h4>
+                        <p className="text-xs text-gray-600 mb-2">{story.content}</p>
+                        <span className="text-[10px] text-gray-400 block text-right">{story.date}</span>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </div>
             </div>
           </TabsContent>
 

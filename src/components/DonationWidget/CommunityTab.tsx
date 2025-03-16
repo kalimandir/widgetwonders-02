@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Users, 
@@ -480,14 +481,16 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                         <span className="truncate">{donor.name}</span>
                         {!isSmallScreen && getTierBadge(donor.tier)}
                       </div>
-                      <div className={`flex items-center ${isSmallScreen ? 'flex-col items-start' : 'flex-col items-center'}`}>
-                        {donor.ens && (
-                          <div className="text-xs text-gray-500 truncate">{donor.ens}</div>
-                        )}
-                        {isSmallScreen && (
-                          <div className="ml-2">{getTierBadge(donor.tier)}</div>
-                        )}
-                      </div>
+                      {donor.ens && (
+                        <div className="text-xs text-gray-500 truncate">
+                          {donor.ens}
+                        </div>
+                      )}
+                      {isSmallScreen && (
+                        <div className="mt-1">
+                          {getTierBadge(donor.tier)}
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className={`text-right font-bold ${isSmallScreen ? 'w-full justify-end flex pr-2' : ''}`}>

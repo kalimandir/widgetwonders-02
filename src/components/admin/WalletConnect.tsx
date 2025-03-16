@@ -10,7 +10,7 @@ const WalletConnect: React.FC = () => {
   const isMobile = useIsMobile();
 
   return (
-    <div className="absolute top-4 right-6 z-10">
+    <div className="absolute top-4 left-16 z-10">
       {!address ? (
         <Button 
           variant="outline" 

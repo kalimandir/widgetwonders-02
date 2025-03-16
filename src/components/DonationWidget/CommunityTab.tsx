@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Users, 
@@ -15,10 +14,8 @@ import {
   Trophy,
   Timer,
   Clock,
-  HandWave,
   Star,
   Heart,
-  Confetti,
   Share2,
   BadgeDollarSign,
   CalendarClock,
@@ -390,7 +387,7 @@ const CommunityTab: React.FC = () => {
               </Button>
             </div>
             <div className="absolute -bottom-6 -right-6">
-              <Confetti className="h-24 w-24 text-purple-300/30" />
+              <Star className="h-24 w-24 text-purple-300/30" />
             </div>
           </div>
         </Card>
@@ -459,7 +456,7 @@ const CommunityTab: React.FC = () => {
         <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-blue-50 to-purple-50">
           <CardHeader className="pb-2">
             <CardTitle className="text-base font-semibold flex items-center gap-2">
-              <HandWave className="h-4 w-4 text-purple-600" />
+              <Award className="h-4 w-4 text-purple-600" />
               Welcome New Donors
             </CardTitle>
           </CardHeader>

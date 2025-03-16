@@ -34,6 +34,8 @@ import { Separator } from "@/components/ui/separator";
 import { useIsMobile, useScreenWidth, useIsBreakpoint, Breakpoint, useResponsivePadding } from "@/hooks/use-mobile";
 import WelcomeMessageModal from "./WelcomeMessageModal";
 import ThanksMessageModal from "./ThanksMessageModal";
+import JoinChallengeModal, { Challenge } from "./JoinChallengeModal";
+import { useToast } from "@/hooks/use-toast";
 
 interface CommunityTabProps {
   onSwitchToDonateTab: () => void; // Make this required, not optional
@@ -81,14 +83,15 @@ const TOP_DONORS = [
 ];
 
 // Sample data for active challenges
-const ACTIVE_CHALLENGES = [
+const ACTIVE_CHALLENGES: Challenge[] = [
   { 
     id: '1', 
     name: 'Summer School Drive', 
     goal: 10000, 
     current: 6500, 
     participants: 48,
-    daysLeft: 14
+    daysLeft: 14,
+    description: "Help us provide essential school supplies and support for summer education programs for children in need."
   },
   { 
     id: '2', 
@@ -96,7 +99,8 @@ const ACTIVE_CHALLENGES = [
     goal: 5000, 
     current: 2200, 
     participants: 25,
-    daysLeft: 7
+    daysLeft: 7,
+    description: "Support our dedicated teachers with resources and tools they need for effective classroom education."
   },
   { 
     id: '3', 
@@ -104,7 +108,8 @@ const ACTIVE_CHALLENGES = [
     goal: 12000, 
     current: 3600, 
     participants: 32,
-    daysLeft: 21
+    daysLeft: 21,
+    description: "Help equip classrooms with modern technology to enhance learning experiences for students."
   },
 ];
 
@@ -336,11 +341,14 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const [thanksModalOpen, setThanksModalOpen] = useState(false);
   const [selectedAppreciationDonor, setSelectedAppreciationDonor] = useState<any | null>(null);
+  const [joinChallengeModalOpen, setJoinChallengeModalOpen] = useState(false);
+  const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
   const isMobile = useIsMobile();
   const screenWidth = useScreenWidth();
   const isXSmallScreen = useIsBreakpoint(Breakpoint.XS);
   const isSmallScreen = useIsBreakpoint(Breakpoint.SM);
   const { cardSpacing, cardPadding, avatarSize, sectionSpacing, textSpacing, elementSpacing, buttonSpacing } = useResponsivePadding();
+  const { toast } = useToast();
 
   const toggleExpandMessage = (id: string) => {
     setExpandedMessage(expandedMessage === id ? null : id);
@@ -363,6 +371,20 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
     setThanksModalOpen(true);
   };
 
+  const handleOpenJoinChallengeModal = (challenge: Challenge) => {
+    setSelectedChallenge(challenge);
+    setJoinChallengeModalOpen(true);
+  };
+
+  const handleJoinChallenge = async (challengeId: string) => {
+    return new Promise<void>((resolve) => {
+      setTimeout(() => {
+        console.log(`Joined challenge: ${challengeId}`);
+        resolve();
+      }, 1500);
+    });
+  };
+
   return (
     <div className="space-y-6 py-2">
       {/* Welcome Message Modal */}
@@ -380,6 +402,16 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
           open={thanksModalOpen}
           onOpenChange={setThanksModalOpen}
           donor={selectedAppreciationDonor}
+        />
+      )}
+
+      {/* Join Challenge Modal */}
+      {selectedChallenge && (
+        <JoinChallengeModal
+          open={joinChallengeModalOpen}
+          onOpenChange={setJoinChallengeModalOpen}
+          challenge={selectedChallenge}
+          onJoinChallenge={handleJoinChallenge}
         />
       )}
 
@@ -420,7 +452,6 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                 <Button 
                   className="mt-4 bg-purple-600 hover:bg-purple-700 w-full"
                   onClick={() => {
-                    // Ensure we have a valid callback and call it
                     if (onSwitchToDonateTab) {
                       onSwitchToDonateTab();
                     }
@@ -702,7 +733,11 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                     className="h-2 bg-gray-200" 
                   />
                 </div>
-                <Button size="sm" className="w-full bg-purple-600 hover:bg-purple-700">
+                <Button 
+                  size="sm" 
+                  className="w-full bg-purple-600 hover:bg-purple-700"
+                  onClick={() => handleOpenJoinChallengeModal(challenge)}
+                >
                   Join Challenge
                 </Button>
               </div>
@@ -719,4 +754,3 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
 };
 
 export default CommunityTab;
-

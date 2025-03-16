@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import DonationWidget from '../components/DonationWidget/DonationWidget';
 
 const Index = () => {

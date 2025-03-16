@@ -178,7 +178,7 @@ const MILESTONE_CARDS = [
     title: "500 Donors Milestone!",
     subtitle: "Our community keeps growing stronger",
     dateReached: "May 28, 2023",
-    icon: <Confetti className="h-6 w-6 text-yellow-400" />
+    icon: <Star className="h-6 w-6 text-yellow-400" />
   }
 ];
 

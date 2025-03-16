@@ -12,9 +12,9 @@ interface AdminContextType {
   isAdmin: boolean;
   isLoading: boolean;
   connectWallet: () => Promise<void>;
-  updateMetrics: (metrics: any) => Promise<void>;
-  updateAllocation: (allocation: any) => Promise<void>;
-  addImpactStory: (story: any) => Promise<void>;
+  updateMetrics: (metrics: any) => Promise<boolean>;
+  updateAllocation: (allocation: any) => Promise<boolean>;
+  addImpactStory: (story: any) => Promise<boolean>;
   address: string | null;
 }
 
@@ -22,9 +22,9 @@ const AdminContext = createContext<AdminContextType>({
   isAdmin: false,
   isLoading: false,
   connectWallet: async () => {},
-  updateMetrics: async () => {},
-  updateAllocation: async () => {},
-  addImpactStory: async () => {},
+  updateMetrics: async () => false,
+  updateAllocation: async () => false,
+  addImpactStory: async () => false,
   address: null
 });
 
@@ -54,7 +54,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   // For demo purposes, simulating update functions
-  const updateMetrics = async (metrics: any) => {
+  const updateMetrics = async (metrics: any): Promise<boolean> => {
     setIsLoading(true);
     try {
       // In a real app, this would save to a database and potentially record a hash on-chain
@@ -69,7 +69,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
-  const updateAllocation = async (allocation: any) => {
+  const updateAllocation = async (allocation: any): Promise<boolean> => {
     setIsLoading(true);
     try {
       // In a real app, this would save to a database and potentially record a hash on-chain
@@ -83,7 +83,7 @@ export const AdminProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   };
 
-  const addImpactStory = async (story: any) => {
+  const addImpactStory = async (story: any): Promise<boolean> => {
     setIsLoading(true);
     try {
       // In a real app, this would save to a database and potentially record a hash on-chain

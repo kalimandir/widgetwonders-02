@@ -27,6 +27,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import { useIsMobile, useScreenWidth } from "@/hooks/use-mobile";
 
 // Sample data for the top donors leaderboard
 const TOP_DONORS = [
@@ -321,6 +322,8 @@ const getMatchingStateBadge = (state: string) => {
 // Main Community Tab component
 const CommunityTab: React.FC = () => {
   const [expandedMessage, setExpandedMessage] = useState<string | null>(null);
+  const isMobile = useIsMobile();
+  const screenWidth = useScreenWidth();
 
   const toggleExpandMessage = (id: string) => {
     setExpandedMessage(expandedMessage === id ? null : id);
@@ -336,24 +339,30 @@ const CommunityTab: React.FC = () => {
               ACTIVE
             </div>
           </div>
-          <CardContent className="p-4">
-            <div className="flex items-start gap-4">
-              <div className="h-14 w-14 rounded-full bg-purple-100 flex items-center justify-center">
+          <CardContent className={`p-4 ${isMobile ? 'pb-5' : ''}`}>
+            <div className={`flex ${isMobile ? 'flex-col' : 'items-start'} gap-4`}>
+              <div className={`${isMobile ? 'mx-auto mb-2' : ''} h-14 w-14 rounded-full bg-purple-100 flex items-center justify-center`}>
                 <BadgeDollarSign className="h-8 w-8 text-purple-600" />
               </div>
               <div className="flex-1">
-                <div className="flex items-start justify-between">
+                <div className={`flex ${isMobile ? 'flex-col items-center' : 'items-start justify-between'} ${isMobile ? 'text-center' : ''}`}>
                   <div>
                     <h3 className="text-2xl font-bold text-purple-800">{MATCHING_CARDS[0].matchRatio}</h3>
                     <p className="text-gray-700">Sponsored by {MATCHING_CARDS[0].sponsor}</p>
                   </div>
-                  {getMatchingStateBadge(MATCHING_CARDS[0].state)}
+                  {isMobile ? (
+                    <div className="mt-2 mb-3">
+                      {getMatchingStateBadge(MATCHING_CARDS[0].state)}
+                    </div>
+                  ) : (
+                    getMatchingStateBadge(MATCHING_CARDS[0].state)
+                  )}
                 </div>
-                <div className="mt-3 flex items-center text-sm text-gray-600">
+                <div className={`mt-3 flex items-center text-sm text-gray-600 ${isMobile ? 'justify-center' : ''}`}>
                   <Clock className="h-4 w-4 mr-1 text-purple-600" />
                   <span>Ends: {MATCHING_CARDS[0].endDate} ({MATCHING_CARDS[0].timeRemaining} remaining)</span>
                 </div>
-                <div className="mt-1 text-sm text-gray-600">
+                <div className={`mt-1 text-sm text-gray-600 ${isMobile ? 'text-center' : ''}`}>
                   <span>${MATCHING_CARDS[0].remainingFunds.toLocaleString()} matching funds available</span>
                 </div>
                 <Button className="mt-4 bg-purple-600 hover:bg-purple-700 w-full">
@@ -368,39 +377,49 @@ const CommunityTab: React.FC = () => {
       {/* Milestone Card - High priority */}
       {MILESTONE_CARDS.length > 0 && (
         <Card className="border-none shadow-sm overflow-hidden">
-          <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white p-4">
-            <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <div className="flex items-center space-x-2">
+          <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white p-4 relative">
+            <div className={`flex ${isMobile ? 'flex-col' : 'justify-between'} items-start`}>
+              <div className={`flex-1 ${isMobile ? 'mb-4 w-full text-center' : ''}`}>
+                <div className={`flex items-center ${isMobile ? 'justify-center' : ''} space-x-2`}>
                   {MILESTONE_CARDS[0].icon}
                   <h3 className="text-xl font-bold">{MILESTONE_CARDS[0].title}</h3>
                 </div>
-                <p className="mt-2">
+                <p className={`mt-2 ${isMobile ? 'text-center' : ''}`}>
                   ${MILESTONE_CARDS[0].currentAmount?.toLocaleString()} of ${MILESTONE_CARDS[0].goalAmount?.toLocaleString()} goal reached
                 </p>
-                <p className="text-sm mt-1 text-purple-100">
+                <p className={`text-sm mt-1 text-purple-100 ${isMobile ? 'text-center' : ''}`}>
                   Achieved on {MILESTONE_CARDS[0].dateReached}
                 </p>
               </div>
-              <Button variant="secondary" size="sm" className="bg-white text-purple-800 hover:bg-gray-100">
-                <Share2 className="mr-1 h-4 w-4" /> Share
-              </Button>
+              {isMobile ? (
+                <div className="w-full flex justify-center">
+                  <Button variant="secondary" size="sm" className="bg-white text-purple-800 hover:bg-gray-100">
+                    <Share2 className="mr-1 h-4 w-4" /> Share
+                  </Button>
+                </div>
+              ) : (
+                <Button variant="secondary" size="sm" className="bg-white text-purple-800 hover:bg-gray-100">
+                  <Share2 className="mr-1 h-4 w-4" /> Share
+                </Button>
+              )}
             </div>
-            <div className="absolute -bottom-6 -right-6">
-              <Star className="h-24 w-24 text-purple-300/30" />
+            <div className={`absolute ${isMobile ? '-bottom-2 -right-2' : '-bottom-6 -right-6'}`}>
+              <Star className={`${isMobile ? 'h-16 w-16' : 'h-24 w-24'} text-purple-300/30`} />
             </div>
           </div>
         </Card>
       )}
 
       {/* Community Stats Section */}
-      <div className="grid grid-cols-3 gap-3">
+      <div className={`grid ${screenWidth < 380 ? 'grid-cols-1 gap-2' : 'grid-cols-3 gap-3'}`}>
         {COMMUNITY_STATS.map((stat, index) => (
           <Card key={index} className="shadow-sm border-gray-100">
-            <CardContent className="p-3 flex flex-col items-center justify-center text-center">
-              <div className="mb-1">{stat.icon}</div>
-              <span className="text-lg font-bold text-purple-800">{stat.value}</span>
-              <span className="text-xs text-gray-600">{stat.name}</span>
+            <CardContent className={`p-3 flex ${screenWidth < 380 ? 'flex-row justify-between items-center' : 'flex-col items-center justify-center text-center'}`}>
+              <div className={`${screenWidth < 380 ? 'mr-3' : 'mb-1'}`}>{stat.icon}</div>
+              <div className={screenWidth < 380 ? 'flex flex-row items-center' : ''}>
+                <span className="text-lg font-bold text-purple-800">{stat.value}</span>
+                <span className={`text-xs text-gray-600 ${screenWidth < 380 ? 'ml-2' : ''}`}>{stat.name}</span>
+              </div>
             </CardContent>
           </Card>
         ))}
@@ -674,3 +693,4 @@ const CommunityTab: React.FC = () => {
 };
 
 export default CommunityTab;
+

@@ -48,15 +48,6 @@ const TOP_DONORS = [
   },
 ];
 
-// Sample data for recent activity
-const RECENT_ACTIVITY = [
-  { id: '1', name: 'Jordan Lee', ens: 'jlee.eth', amount: 120, timestamp: '10 minutes ago' },
-  { id: '2', name: 'Emma Chang', amount: 75, timestamp: '2 hours ago' },
-  { id: '3', name: 'Daniel Kim', ens: 'dkim.eth', amount: 500, timestamp: '5 hours ago' },
-  { id: '4', name: 'Olivia Park', amount: 25, timestamp: '1 day ago' },
-  { id: '5', name: 'Liam Johnson', ens: 'ljohnson.eth', amount: 150, timestamp: '2 days ago' },
-];
-
 // Sample data for active challenges
 const ACTIVE_CHALLENGES = [
   { 
@@ -166,44 +157,6 @@ const CommunityTab: React.FC = () => {
                 <div className="text-right font-bold">${donor.totalDonated}</div>
               </div>
             ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Recent Activity Section */}
-      <Card className="shadow-sm border-gray-100">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold flex items-center gap-2">
-            <Activity className="h-4 w-4 text-purple-600" />
-            Recent Activity
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-3">
-            {RECENT_ACTIVITY.map((activity) => (
-              <div key={activity.id} className="flex justify-between items-center py-2">
-                <div className="flex items-center gap-3">
-                  <Avatar className="h-8 w-8">
-                    <AvatarFallback className="bg-purple-100 text-purple-800 text-xs">
-                      {activity.name.split(' ').map(n => n[0]).join('')}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <div className="font-medium text-gray-900 text-sm">{activity.name}</div>
-                    {activity.ens && <div className="text-xs text-gray-500">{activity.ens}</div>}
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="font-medium text-sm">${activity.amount}</div>
-                  <div className="text-xs text-gray-500">{activity.timestamp}</div>
-                </div>
-              </div>
-            ))}
-            <div className="pt-2 text-right">
-              <Button variant="link" className="text-purple-600 text-sm p-0 h-auto">
-                View More <ArrowRight className="h-3 w-3 ml-1" />
-              </Button>
-            </div>
           </div>
         </CardContent>
       </Card>

@@ -13,6 +13,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/
 import { Cell, PieChart as RechartsPieChart, Pie, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
 import AdminControls from '../admin/AdminControls';
 import WalletConnect from '../admin/WalletConnect';
+import { openYodlCheckout } from '../../utils/yodl';
 
 interface DonationWidgetProps {
   organizationName: string;
@@ -165,11 +166,18 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
     setIsSubmitting(true);
     
-    setTimeout(() => {
-      console.log(`Donating $${amount} to ${organizationName}`);
+    try {
+      openYodlCheckout({ amount });
+      
+      console.log(`Redirecting to Yodl checkout for $${amount} donation to ${organizationName}`);
+      
+      setTimeout(() => {
+        setIsSubmitting(false);
+      }, 1000);
+    } catch (error) {
+      console.error('Error opening Yodl checkout:', error);
       setIsSubmitting(false);
-      // In a real app, you would submit to your payment processor here
-    }, 1000);
+    }
   };
 
   const getImpactSummary = () => {
@@ -324,7 +332,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                     Processing...
                   </span>
                 ) : (
-                  <span>Donate ${getDonationAmount()}</span>
+                  <span>Donate ${getDonationAmount()} with Yodl</span>
                 )}
               </button>
             </div>

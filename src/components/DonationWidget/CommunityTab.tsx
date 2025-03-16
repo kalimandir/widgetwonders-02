@@ -1,5 +1,29 @@
+
 import React, { useState } from 'react';
-import { Users, Activity, Target, Award, ArrowRight, Megaphone, ArrowRightLeft, Send, ArrowUpRight, ArrowDownLeft, ExternalLink } from "lucide-react";
+import { 
+  Users, 
+  Activity, 
+  Target, 
+  Award, 
+  ArrowRight, 
+  Megaphone, 
+  ArrowRightLeft, 
+  Send, 
+  ArrowUpRight, 
+  ArrowDownLeft, 
+  ExternalLink,
+  Trophy,
+  Timer,
+  Clock,
+  HandWave,
+  Star,
+  Heart,
+  Confetti,
+  Share2,
+  BadgeDollarSign,
+  CalendarClock,
+  Gift
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -142,6 +166,70 @@ const COMMUNITY_MESSAGES = [
   },
 ];
 
+// Sample data for milestone cards
+const MILESTONE_CARDS = [
+  {
+    id: 'm1',
+    title: "We've reached 65% of our goal!",
+    currentAmount: 6500,
+    goalAmount: 10000,
+    dateReached: "June 15, 2023",
+    icon: <Trophy className="h-6 w-6 text-yellow-400" />
+  },
+  {
+    id: 'm2',
+    title: "500 Donors Milestone!",
+    subtitle: "Our community keeps growing stronger",
+    dateReached: "May 28, 2023",
+    icon: <Confetti className="h-6 w-6 text-yellow-400" />
+  }
+];
+
+// Sample data for matching period cards
+const MATCHING_CARDS = [
+  {
+    id: 'mp1',
+    matchRatio: "2X MATCH",
+    sponsor: "The Smith Foundation",
+    endDate: "July 15, 2023",
+    timeRemaining: "2 days, 4 hours",
+    remainingFunds: 25000,
+    state: "active" // active, ending-soon, completed
+  }
+];
+
+// Sample data for new donor welcome cards
+const WELCOME_CARDS = [
+  {
+    id: 'w1',
+    name: "Emily Parker",
+    ens: "emily.eth",
+    avatarUrl: null,
+    initialDonation: 50,
+    joinDate: "July 1, 2023"
+  },
+  {
+    id: 'w2',
+    name: "David Wilson",
+    ens: "davidw.eth",
+    avatarUrl: null,
+    initialDonation: 25,
+    joinDate: "July 3, 2023"
+  }
+];
+
+// Sample data for donor appreciation cards
+const APPRECIATION_CARDS = [
+  {
+    id: 'a1',
+    name: "Sarah Williams",
+    avatarUrl: null,
+    milestone: "10th donation",
+    streak: 10,
+    totalContribution: 750
+  }
+];
+
 // Helper function to generate tier badges
 const getTierBadge = (tier: string) => {
   const tiers: Record<string, { color: string, label: string }> = {
@@ -218,6 +306,21 @@ const formatMemoText = (memo: string, hasUrl: boolean) => {
   });
 };
 
+// Helper function to get state badge for matching period cards
+const getMatchingStateBadge = (state: string) => {
+  const states: Record<string, { color: string, label: string }> = {
+    'active': { color: 'bg-green-100 text-green-800', label: 'Active' },
+    'ending-soon': { color: 'bg-amber-100 text-amber-800', label: 'Ending Soon' },
+    'completed': { color: 'bg-gray-100 text-gray-800', label: 'Completed' },
+  };
+  
+  return (
+    <Badge className={`px-2 py-0.5 rounded-full text-xs ${states[state].color}`}>
+      {states[state].label}
+    </Badge>
+  );
+};
+
 // Main Community Tab component
 const CommunityTab: React.FC = () => {
   const [expandedMessage, setExpandedMessage] = useState<string | null>(null);
@@ -228,6 +331,71 @@ const CommunityTab: React.FC = () => {
 
   return (
     <div className="space-y-6 py-2">
+      {/* Matching Period Card - Pinned at top when active */}
+      {MATCHING_CARDS.length > 0 && MATCHING_CARDS[0].state !== 'completed' && (
+        <Card className="border-2 border-purple-300 bg-purple-50/60 shadow-sm overflow-hidden">
+          <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden">
+            <div className="bg-purple-600 text-white font-bold text-xs py-1 px-6 rotate-45 absolute top-[19px] right-[-21px]">
+              ACTIVE
+            </div>
+          </div>
+          <CardContent className="p-4">
+            <div className="flex items-start gap-4">
+              <div className="h-14 w-14 rounded-full bg-purple-100 flex items-center justify-center">
+                <BadgeDollarSign className="h-8 w-8 text-purple-600" />
+              </div>
+              <div className="flex-1">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold text-purple-800">{MATCHING_CARDS[0].matchRatio}</h3>
+                    <p className="text-gray-700">Sponsored by {MATCHING_CARDS[0].sponsor}</p>
+                  </div>
+                  {getMatchingStateBadge(MATCHING_CARDS[0].state)}
+                </div>
+                <div className="mt-3 flex items-center text-sm text-gray-600">
+                  <Clock className="h-4 w-4 mr-1 text-purple-600" />
+                  <span>Ends: {MATCHING_CARDS[0].endDate} ({MATCHING_CARDS[0].timeRemaining} remaining)</span>
+                </div>
+                <div className="mt-1 text-sm text-gray-600">
+                  <span>${MATCHING_CARDS[0].remainingFunds.toLocaleString()} matching funds available</span>
+                </div>
+                <Button className="mt-4 bg-purple-600 hover:bg-purple-700 w-full">
+                  Donate Now - Get {MATCHING_CARDS[0].matchRatio.split(' ')[0]} Your Impact
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Milestone Card - High priority */}
+      {MILESTONE_CARDS.length > 0 && (
+        <Card className="border-none shadow-sm overflow-hidden">
+          <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white p-4">
+            <div className="flex justify-between items-start">
+              <div className="flex-1">
+                <div className="flex items-center space-x-2">
+                  {MILESTONE_CARDS[0].icon}
+                  <h3 className="text-xl font-bold">{MILESTONE_CARDS[0].title}</h3>
+                </div>
+                <p className="mt-2">
+                  ${MILESTONE_CARDS[0].currentAmount?.toLocaleString()} of ${MILESTONE_CARDS[0].goalAmount?.toLocaleString()} goal reached
+                </p>
+                <p className="text-sm mt-1 text-purple-100">
+                  Achieved on {MILESTONE_CARDS[0].dateReached}
+                </p>
+              </div>
+              <Button variant="secondary" size="sm" className="bg-white text-purple-800 hover:bg-gray-100">
+                <Share2 className="mr-1 h-4 w-4" /> Share
+              </Button>
+            </div>
+            <div className="absolute -bottom-6 -right-6">
+              <Confetti className="h-24 w-24 text-purple-300/30" />
+            </div>
+          </div>
+        </Card>
+      )}
+
       {/* Community Stats Section */}
       <div className="grid grid-cols-3 gap-3">
         {COMMUNITY_STATS.map((stat, index) => (
@@ -285,6 +453,57 @@ const CommunityTab: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* New Donor Welcome Cards */}
+      {WELCOME_CARDS.length > 0 && (
+        <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-blue-50 to-purple-50">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-semibold flex items-center gap-2">
+              <HandWave className="h-4 w-4 text-purple-600" />
+              Welcome New Donors
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {WELCOME_CARDS.map(donor => (
+                <div key={donor.id} className="bg-white rounded-lg p-4 shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <Avatar className="h-12 w-12">
+                      {donor.avatarUrl ? (
+                        <AvatarImage src={donor.avatarUrl} alt={donor.name} />
+                      ) : (
+                        <AvatarFallback className="bg-blue-100 text-blue-800">
+                          {donor.name.split(' ').map(n => n[0]).join('')}
+                        </AvatarFallback>
+                      )}
+                    </Avatar>
+                    <div className="flex-1">
+                      <div className="flex items-center">
+                        <h3 className="font-medium text-gray-900">{donor.name}</h3>
+                        {donor.ens && (
+                          <span className="ml-2 text-sm text-gray-500">{donor.ens}</span>
+                        )}
+                      </div>
+                      <p className="text-sm text-gray-600">
+                        Initial donation: ${donor.initialDonation}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Joined {donor.joinDate}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
+                    <span className="text-sm font-medium text-purple-600">Welcome to our community! 🎉</span>
+                    <Button variant="outline" size="sm" className="text-xs h-8">
+                      Send Welcome
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Community Messages Section */}
       <Card className="shadow-sm border-gray-100">
@@ -357,6 +576,61 @@ const CommunityTab: React.FC = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Donor Appreciation Cards */}
+      {APPRECIATION_CARDS.length > 0 && (
+        <Card className="shadow-sm border-gray-100 bg-gradient-to-r from-amber-50 to-yellow-50">
+          <CardHeader className="pb-2">
+            <CardTitle className="text-base font-semibold flex items-center gap-2">
+              <Star className="h-4 w-4 text-amber-500" />
+              Donor Appreciation
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {APPRECIATION_CARDS.map(donor => (
+                <div key={donor.id} className="bg-white rounded-lg p-4 shadow-sm">
+                  <div className="flex items-center gap-3">
+                    <div className="relative">
+                      <Avatar className="h-12 w-12">
+                        {donor.avatarUrl ? (
+                          <AvatarImage src={donor.avatarUrl} alt={donor.name} />
+                        ) : (
+                          <AvatarFallback className="bg-amber-100 text-amber-800">
+                            {donor.name.split(' ').map(n => n[0]).join('')}
+                          </AvatarFallback>
+                        )}
+                      </Avatar>
+                      <div className="absolute -bottom-1 -right-1 bg-amber-400 rounded-full p-1">
+                        <Gift className="h-3 w-3 text-white" />
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="font-medium text-gray-900">{donor.name}</h3>
+                      <p className="text-sm text-gray-700">
+                        {donor.name.split(' ')[0]}'s {donor.milestone}! 🎉
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Total contribution: ${donor.totalContribution}
+                      </p>
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <span className="text-xl font-bold text-amber-500">{donor.streak}</span>
+                      <span className="text-xs text-gray-500">streak</span>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
+                    <span className="text-sm font-medium text-amber-600">Send a thank you message</span>
+                    <Button variant="outline" size="sm" className="text-xs h-8 border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100">
+                      <Heart className="h-3 w-3 mr-1 text-red-500" /> Thanks
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Active Challenges Section */}
       <Card className="shadow-sm border-gray-100">

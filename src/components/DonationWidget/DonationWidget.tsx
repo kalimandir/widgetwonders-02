@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
@@ -333,7 +332,13 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                 </h3>
                 <div className="flex flex-col items-center justify-center">
                   <div className="h-72 w-full">
-                    <ResponsiveContainer width="100%" height="100%">
+                    <ChartContainer 
+                      config={ALLOCATION_DATA.reduce((acc, curr) => ({ 
+                        ...acc, 
+                        [curr.name]: { color: curr.color } 
+                      }), {})} 
+                      className="h-full"
+                    >
                       <RechartsPieChart margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
                         <ChartTooltip content={<ChartTooltipContent />} />
                         <Pie
@@ -351,7 +356,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                           ))}
                         </Pie>
                       </RechartsPieChart>
-                    </ResponsiveContainer>
+                    </ChartContainer>
                   </div>
                   <div className="grid grid-cols-2 gap-x-6 gap-y-2 w-full max-w-xs mt-2">
                     {ALLOCATION_DATA.map((item) => (

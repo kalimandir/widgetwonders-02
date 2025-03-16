@@ -148,12 +148,12 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
             <div className="flex flex-col gap-1">
               {donor.ens && (
                 <div className="flex justify-between">
-                  <span className="text-sm font-medium">Sending to {donor.name}'s wallet</span>
+                  <span className="text-sm font-medium">Acknowledging donation from</span>
                   <span className="text-sm">{donor.ens}</span>
                 </div>
               )}
               <div className="flex justify-between">
-                <span className="text-sm font-medium">Amount</span>
+                <span className="text-sm font-medium">Donation amount</span>
                 <span className="text-sm">${donor.initialDonation}</span>
               </div>
               <div className="flex justify-between">
@@ -210,7 +210,7 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
             <div className="rounded-md bg-blue-50 p-3 border border-blue-100 space-y-4">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <span className="text-sm font-medium">Tip amount</span>
+                  <span className="text-sm font-medium">Your tip amount</span>
                   <span className="text-sm font-medium text-blue-700">${tipAmount}</span>
                 </div>
                 <Slider
@@ -255,7 +255,9 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
           {/* Blockchain note */}
           <div className="rounded-md bg-blue-50 p-3 border border-blue-100">
             <p className="text-xs text-gray-600">
-              This will create a blockchain transaction. {includeTip && "If you include a tip, you'll need to confirm the payment in your wallet."}
+              {includeTip 
+                ? "This will send a thank you message and your $" + tipAmount + " tip via blockchain."
+                : "This will send a thank you message via blockchain transaction."}
             </p>
             <p className="text-xs text-gray-600 mt-2 flex items-center">
               <Wallet className="h-3 w-3 mr-1 inline" /> Estimated gas fee: ~${gasEstimate.toFixed(2)}
@@ -280,12 +282,12 @@ const WelcomeMessageModal: React.FC<WelcomeMessageModalProps> = ({
             ) : includeTip ? (
               <>
                 <CreditCard className="h-4 w-4" />
-                Send Message + ${tipAmount} Tip
+                Send Thank You + ${tipAmount} Tip
               </>
             ) : (
               <>
                 <Send className="h-4 w-4" />
-                Send Message
+                Send Thank You
               </>
             )}
           </Button>

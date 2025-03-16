@@ -1,5 +1,6 @@
 
 import * as React from "react"
+import { useTheme } from "next-themes"
 
 // Breakpoints for different screen sizes
 export enum Breakpoint {
@@ -71,9 +72,11 @@ export function useActiveBreakpoint() {
   return 'xxl'
 }
 
-// Enhanced responsive spacing and alignment hook
+// Enhanced responsive spacing and alignment hook with theme awareness
 export function useResponsivePadding() {
   const screenWidth = useScreenWidth()
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   
   // Extra small screens (under 340px)
   if (screenWidth < Breakpoint.XS) return {
@@ -83,7 +86,8 @@ export function useResponsivePadding() {
     sectionSpacing: 'space-y-2',
     textSpacing: 'space-y-1.5',
     elementSpacing: 'space-y-3',
-    buttonSpacing: 'mt-3'
+    buttonSpacing: 'mt-3',
+    isDark
   }
   
   // Small screens (340px to 640px)
@@ -94,7 +98,8 @@ export function useResponsivePadding() {
     sectionSpacing: 'space-y-3',
     textSpacing: 'space-y-1.5',
     elementSpacing: 'space-y-4',
-    buttonSpacing: 'mt-4'
+    buttonSpacing: 'mt-4',
+    isDark
   }
   
   // Default (larger screens)
@@ -105,14 +110,17 @@ export function useResponsivePadding() {
     sectionSpacing: 'space-y-4',
     textSpacing: 'space-y-2',
     elementSpacing: 'space-y-4',
-    buttonSpacing: 'mt-5'
+    buttonSpacing: 'mt-5',
+    isDark
   }
 }
 
-// New hook for responsive chart dimensions
+// Responsive chart dimensions hook
 export function useResponsiveChartDimensions() {
   const screenWidth = useScreenWidth()
   const isMobile = screenWidth < MOBILE_BREAKPOINT
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
   
   return {
     pieChart: {
@@ -120,7 +128,25 @@ export function useResponsiveChartDimensions() {
       width: '100%',
       height: isMobile ? 250 : 300,
       centerOffset: isMobile ? { x: 0, y: 0 } : { x: 0, y: 0 },
-      legendLayout: isMobile ? 'horizontal' : 'vertical'
+      legendLayout: isMobile ? 'horizontal' : 'vertical',
+      isDark
     }
+  }
+}
+
+// New hook for theme-related utilities
+export function useThemeUtils() {
+  const { theme, setTheme } = useTheme()
+  const isDark = theme === 'dark'
+  
+  // Toggle between light and dark themes
+  const toggleTheme = () => {
+    setTheme(isDark ? 'light' : 'dark')
+  }
+  
+  return {
+    isDark,
+    toggleTheme,
+    currentTheme: theme
   }
 }

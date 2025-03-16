@@ -48,33 +48,34 @@
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
+    --background: 240 10% 3.9%;
     --foreground: 210 40% 98%;
 
-    --card: 222.2 84% 4.9%;
+    --card: 240 10% 3.9%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 222.2 84% 4.9%;
+    --popover: 240 10% 3.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 259 81% 58%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -131,14 +132,29 @@
     background-color: #F9FAFB;
   }
   
+  .dark .donation-card {
+    @apply border-gray-700 hover:border-gray-600;
+    background-color: #1A1F2C;
+  }
+  
   .donation-card.selected {
     @apply border-purple-200 shadow-md;
     background-color: #F0EBFF; /* Light purple-gray background for selected state */
   }
   
+  .dark .donation-card.selected {
+    @apply border-purple-400 shadow-md;
+    background-color: #2A1A5E; /* Dark purple background for selected state */
+  }
+  
   .donation-card.popular-tier:not(.selected) {
     @apply shadow-md;
     border-color: rgba(64, 22, 173, 0.4); /* Light purple border using new color */
+  }
+  
+  .dark .donation-card.popular-tier:not(.selected) {
+    @apply shadow-md;
+    border-color: rgba(103, 66, 202, 0.6); /* Lighter purple border for dark mode */
   }
   
   .donation-card.popular-tier:not(.selected) .text-gray-800,
@@ -147,8 +163,18 @@
     color: #1F2937; /* Keeping text dark for better readability */
   }
   
+  .dark .donation-card.popular-tier:not(.selected) .text-gray-800,
+  .dark .donation-card.popular-tier:not(.selected) .text-gray-700,
+  .dark .donation-card.popular-tier:not(.selected) .text-gray-500 {
+    color: #D1D5DB; /* Light gray text for dark mode */
+  }
+  
   .donation-card.popular-tier:not(.selected) .border-divider {
     border-color: rgba(64, 22, 173, 0.4); /* Light purple border for dividers using new color */
+  }
+  
+  .dark .donation-card.popular-tier:not(.selected) .border-divider {
+    border-color: rgba(103, 66, 202, 0.6); /* Lighter purple border for dark mode */
   }
   
   .donation-card.popular-tier.selected {
@@ -157,14 +183,36 @@
     color: #1F2937;
   }
   
+  .dark .donation-card.popular-tier.selected {
+    @apply border-purple-400;
+    background-color: #2A1A5E; /* Dark purple background for selected state */
+    color: #F3F4F6;
+  }
+  
   .donation-card.popular-tier.selected .text-gray-800,
   .donation-card.popular-tier.selected .text-gray-700,
   .donation-card.popular-tier.selected .text-gray-500 {
     color: initial;
   }
   
+  .dark .donation-card.popular-tier.selected .text-gray-800 {
+    color: #F9FAFB;
+  }
+  
+  .dark .donation-card.popular-tier.selected .text-gray-700 {
+    color: #E5E7EB;
+  }
+  
+  .dark .donation-card.popular-tier.selected .text-gray-500 {
+    color: #D1D5DB;
+  }
+  
   .donation-card.popular-tier.selected .border-white {
     @apply border-gray-300;
+  }
+  
+  .dark .donation-card.popular-tier.selected .border-white {
+    @apply border-gray-600;
   }
   
   .donation-card.custom-amount {
@@ -177,5 +225,9 @@
            hover:bg-[#33118f] active:scale-[0.98] shadow-md
            hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-donation-purple
            focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .dark .donation-button {
+    @apply hover:bg-[#8968e2] focus:ring-donation-dark-purple;
   }
 }

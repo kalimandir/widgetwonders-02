@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -165,7 +164,7 @@ const ThanksMessageModal: React.FC<ThanksMessageModalProps> = ({
                 <span className="text-sm">{donor.milestone}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm font-medium">Total contribution</span>
+                <span className="text-sm font-medium">{donor.name}'s total contributions</span>
                 <span className="text-sm">${donor.totalContribution}</span>
               </div>
               <div className="flex justify-between">

@@ -5,7 +5,8 @@ import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Progress } from "@/components/ui/progress";
-import { HandHeart } from "lucide-react";
+import { HandHeart, Target, Users, History } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 interface DonationWidgetProps {
   organizationName: string;
@@ -35,7 +36,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   missionStatement,
   logoUrl
 }) => {
-  const [selectedAmount, setSelectedAmount] = useState<number | null>(null); // Changed from 25 to null
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState<string>("");
   const [isCustomActive, setIsCustomActive] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -139,7 +140,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         </div>
 
         <div className={cn(
-          "w-full mb-6 transition-all duration-700 delay-250",
+          "w-full mb-4 transition-all duration-700 delay-250",
           animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
         )}>
           <div className="flex justify-between mb-2">
@@ -156,50 +157,102 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           />
         </div>
 
-        <div className={cn(
-          "w-full flex flex-col gap-3 mb-4 transition-all duration-700 delay-300",
-          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        )}>
-          {PREDEFINED_AMOUNTS.map((amount, index) => (
-            <DonationAmount
-              key={amount}
-              value={amount}
-              selected={selectedAmount === amount}
-              onClick={handleAmountSelect}
-              impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
-              specialItem={SPECIAL_ITEMS[amount as keyof typeof SPECIAL_ITEMS]}
-              isPopular={amount === POPULAR_TIER}
-              boxSize={index + 1}
-              iconType={
-                amount === 5 ? 'supplies' :
-                amount === 10 ? 'day' :
-                amount === 25 ? 'week' :
-                'month'
-              }
-            />
-          ))}
-        </div>
+        {/* Tabs navigation */}
+        <Tabs defaultValue="donate" className="w-full mb-6">
+          <TabsList className="w-full grid grid-cols-4 mb-4">
+            <TabsTrigger value="donate" className="flex flex-col items-center gap-1 py-2">
+              <HandHeart className="h-4 w-4" />
+              <span className="text-xs font-medium">Donate</span>
+            </TabsTrigger>
+            <TabsTrigger value="impact" className="flex flex-col items-center gap-1 py-2">
+              <Target className="h-4 w-4" />
+              <span className="text-xs font-medium">Impact</span>
+            </TabsTrigger>
+            <TabsTrigger value="community" className="flex flex-col items-center gap-1 py-2">
+              <Users className="h-4 w-4" />
+              <span className="text-xs font-medium">Community</span>
+            </TabsTrigger>
+            <TabsTrigger value="history" className="flex flex-col items-center gap-1 py-2">
+              <History className="h-4 w-4" />
+              <span className="text-xs font-medium">History</span>
+            </TabsTrigger>
+          </TabsList>
 
-        <div className={cn(
-          "w-full mb-4 transition-all duration-700 delay-400",
-          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        )}>
-          <CustomAmount
-            active={isCustomActive}
-            value={customAmount}
-            onChange={handleCustomAmountChange}
-            onFocus={handleCustomFocus}
-          />
-        </div>
+          <TabsContent value="donate" className="space-y-4">
+            <div className={cn(
+              "w-full flex flex-col gap-3 mb-4 transition-all duration-700 delay-300",
+              animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            )}>
+              {PREDEFINED_AMOUNTS.map((amount, index) => (
+                <DonationAmount
+                  key={amount}
+                  value={amount}
+                  selected={selectedAmount === amount}
+                  onClick={handleAmountSelect}
+                  impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
+                  specialItem={SPECIAL_ITEMS[amount as keyof typeof SPECIAL_ITEMS]}
+                  isPopular={amount === POPULAR_TIER}
+                  boxSize={index + 1}
+                  iconType={
+                    amount === 5 ? 'supplies' :
+                    amount === 10 ? 'day' :
+                    amount === 25 ? 'week' :
+                    'month'
+                  }
+                />
+              ))}
+            </div>
 
-        {isValidAmount && (
-          <div className={cn(
-            "w-full mb-4 p-3 bg-purple-50 border border-purple-100 rounded-xl text-sm text-purple-800",
-            "transition-all duration-300"
-          )}>
-            {getImpactSummary()}
-          </div>
-        )}
+            <div className={cn(
+              "w-full mb-4 transition-all duration-700 delay-400",
+              animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+            )}>
+              <CustomAmount
+                active={isCustomActive}
+                value={customAmount}
+                onChange={handleCustomAmountChange}
+                onFocus={handleCustomFocus}
+              />
+            </div>
+
+            {isValidAmount && (
+              <div className={cn(
+                "w-full mb-4 p-3 bg-purple-50 border border-purple-100 rounded-xl text-sm text-purple-800",
+                "transition-all duration-300"
+              )}>
+                {getImpactSummary()}
+              </div>
+            )}
+          </TabsContent>
+
+          <TabsContent value="impact">
+            <div className="p-4 text-center bg-purple-50 rounded-xl mb-4">
+              <h3 className="font-semibold text-gray-900 mb-2">Our Impact</h3>
+              <p className="text-sm text-gray-600">
+                Your donations help us provide education to underserved communities.
+                Last year, we reached over 2,000 students.
+              </p>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="community">
+            <div className="p-4 text-center bg-purple-50 rounded-xl mb-4">
+              <h3 className="font-semibold text-gray-900 mb-2">Join Our Community</h3>
+              <p className="text-sm text-gray-600">
+                Connect with other donors and see how your contribution is making a difference.
+              </p>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="history">
+            <div className="p-4 text-center bg-purple-50 rounded-xl mb-4">
+              <h3 className="font-semibold text-gray-900 mb-2">Donation History</h3>
+              <p className="text-sm text-gray-600">
+                Track your past donations and see the impact you've made over time.
+              </p>
+            </div>
+          </TabsContent>
+        </Tabs>
 
         <div className={cn(
           "w-full transition-all duration-700 delay-500",

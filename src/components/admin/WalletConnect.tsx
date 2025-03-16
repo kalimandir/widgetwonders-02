@@ -17,7 +17,7 @@ const WalletConnect: React.FC = () => {
           disabled={isLoading}
           className="text-xs flex items-center gap-1.5 px-4 py-2 h-auto
             bg-white/90 border border-purple-200 text-purple-800 hover:bg-purple-50
-            dark:bg-[#8968e2]/90 dark:border-purple-800/40 dark:text-white dark:hover:bg-[#9d7eeb]
+            dark:bg-donation-dark-gray dark:border-donation-dark-border dark:text-donation-dark-text-secondary dark:hover:bg-donation-dark-gray-medium
             transition-all duration-300"
         >
           <Wallet className="h-3.5 w-3.5" />

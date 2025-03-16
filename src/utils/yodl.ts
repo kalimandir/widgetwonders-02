@@ -29,7 +29,7 @@ export const generateYodlCheckoutUrl = (params: YodlCheckoutParams): string => {
   
   // Debug logs
   console.log('Generated Yodl URL:', url);
-  console.log(`Redirecting to Yodl checkout for $${amount} donation to ${organizationName}`);
+  console.log(`Redirecting to Yodl checkout for $${amount} donation`);
   
   return url;
 };

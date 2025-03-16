@@ -157,6 +157,19 @@ const CommunityTab: React.FC = () => {
         </CardContent>
       </Card>
 
+      {/* Community Stats Section - MOVED HERE as requested */}
+      <div className="grid grid-cols-3 gap-3">
+        {COMMUNITY_STATS.map((stat, index) => (
+          <Card key={index} className="shadow-sm border-gray-100">
+            <CardContent className="p-3 flex flex-col items-center justify-center text-center">
+              <div className="mb-1">{stat.icon}</div>
+              <span className="text-lg font-bold text-purple-800">{stat.value}</span>
+              <span className="text-xs text-gray-600">{stat.name}</span>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
       {/* Recent Activity Section */}
       <Card className="shadow-sm border-gray-100">
         <CardHeader className="pb-2">
@@ -231,19 +244,6 @@ const CommunityTab: React.FC = () => {
           </div>
         </CardContent>
       </Card>
-
-      {/* Community Stats Section */}
-      <div className="grid grid-cols-3 gap-3">
-        {COMMUNITY_STATS.map((stat, index) => (
-          <Card key={index} className="shadow-sm border-gray-100">
-            <CardContent className="p-3 flex flex-col items-center justify-center text-center">
-              <div className="mb-1">{stat.icon}</div>
-              <span className="text-lg font-bold text-purple-800">{stat.value}</span>
-              <span className="text-xs text-gray-600">{stat.name}</span>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
 
       <div className="text-center text-xs text-gray-500 pt-1 pb-2">
         Join the Hope Foundation community and make a difference

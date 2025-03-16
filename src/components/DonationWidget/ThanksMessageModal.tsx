@@ -165,7 +165,7 @@ const ThanksMessageModal: React.FC<ThanksMessageModalProps> = ({
                 <span className="text-sm">{donor.milestone}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-sm font-medium">Total contributions from {donor.name}</span>
+                <span className="text-sm font-medium">Total contributions</span>
                 <span className="text-sm">${donor.totalContribution}</span>
               </div>
               <div className="flex justify-between">

@@ -9,6 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { HandHeart, Target, Users, History, BookOpen, Calendar, BarChart3, PieChart, Award, Image } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { Cell, PieChart as RechartsPieChart, Pie, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
 
@@ -188,43 +189,45 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
       "border border-gray-100",
       animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
     )}>
-      <div className="p-6 flex flex-col items-center">
-        <div className={cn(
-          "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center mb-4 transition-all",
-          "bg-purple-100 duration-700 delay-100",
-          animateIn ? "opacity-100 scale-100" : "opacity-0 scale-95"
-        )}>
-          <HandHeart className="w-8 h-8 text-purple-600" />
-        </div>
-
-        <div className={cn(
-          "text-center mb-5 transition-all duration-700 delay-200",
-          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        )}>
-          <h2 className="text-xl font-bold text-gray-900 mb-1">{organizationName}</h2>
-          <p className="text-sm text-gray-600">{missionStatement}</p>
-        </div>
-
-        <div className={cn(
-          "w-full mb-4 transition-all duration-700 delay-250",
-          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-        )}>
-          <div className="flex justify-between mb-2">
-            <span className="text-sm text-gray-700 font-medium">
-              $3,250 raised
-            </span>
-            <span className="text-sm text-gray-600">
-              $5,000 goal
-            </span>
+      <div className="flex flex-col h-full">
+        <div className="p-6 flex flex-col items-center h-[160px]">
+          <div className={cn(
+            "w-12 h-12 rounded-2xl overflow-hidden flex items-center justify-center mb-4 transition-all mt-6",
+            "bg-purple-100 duration-700 delay-100",
+            animateIn ? "opacity-100 scale-100" : "opacity-0 scale-95"
+          )}>
+            <HandHeart className="w-6 h-6 text-purple-600" />
           </div>
-          <Progress 
-            value={progressValue} 
-            className="h-2.5 bg-gray-100 rounded-full" 
-          />
+
+          <div className={cn(
+            "text-center mb-3 transition-all duration-700 delay-200",
+            animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          )}>
+            <h2 className="text-xl font-bold text-gray-900 mb-1">{organizationName}</h2>
+            <p className="text-sm text-gray-600 mb-4">{missionStatement}</p>
+          </div>
+
+          <div className={cn(
+            "w-full transition-all duration-700 delay-250",
+            animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+          )}>
+            <div className="flex justify-between mb-2">
+              <span className="text-sm text-gray-700 font-medium">
+                $3,250 raised
+              </span>
+              <span className="text-sm text-gray-600">
+                $5,000 goal
+              </span>
+            </div>
+            <Progress 
+              value={progressValue} 
+              className="h-2.5 bg-gray-100 rounded-full" 
+            />
+          </div>
         </div>
 
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-          <TabsList className="w-full grid grid-cols-4">
+        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full flex flex-col flex-1">
+          <TabsList className="w-full grid grid-cols-4 px-4 py-3">
             <TabsTrigger value="donate" className="flex items-center justify-center gap-1.5">
               <HandHeart className="h-5 w-5" />
               {!isMobile && <span>Donate</span>}
@@ -243,82 +246,82 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="donate" className="space-y-4">
-            <div className={cn(
-              "w-full flex flex-col gap-3 mb-4 transition-all duration-700 delay-300",
-              animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            )}>
-              {PREDEFINED_AMOUNTS.map((amount, index) => (
-                <DonationAmount
-                  key={amount}
-                  value={amount}
-                  selected={selectedAmount === amount}
-                  onClick={handleAmountSelect}
-                  impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
-                  specialItem={SPECIAL_ITEMS[amount as keyof typeof SPECIAL_ITEMS]}
-                  isPopular={amount === POPULAR_TIER}
-                  boxSize={index + 1}
-                  iconType={
-                    amount === 5 ? 'supplies' :
-                    amount === 10 ? 'day' :
-                    amount === 25 ? 'week' :
-                    'month'
-                  }
-                />
-              ))}
-            </div>
-
-            <div className={cn(
-              "w-full mb-4 transition-all duration-700 delay-400",
-              animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            )}>
-              <CustomAmount
-                active={isCustomActive}
-                value={customAmount}
-                onChange={handleCustomAmountChange}
-                onFocus={handleCustomFocus}
-              />
-            </div>
-
-            {isValidAmount && (
+          <ScrollArea className="w-full overflow-auto max-h-[calc(100vh-320px)] p-6 pt-6">
+            <TabsContent value="donate" className="space-y-4 min-h-[300px]">
               <div className={cn(
-                "w-full mb-4 p-3 bg-purple-50 border border-purple-100 rounded-xl text-sm text-purple-800",
-                "transition-all duration-300"
+                "w-full flex flex-col gap-3 mb-4 transition-all duration-700 delay-300",
+                animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
               )}>
-                {getImpactSummary()}
+                {PREDEFINED_AMOUNTS.map((amount, index) => (
+                  <DonationAmount
+                    key={amount}
+                    value={amount}
+                    selected={selectedAmount === amount}
+                    onClick={handleAmountSelect}
+                    impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
+                    specialItem={SPECIAL_ITEMS[amount as keyof typeof SPECIAL_ITEMS]}
+                    isPopular={amount === POPULAR_TIER}
+                    boxSize={index + 1}
+                    iconType={
+                      amount === 5 ? 'supplies' :
+                      amount === 10 ? 'day' :
+                      amount === 25 ? 'week' :
+                      'month'
+                    }
+                  />
+                ))}
               </div>
-            )}
-            
-            <div className={cn(
-              "w-full transition-all duration-700 delay-500",
-              animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            )}>
-              <button
-                className="w-full py-3 px-4 bg-donation-purple text-white rounded-xl
-                         text-base font-semibold tracking-wide transition-all duration-300
-                         hover:bg-[#7C3AED] active:scale-[0.98] shadow-md
-                         hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-donation-purple
-                         focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={!isValidAmount || isSubmitting}
-                onClick={handleDonate}
-              >
-                {isSubmitting ? (
-                  <span className="inline-flex items-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing...
-                  </span>
-                ) : (
-                  <span>Donate ${getDonationAmount()}</span>
-                )}
-              </button>
-            </div>
-          </TabsContent>
 
-          <TabsContent value="impact">
-            <div className="space-y-5">
+              <div className={cn(
+                "w-full mb-4 transition-all duration-700 delay-400",
+                animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              )}>
+                <CustomAmount
+                  active={isCustomActive}
+                  value={customAmount}
+                  onChange={handleCustomAmountChange}
+                  onFocus={handleCustomFocus}
+                />
+              </div>
+
+              {isValidAmount && (
+                <div className={cn(
+                  "w-full mb-4 p-3 bg-purple-50 border border-purple-100 rounded-xl text-sm text-purple-800",
+                  "transition-all duration-300"
+                )}>
+                  {getImpactSummary()}
+                </div>
+              )}
+              
+              <div className={cn(
+                "w-full transition-all duration-700 delay-500",
+                animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+              )}>
+                <button
+                  className="w-full py-3 px-4 bg-donation-purple text-white rounded-xl
+                          text-base font-semibold tracking-wide transition-all duration-300
+                          hover:bg-[#7C3AED] active:scale-[0.98] shadow-md
+                          hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-donation-purple
+                          focus:ring-opacity-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={!isValidAmount || isSubmitting}
+                  onClick={handleDonate}
+                >
+                  {isSubmitting ? (
+                    <span className="inline-flex items-center">
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Processing...
+                    </span>
+                  ) : (
+                    <span>Donate ${getDonationAmount()}</span>
+                  )}
+                </button>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="impact" className="space-y-5 min-h-[300px]">
               <div className="grid grid-cols-3 gap-2 mb-4">
                 {IMPACT_METRICS.map((metric) => (
                   <Card key={metric.name} className="shadow-sm border-purple-100">
@@ -419,16 +422,16 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
                   ))}
                 </div>
               </div>
-            </div>
-          </TabsContent>
+            </TabsContent>
 
-          <TabsContent value="community">
-            <CommunityTab onSwitchToDonateTab={() => handleTabChange("donate")} />
-          </TabsContent>
+            <TabsContent value="community" className="min-h-[300px]">
+              <CommunityTab onSwitchToDonateTab={() => handleTabChange("donate")} />
+            </TabsContent>
 
-          <TabsContent value="history">
-            <HistoryTab />
-          </TabsContent>
+            <TabsContent value="history" className="min-h-[300px]">
+              <HistoryTab />
+            </TabsContent>
+          </ScrollArea>
         </Tabs>
       </div>
     </div>

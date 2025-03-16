@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Users, 
@@ -115,9 +116,9 @@ const ACTIVE_CHALLENGES: Challenge[] = [
 
 // Sample data for community stats
 const COMMUNITY_STATS = [
-  { name: 'Total Donors', value: 523, icon: <Users className="h-5 w-5 text-purple-600" /> },
-  { name: 'This Month', value: 82, icon: <Activity className="h-5 w-5 text-purple-600" /> },
-  { name: 'Challenge Participants', value: 137, icon: <Target className="h-5 w-5 text-purple-600" /> },
+  { name: 'Total Donors', value: 523, icon: <Users className="h-5 w-5 text-purple-600 dark:text-purple-400" /> },
+  { name: 'This Month', value: 82, icon: <Activity className="h-5 w-5 text-purple-600 dark:text-purple-400" /> },
+  { name: 'Challenge Participants', value: 137, icon: <Target className="h-5 w-5 text-purple-600 dark:text-purple-400" /> },
 ];
 
 // Sample data for community messages with transaction memos
@@ -245,15 +246,31 @@ const APPRECIATION_CARDS = [
 
 // Helper function to generate tier badges
 const getTierBadge = (tier: string) => {
-  const tiers: Record<string, { color: string, label: string }> = {
-    bronze: { color: 'bg-amber-700 text-amber-100', label: 'Bronze' },
-    silver: { color: 'bg-gray-400 text-gray-800', label: 'Silver' },
-    gold: { color: 'bg-yellow-400 text-yellow-800', label: 'Gold' },
-    platinum: { color: 'bg-purple-600 text-purple-100', label: 'Platinum' },
+  const tiers: Record<string, { color: string, darkColor: string, label: string }> = {
+    bronze: { 
+      color: 'bg-amber-700 text-amber-100', 
+      darkColor: 'bg-amber-700 text-amber-100',
+      label: 'Bronze' 
+    },
+    silver: { 
+      color: 'bg-gray-400 text-gray-800', 
+      darkColor: 'bg-gray-400 text-gray-800',
+      label: 'Silver' 
+    },
+    gold: { 
+      color: 'bg-yellow-400 text-yellow-800', 
+      darkColor: 'bg-yellow-400 text-yellow-800',
+      label: 'Gold' 
+    },
+    platinum: { 
+      color: 'bg-purple-600 text-purple-100', 
+      darkColor: 'bg-purple-500 text-purple-100',
+      label: 'Platinum' 
+    },
   };
   
   return (
-    <Badge className={`ml-2 px-2 py-0.5 rounded-full text-xs ${tiers[tier].color}`}>
+    <Badge className={`ml-2 px-2 py-0.5 rounded-full text-xs ${tiers[tier].color} dark:${tiers[tier].darkColor}`}>
       {tiers[tier].label}
     </Badge>
   );
@@ -268,27 +285,43 @@ const truncateAddress = (address: string) => {
 const getTransactionIcon = (type: string) => {
   switch (type) {
     case 'swap':
-      return <ArrowRightLeft className="h-5 w-5 text-green-600" />;
+      return <ArrowRightLeft className="h-5 w-5 text-green-600 dark:text-green-400" />;
     case 'send':
-      return <ArrowUpRight className="h-5 w-5 text-blue-600" />;
+      return <ArrowUpRight className="h-5 w-5 text-blue-600 dark:text-blue-400" />;
     case 'receive':
-      return <ArrowDownLeft className="h-5 w-5 text-purple-600" />;
+      return <ArrowDownLeft className="h-5 w-5 text-purple-600 dark:text-purple-400" />;
     default:
-      return <Megaphone className="h-5 w-5 text-purple-600" />;
+      return <Megaphone className="h-5 w-5 text-purple-600 dark:text-purple-400" />;
   }
 };
 
 // Helper function to get transaction label
 const getTransactionLabel = (type: string) => {
-  const labels: Record<string, { color: string, label: string }> = {
-    swap: { color: 'bg-purple-100 text-purple-800', label: 'swap' },
-    send: { color: 'bg-blue-100 text-blue-800', label: 'send' },
-    receive: { color: 'bg-green-100 text-green-800', label: 'receive' },
-    announcement: { color: 'bg-amber-100 text-amber-800', label: 'announcement' },
+  const labels: Record<string, { color: string, darkColor: string, label: string }> = {
+    swap: { 
+      color: 'bg-purple-100 text-purple-800', 
+      darkColor: 'bg-purple-900/30 text-purple-300',
+      label: 'swap' 
+    },
+    send: { 
+      color: 'bg-blue-100 text-blue-800', 
+      darkColor: 'bg-blue-900/30 text-blue-300',
+      label: 'send' 
+    },
+    receive: { 
+      color: 'bg-green-100 text-green-800', 
+      darkColor: 'bg-green-900/30 text-green-300',
+      label: 'receive' 
+    },
+    announcement: { 
+      color: 'bg-amber-100 text-amber-800', 
+      darkColor: 'bg-amber-900/30 text-amber-300',
+      label: 'announcement' 
+    },
   };
   
   return (
-    <Badge className={`px-2 py-0.5 rounded-full text-xs ${labels[type].color}`}>
+    <Badge className={`px-2 py-0.5 rounded-full text-xs ${labels[type].color} dark:${labels[type].darkColor}`}>
       {labels[type].label}
     </Badge>
   );
@@ -309,7 +342,7 @@ const formatMemoText = (memo: string, hasUrl: boolean) => {
           href={url} 
           target="_blank" 
           rel="noopener noreferrer"
-          className="text-purple-600 underline inline-flex items-center"
+          className="text-purple-600 dark:text-purple-400 underline inline-flex items-center"
         >
           {part} <ExternalLink className="h-3 w-3 ml-0.5" />
         </a>
@@ -321,14 +354,26 @@ const formatMemoText = (memo: string, hasUrl: boolean) => {
 
 // Helper function to get state badge for matching period cards
 const getMatchingStateBadge = (state: string) => {
-  const states: Record<string, { color: string, label: string }> = {
-    'active': { color: 'bg-green-100 text-green-800', label: 'Active' },
-    'ending-soon': { color: 'bg-amber-100 text-amber-800', label: 'Ending Soon' },
-    'completed': { color: 'bg-gray-100 text-gray-800', label: 'Completed' },
+  const states: Record<string, { color: string, darkColor: string, label: string }> = {
+    'active': { 
+      color: 'bg-green-100 text-green-800', 
+      darkColor: 'bg-green-900/30 text-green-300',
+      label: 'Active' 
+    },
+    'ending-soon': { 
+      color: 'bg-amber-100 text-amber-800', 
+      darkColor: 'bg-amber-900/30 text-amber-300',
+      label: 'Ending Soon' 
+    },
+    'completed': { 
+      color: 'bg-gray-100 text-gray-800', 
+      darkColor: 'bg-gray-700/50 text-gray-300',
+      label: 'Completed' 
+    },
   };
   
   return (
-    <Badge className={`px-2 py-0.5 rounded-full text-xs ${states[state].color}`}>
+    <Badge className={`px-2 py-0.5 rounded-full text-xs ${states[state].color} dark:${states[state].darkColor}`}>
       {states[state].label}
     </Badge>
   );
@@ -417,22 +462,22 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
 
       {/* Matching Period Card - Pinned at top when active */}
       {MATCHING_CARDS.length > 0 && MATCHING_CARDS[0].state !== 'completed' && (
-        <Card className="border-2 border-purple-300 bg-purple-50/60 shadow-sm overflow-hidden">
+        <Card className="border-2 border-purple-300 dark:border-purple-500/50 bg-purple-50/60 dark:bg-purple-900/20 shadow-sm overflow-hidden">
           <div className="absolute top-0 right-0 w-20 h-20 overflow-hidden">
-            <div className="bg-purple-600 text-white font-bold text-xs py-1 px-6 rotate-45 absolute top-[19px] right-[-21px]">
+            <div className="bg-purple-600 dark:bg-purple-500 text-white font-bold text-xs py-1 px-6 rotate-45 absolute top-[19px] right-[-21px]">
               ACTIVE
             </div>
           </div>
           <CardContent className={`p-4 ${isMobile ? 'pb-5' : ''}`}>
             <div className={`flex ${isMobile ? 'flex-col' : 'items-start'} gap-4`}>
-              <div className={`${isMobile ? 'mx-auto mb-2' : ''} h-14 w-14 rounded-full bg-purple-100 flex items-center justify-center`}>
-                <BadgeDollarSign className="h-8 w-8 text-purple-600" />
+              <div className={`${isMobile ? 'mx-auto mb-2' : ''} h-14 w-14 rounded-full bg-purple-100 dark:bg-purple-800/50 flex items-center justify-center`}>
+                <BadgeDollarSign className="h-8 w-8 text-purple-600 dark:text-purple-300" />
               </div>
               <div className="flex-1">
                 <div className={`flex ${isMobile ? 'flex-col items-center' : 'items-start justify-between'} ${isMobile ? 'text-center' : ''}`}>
                   <div>
-                    <h3 className="text-2xl font-bold text-purple-800">{MATCHING_CARDS[0].matchRatio}</h3>
-                    <p className="text-gray-700">Sponsored by {MATCHING_CARDS[0].sponsor}</p>
+                    <h3 className="text-2xl font-bold text-purple-800 dark:text-purple-300">{MATCHING_CARDS[0].matchRatio}</h3>
+                    <p className="text-gray-700 dark:text-donation-dark-text-secondary">Sponsored by {MATCHING_CARDS[0].sponsor}</p>
                   </div>
                   {isMobile ? (
                     <div className="mt-2 mb-3">
@@ -442,15 +487,15 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                     getMatchingStateBadge(MATCHING_CARDS[0].state)
                   )}
                 </div>
-                <div className={`mt-3 flex items-center text-sm text-gray-600 ${isMobile ? 'justify-center' : ''}`}>
-                  <Clock className="h-4 w-4 mr-1 text-purple-600" />
+                <div className={`mt-3 flex items-center text-sm text-gray-600 dark:text-donation-dark-text-secondary ${isMobile ? 'justify-center' : ''}`}>
+                  <Clock className="h-4 w-4 mr-1 text-purple-600 dark:text-purple-400" />
                   <span>Ends: {MATCHING_CARDS[0].endDate} ({MATCHING_CARDS[0].timeRemaining} remaining)</span>
                 </div>
-                <div className={`mt-1 text-sm text-gray-600 ${isMobile ? 'text-center' : ''}`}>
+                <div className={`mt-1 text-sm text-gray-600 dark:text-donation-dark-text-secondary ${isMobile ? 'text-center' : ''}`}>
                   <span>${MATCHING_CARDS[0].remainingFunds.toLocaleString()} matching funds available</span>
                 </div>
                 <Button 
-                  className="mt-4 bg-purple-600 hover:bg-purple-700 w-full"
+                  className="mt-4 bg-purple-600 hover:bg-purple-700 dark:bg-purple-500 dark:hover:bg-purple-600 dark:text-white w-full"
                   onClick={() => {
                     if (onSwitchToDonateTab) {
                       onSwitchToDonateTab();
@@ -468,7 +513,7 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
       {/* Milestone Card - High priority */}
       {MILESTONE_CARDS.length > 0 && (
         <Card className="border-none shadow-sm overflow-hidden">
-          <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white p-4 relative">
+          <div className="bg-gradient-to-r from-purple-500 to-purple-700 dark:from-purple-700 dark:to-purple-900 text-white p-4 relative">
             <div className={`flex ${isMobile ? 'flex-col' : 'justify-between'} items-start`}>
               <div className={`flex-1 ${isMobile ? 'mb-4 w-full text-center' : ''}`}>
                 <div className={`flex items-center ${isMobile ? 'justify-center' : ''} space-x-2`}>
@@ -484,18 +529,18 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
               </div>
               {isMobile ? (
                 <div className="w-full flex justify-center">
-                  <Button variant="secondary" size="sm" className="bg-white text-purple-800 hover:bg-gray-100">
+                  <Button variant="secondary" size="sm" className="bg-white text-purple-800 hover:bg-gray-100 dark:bg-gray-100 dark:hover:bg-gray-200">
                     <Share2 className="mr-1 h-4 w-4" /> Share
                   </Button>
                 </div>
               ) : (
-                <Button variant="secondary" size="sm" className="bg-white text-purple-800 hover:bg-gray-100">
+                <Button variant="secondary" size="sm" className="bg-white text-purple-800 hover:bg-gray-100 dark:bg-gray-100 dark:hover:bg-gray-200">
                   <Share2 className="mr-1 h-4 w-4" /> Share
                 </Button>
               )}
             </div>
             <div className={`absolute ${isMobile ? '-bottom-2 -right-2' : '-bottom-6 -right-6'}`}>
-              <Star className={`${isMobile ? 'h-16 w-16' : 'h-24 w-24'} text-purple-300/30`} />
+              <Star className={`${isMobile ? 'h-16 w-16' : 'h-24 w-24'} text-purple-300/30 dark:text-purple-400/20`} />
             </div>
           </div>
         </Card>
@@ -504,12 +549,12 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
       {/* Community Stats Section */}
       <div className={`grid ${screenWidth < 380 ? 'grid-cols-1 gap-2' : 'grid-cols-3 gap-3'}`}>
         {COMMUNITY_STATS.map((stat, index) => (
-          <Card key={index} className="shadow-sm border-gray-100">
+          <Card key={index} className="shadow-sm border-gray-100 dark:border-donation-dark-border dark:bg-donation-dark-card">
             <CardContent className={`p-3 flex ${screenWidth < 380 ? 'flex-row justify-between items-center' : 'flex-col items-center justify-center text-center'}`}>
               <div className={`${screenWidth < 380 ? 'mr-3' : 'mb-1'}`}>{stat.icon}</div>
               <div className={`${screenWidth < 380 ? 'flex flex-row items-center' : 'text-center'}`}>
-                <span className="text-lg font-bold text-purple-800">{stat.value}</span>
-                <span className={`text-xs text-gray-600 ${screenWidth < 380 ? 'ml-2' : 'block'}`}>{stat.name}</span>
+                <span className="text-lg font-bold text-purple-800 dark:text-purple-300">{stat.value}</span>
+                <span className={`text-xs text-gray-600 dark:text-donation-dark-text-secondary ${screenWidth < 380 ? 'ml-2' : 'block'}`}>{stat.name}</span>
               </div>
             </CardContent>
           </Card>
@@ -517,10 +562,10 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
       </div>
 
       {/* Top Donors Section */}
-      <Card className="shadow-sm border-gray-100">
+      <Card className="shadow-sm border-gray-100 dark:border-donation-dark-border dark:bg-donation-dark-card">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold flex items-center gap-2">
-            <Award className="h-4 w-4 text-purple-600" />
+          <CardTitle className="text-base font-semibold flex items-center gap-2 dark:text-donation-dark-text">
+            <Award className="h-4 w-4 text-purple-600 dark:text-purple-400" />
             Top Donors
           </CardTitle>
         </CardHeader>
@@ -534,7 +579,7 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                   key={donor.id}
                   className={`flex items-center gap-2 py-2 ${isSmallScreen ? 'flex-wrap' : ''}`}
                 >
-                  <div className="text-lg font-semibold text-gray-500 w-6 text-center shrink-0">
+                  <div className="text-lg font-semibold text-gray-500 dark:text-donation-dark-gray-light w-6 text-center shrink-0">
                     {index + 1}
                   </div>
                   <div className="flex items-center flex-1 min-w-0">
@@ -542,18 +587,18 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                       {donor.avatarUrl ? (
                         <AvatarImage src={donor.avatarUrl} alt={donor.name} />
                       ) : (
-                        <AvatarFallback className="bg-purple-100 text-purple-800">
+                        <AvatarFallback className="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-300">
                           {donor.name.split(' ').map(n => n[0]).join('')}
                         </AvatarFallback>
                       )}
                     </Avatar>
                     <div className="min-w-0 flex-1">
-                      <div className={`font-medium text-gray-900 flex ${isSmallScreen ? 'flex-col items-start' : 'items-center'} text-sm`}>
+                      <div className={`font-medium text-gray-900 dark:text-donation-dark-text flex ${isSmallScreen ? 'flex-col items-start' : 'items-center'} text-sm`}>
                         <span className="truncate">{donor.name}</span>
                         {!isSmallScreen && getTierBadge(donor.tier)}
                       </div>
                       {donor.ens && (
-                        <div className="text-xs text-gray-500 truncate">
+                        <div className="text-xs text-gray-500 dark:text-donation-dark-text-secondary truncate">
                           {donor.ens}
                         </div>
                       )}
@@ -564,7 +609,7 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                       )}
                     </div>
                   </div>
-                  <div className={`text-right font-bold ${isSmallScreen ? 'w-full justify-end flex pr-2' : ''}`}>
+                  <div className={`text-right font-bold text-gray-900 dark:text-donation-dark-text ${isSmallScreen ? 'w-full justify-end flex pr-2' : ''}`}>
                     ${donor.totalDonated}
                   </div>
                 </div>
@@ -576,17 +621,17 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
 
       {/* New Donor Welcome Cards - Minimalist layout */}
       {WELCOME_CARDS.length > 0 && (
-        <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-blue-50 to-purple-50">
+        <Card className="shadow-sm border-gray-100 dark:border-donation-dark-border bg-gradient-to-br from-blue-50 to-purple-50 dark:bg-none dark:bg-donation-dark-card">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-semibold flex items-center gap-2">
-              <Award className="h-4 w-4 text-purple-600" />
+            <CardTitle className="text-base font-semibold flex items-center gap-2 dark:text-donation-dark-text">
+              <Award className="h-4 w-4 text-purple-600 dark:text-purple-400" />
               Welcome New Donors
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-2">
             <div className={cardSpacing}>
               {WELCOME_CARDS.map(donor => (
-                <div key={donor.id} className="bg-white rounded-lg shadow-sm">
+                <div key={donor.id} className="bg-white dark:bg-donation-dark-gray rounded-lg shadow-sm">
                   <div className={cardPadding}>
                     <div className="flex justify-between items-start">
                       <div className="flex gap-3">
@@ -594,28 +639,28 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                           {donor.avatarUrl ? (
                             <AvatarImage src={donor.avatarUrl} alt={donor.name} />
                           ) : (
-                            <AvatarFallback className="bg-blue-100 text-blue-800">
+                            <AvatarFallback className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200">
                               {donor.name.split(' ').map(n => n[0]).join('')}
                             </AvatarFallback>
                           )}
                         </Avatar>
                         <div className="min-w-0 flex-1">
-                          <div className="text-gray-900 font-medium">
+                          <div className="text-gray-900 dark:text-donation-dark-text font-medium">
                             {donor.name}
                           </div>
                           {donor.ens && (
-                            <div className="text-sm text-gray-500/80 truncate">
+                            <div className="text-sm text-gray-500/80 dark:text-donation-dark-text-secondary truncate">
                               {donor.ens}
                             </div>
                           )}
-                          <div className="text-xs text-gray-500/70 mt-1 flex items-center">
-                            <Clock3 className="h-3 w-3 mr-1 text-gray-400/80" />
+                          <div className="text-xs text-gray-500/70 dark:text-donation-dark-gray-light mt-1 flex items-center">
+                            <Clock3 className="h-3 w-3 mr-1 text-gray-400/80 dark:text-gray-500" />
                             {donor.joinDate}
                           </div>
                         </div>
                       </div>
                       <div className="flex flex-col items-end">
-                        <span className="font-medium text-lg text-purple-700">
+                        <span className="font-medium text-lg text-purple-700 dark:text-purple-300">
                           ${donor.initialDonation}
                         </span>
                       </div>
@@ -624,7 +669,7 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="w-full justify-center h-10 px-4 border-purple-200 hover:bg-purple-50 hover:text-purple-700"
+                        className="w-full justify-center h-10 px-4 border-purple-200 dark:border-purple-500/30 hover:bg-purple-50 hover:text-purple-700 dark:hover:bg-purple-900/30 dark:text-donation-dark-text dark:hover:text-purple-300"
                         onClick={() => handleOpenWelcomeModal(donor)}
                       >
                         <Send className="h-4 w-4 mr-2" /> Send Welcome
@@ -640,17 +685,17 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
 
       {/* Donor Appreciation Cards - Minimalist layout */}
       {APPRECIATION_CARDS.length > 0 && (
-        <Card className="shadow-sm border-gray-100 bg-gradient-to-r from-amber-50 to-yellow-50">
+        <Card className="shadow-sm border-gray-100 dark:border-donation-dark-border bg-gradient-to-r from-amber-50 to-yellow-50 dark:bg-none dark:bg-donation-dark-card">
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-semibold flex items-center gap-2">
-              <Star className="h-4 w-4 text-amber-500" />
+            <CardTitle className="text-base font-semibold flex items-center gap-2 dark:text-donation-dark-text">
+              <Star className="h-4 w-4 text-amber-500 dark:text-amber-400" />
               Donor Appreciation
             </CardTitle>
           </CardHeader>
           <CardContent className="pt-2">
             <div className={cardSpacing}>
               {APPRECIATION_CARDS.map(donor => (
-                <div key={donor.id} className="bg-white rounded-lg shadow-sm">
+                <div key={donor.id} className="bg-white dark:bg-donation-dark-gray rounded-lg shadow-sm">
                   <div className={cardPadding}>
                     <div className="flex justify-between items-start">
                       <div className="flex gap-3">
@@ -659,42 +704,42 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                             {donor.avatarUrl ? (
                               <AvatarImage src={donor.avatarUrl} alt={donor.name} />
                             ) : (
-                              <AvatarFallback className="bg-amber-100 text-amber-800">
+                              <AvatarFallback className="bg-amber-100 dark:bg-amber-900 text-amber-800 dark:text-amber-200">
                                 {donor.name.split(' ').map(n => n[0]).join('')}
                               </AvatarFallback>
                             )}
                           </Avatar>
-                          <div className="absolute -bottom-1 -right-1 bg-amber-400 rounded-full p-0.5">
+                          <div className="absolute -bottom-1 -right-1 bg-amber-400 dark:bg-amber-500 rounded-full p-0.5">
                             <Gift className="h-3 w-3 text-white" />
                           </div>
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="text-gray-900 font-medium">
+                          <div className="text-gray-900 dark:text-donation-dark-text font-medium">
                             {donor.name}
                           </div>
-                          <div className="text-sm text-amber-600 font-medium">
+                          <div className="text-sm text-amber-600 dark:text-amber-300 font-medium">
                             {donor.milestone}
                           </div>
-                          <div className="text-xs text-gray-500/70 mt-1">
+                          <div className="text-xs text-gray-500/70 dark:text-donation-dark-text-secondary mt-1">
                             Total: ${donor.totalContribution}
                           </div>
                         </div>
                       </div>
-                      <div className="flex flex-col items-center bg-amber-50 px-3 py-1 rounded-lg">
-                        <span className="text-lg font-bold text-amber-500 leading-none">
+                      <div className="flex flex-col items-center bg-amber-50 dark:bg-amber-900/30 px-3 py-1 rounded-lg">
+                        <span className="text-lg font-bold text-amber-500 dark:text-amber-300 leading-none">
                           {donor.streak}
                         </span>
-                        <span className="text-2xs text-amber-600/70">streak</span>
+                        <span className="text-2xs text-amber-600/70 dark:text-amber-400/70">streak</span>
                       </div>
                     </div>
                     <div className={buttonSpacing}>
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="w-full justify-center h-10 px-4 border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100"
+                        className="w-full justify-center h-10 px-4 border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/50"
                         onClick={() => handleOpenThanksModal(donor)}
                       >
-                        <Heart className="h-4 w-4 mr-2 text-red-500" /> Send Thanks
+                        <Heart className="h-4 w-4 mr-2 text-red-500 dark:text-red-400" /> Send Thanks
                       </Button>
                     </div>
                   </div>
@@ -706,36 +751,36 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
       )}
 
       {/* Active Challenges Section */}
-      <Card className="shadow-sm border-gray-100">
+      <Card className="shadow-sm border-gray-100 dark:border-donation-dark-border dark:bg-donation-dark-card">
         <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold flex items-center gap-2">
-            <Target className="h-4 w-4 text-purple-600" />
+          <CardTitle className="text-base font-semibold flex items-center gap-2 dark:text-donation-dark-text">
+            <Target className="h-4 w-4 text-purple-600 dark:text-purple-400" />
             Active Challenges
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {ACTIVE_CHALLENGES.map((challenge) => (
-              <div key={challenge.id} className="bg-gray-50 rounded-lg p-3">
+              <div key={challenge.id} className="bg-gray-50 dark:bg-donation-dark-gray rounded-lg p-3">
                 <div className="flex justify-between items-center mb-2">
-                  <div className="font-medium text-gray-900">{challenge.name}</div>
-                  <Badge variant="timeIndicator">
+                  <div className="font-medium text-gray-900 dark:text-donation-dark-text">{challenge.name}</div>
+                  <Badge variant="timeIndicator" className="bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300">
                     {challenge.daysLeft} days left
                   </Badge>
                 </div>
                 <div className="space-y-1 mb-3">
-                  <div className="flex justify-between text-xs text-gray-600">
+                  <div className="flex justify-between text-xs text-gray-600 dark:text-donation-dark-text-secondary">
                     <span>{challenge.participants} participants</span>
                     <span>${challenge.current} of ${challenge.goal}</span>
                   </div>
                   <Progress 
                     value={(challenge.current / challenge.goal) * 100} 
-                    className="h-2 bg-gray-200" 
+                    className="h-2 bg-gray-200 dark:bg-donation-dark-gray-medium" 
                   />
                 </div>
                 <Button 
                   size="sm" 
-                  className="w-full bg-purple-600 hover:bg-purple-700"
+                  className="w-full bg-purple-600 hover:bg-purple-700 dark:bg-purple-500 dark:hover:bg-purple-600 dark:text-white"
                   onClick={() => handleOpenJoinChallengeModal(challenge)}
                 >
                   Join Challenge
@@ -746,7 +791,7 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
         </CardContent>
       </Card>
 
-      <div className="text-center text-xs text-gray-500 pt-1 pb-2">
+      <div className="text-center text-xs text-gray-500 dark:text-donation-dark-gray-light pt-1 pb-2">
         Join the Hope Foundation community and make a difference
       </div>
     </div>

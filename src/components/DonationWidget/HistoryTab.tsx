@@ -81,17 +81,17 @@ const generateMockTransactions = (): Transaction[] => {
 const getTransactionIcon = (type: TransactionType) => {
   switch (type) {
     case 'swap':
-      return <ArrowRightLeft className="h-5 w-5 text-emerald-500" />;
+      return <ArrowRightLeft className="h-5 w-5 text-emerald-500 dark:text-emerald-400" />;
     case 'transfer':
-      return <ArrowUp className="h-5 w-5 text-emerald-500" />;
+      return <ArrowUp className="h-5 w-5 text-emerald-500 dark:text-emerald-400" />;
     case 'donation':
-      return <HandHeart className="h-5 w-5 text-purple-500" />;
+      return <HandHeart className="h-5 w-5 text-purple-500 dark:text-purple-400" />;
     case 'deposit':
-      return <Wallet className="h-5 w-5 text-blue-500" />;
+      return <Wallet className="h-5 w-5 text-blue-500 dark:text-blue-400" />;
     case 'withdraw':
-      return <ArrowDownRight className="h-5 w-5 text-orange-500" />;
+      return <ArrowDownRight className="h-5 w-5 text-orange-500 dark:text-orange-400" />;
     default:
-      return <CreditCard className="h-5 w-5 text-gray-500" />;
+      return <CreditCard className="h-5 w-5 text-gray-500 dark:text-gray-400" />;
   }
 };
 
@@ -133,8 +133,8 @@ const HistoryTab: React.FC = () => {
   return (
     <div className="space-y-4">
       <div className="mb-2">
-        <h2 className="text-lg font-semibold text-gray-900">Activity</h2>
-        <p className="text-sm text-gray-500">Your donation history and transactions</p>
+        <h2 className="text-lg font-semibold text-gray-900 dark:text-donation-dark-text">Activity</h2>
+        <p className="text-sm text-gray-500 dark:text-donation-dark-text-secondary">Your donation history and transactions</p>
       </div>
 
       {loading ? (
@@ -142,19 +142,19 @@ const HistoryTab: React.FC = () => {
         <div className="space-y-4">
           {[1, 2, 3].map((_, index) => (
             <div key={index} className="space-y-2">
-              <Skeleton className="h-5 w-1/3" />
-              <Skeleton className="h-24 w-full" />
+              <Skeleton className="h-5 w-1/3 dark:bg-donation-dark-gray" />
+              <Skeleton className="h-24 w-full dark:bg-donation-dark-gray" />
             </div>
           ))}
         </div>
       ) : transactions.length === 0 ? (
         // Empty state
         <div className="text-center py-8 px-4">
-          <div className="mx-auto h-12 w-12 rounded-full bg-purple-100 flex items-center justify-center mb-4">
-            <HandHeart className="h-6 w-6 text-purple-600" />
+          <div className="mx-auto h-12 w-12 rounded-full bg-purple-100 dark:bg-donation-dark-selected/60 flex items-center justify-center mb-4">
+            <HandHeart className="h-6 w-6 text-purple-600 dark:text-purple-300" />
           </div>
-          <h3 className="text-lg font-medium text-gray-900">No transactions yet</h3>
-          <p className="mt-2 text-sm text-gray-500">
+          <h3 className="text-lg font-medium text-gray-900 dark:text-donation-dark-text">No transactions yet</h3>
+          <p className="mt-2 text-sm text-gray-500 dark:text-donation-dark-text-secondary">
             Make your first donation to see your activity here.
           </p>
         </div>
@@ -164,34 +164,37 @@ const HistoryTab: React.FC = () => {
           <div className="space-y-6">
             {Object.entries(groupedTransactions).map(([dateGroup, txs]) => (
               <div key={dateGroup} className="space-y-2">
-                <h3 className="text-sm font-medium text-gray-500 mb-3">{dateGroup}</h3>
+                <h3 className="text-sm font-medium text-gray-500 dark:text-donation-dark-text-secondary mb-3">{dateGroup}</h3>
                 <div className="space-y-3">
                   {txs.map((transaction) => (
                     <div 
                       key={transaction.id}
                       className={cn(
-                        "p-3 border border-gray-100 rounded-xl shadow-sm bg-white",
+                        "p-3 border rounded-xl shadow-sm",
                         "transition-all duration-200 hover:shadow-md cursor-pointer",
-                        transaction.expanded ? "bg-purple-50" : ""
+                        transaction.expanded 
+                          ? "bg-purple-50 dark:bg-donation-dark-selected/30 border-purple-100 dark:border-donation-dark-selected" 
+                          : "bg-white dark:bg-donation-dark-card border-gray-100 dark:border-donation-dark-border"
                       )}
                       onClick={() => toggleExpanded(transaction.id)}
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                          <div className="h-10 w-10 bg-green-50 rounded-lg flex items-center justify-center">
+                          <div className="h-10 w-10 bg-green-50 dark:bg-green-900/20 rounded-lg flex items-center justify-center">
                             {getTransactionIcon(transaction.type)}
                           </div>
                           <div>
-                            <div className="font-medium text-gray-800">
+                            <div className="font-medium text-gray-800 dark:text-donation-dark-text">
                               To: {transaction.isEns ? transaction.to : truncateAddress(transaction.to)}
                             </div>
                             <div className="flex items-center space-x-2 mt-1">
-                              <span className="text-sm text-gray-500">{formatTime(transaction.timestamp)}</span>
+                              <span className="text-sm text-gray-500 dark:text-donation-dark-text-secondary">{formatTime(transaction.timestamp)}</span>
                               <Badge 
                                 variant="secondary" 
                                 className={cn(
                                   "text-xs font-medium text-purple-700 bg-purple-100", 
-                                  "hover:bg-purple-100"
+                                  "dark:text-purple-300 dark:bg-purple-900/30",
+                                  "hover:bg-purple-100 dark:hover:bg-purple-900/40"
                                 )}
                               >
                                 {transaction.type}
@@ -200,25 +203,25 @@ const HistoryTab: React.FC = () => {
                           </div>
                         </div>
                         <div className="text-right">
-                          <div className="font-semibold text-gray-900">${transaction.amount.toFixed(2)}</div>
+                          <div className="font-semibold text-gray-900 dark:text-donation-dark-text">${transaction.amount.toFixed(2)}</div>
                         </div>
                       </div>
                       
                       {transaction.expanded && (
-                        <div className="mt-3 pt-3 border-t border-gray-100">
+                        <div className="mt-3 pt-3 border-t border-gray-100 dark:border-donation-dark-border">
                           <div className="grid grid-cols-2 gap-2 text-sm">
-                            <div className="text-gray-500">Transaction ID:</div>
-                            <div className="text-gray-800 font-mono text-xs overflow-hidden truncate">{transaction.id}</div>
-                            <div className="text-gray-500">Full Address:</div>
-                            <div className="text-gray-800 font-mono text-xs overflow-hidden truncate">
+                            <div className="text-gray-500 dark:text-donation-dark-text-secondary">Transaction ID:</div>
+                            <div className="text-gray-800 dark:text-donation-dark-text font-mono text-xs overflow-hidden truncate">{transaction.id}</div>
+                            <div className="text-gray-500 dark:text-donation-dark-text-secondary">Full Address:</div>
+                            <div className="text-gray-800 dark:text-donation-dark-text font-mono text-xs overflow-hidden truncate">
                               {transaction.isEns ? 'ENS: ' + transaction.to : transaction.to}
                             </div>
-                            <div className="text-gray-500">Date & Time:</div>
-                            <div className="text-gray-800">
+                            <div className="text-gray-500 dark:text-donation-dark-text-secondary">Date & Time:</div>
+                            <div className="text-gray-800 dark:text-donation-dark-text">
                               {format(transaction.timestamp, 'PPpp')}
                             </div>
-                            <div className="text-gray-500">Status:</div>
-                            <div className="text-green-600 font-medium">Completed</div>
+                            <div className="text-gray-500 dark:text-donation-dark-text-secondary">Status:</div>
+                            <div className="text-green-600 dark:text-green-400 font-medium">Completed</div>
                           </div>
                         </div>
                       )}

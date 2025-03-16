@@ -56,7 +56,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
           </div>
         </div>
         
-        <p className="text-xs font-medium leading-tight ml-7 mt-1 break-words pr-2 text-gray-700 dark:text-donation-dark-text-secondary">
+        <p className="text-xs font-medium leading-tight ml-7 mt-1 break-words pr-2 text-gray-700 dark:text-donation-dark-text">
           Enter custom amount
         </p>
         

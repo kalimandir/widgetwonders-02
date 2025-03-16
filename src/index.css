@@ -230,4 +230,14 @@
   .dark .donation-button {
     @apply bg-donation-dark-purple hover:bg-donation-dark-purple-light focus:ring-donation-dark-purple-dark;
   }
+  
+  /* Custom variant for badge to show time indicators */
+  .badge-time-indicator {
+    @apply bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/40;
+  }
+  
+  /* Improved dark mode card styles */
+  .dark .card-dark {
+    @apply bg-donation-dark-card border-donation-dark-border;
+  }
 }

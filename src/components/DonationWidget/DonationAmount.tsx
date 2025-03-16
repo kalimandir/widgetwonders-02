@@ -31,13 +31,13 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
   const getIcon = () => {
     switch(iconType) {
       case 'supplies':
-        return <Pencil className="h-6 w-6 text-purple-600" />;
+        return <Pencil className="h-6 w-6 text-[#4016ad]" />;
       case 'day':
-        return <Clock className="h-6 w-6 text-purple-600" />;
+        return <Clock className="h-6 w-6 text-[#4016ad]" />;
       case 'week':
-        return <BookOpen className="h-6 w-6 text-purple-600" />;
+        return <BookOpen className="h-6 w-6 text-[#4016ad]" />;
       case 'month':
-        return <Users className="h-6 w-6 text-purple-600" />;
+        return <Users className="h-6 w-6 text-[#4016ad]" />;
       default:
         return null;
     }
@@ -54,8 +54,8 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
       onClick={() => onClick(value)}
     >
       {isPopular && (
-        <div className="absolute top-0 right-0 bg-white text-purple-600 text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
-          <span className="inline-block h-1.5 w-1.5 bg-purple-600 rounded-full animate-pulse"></span>
+        <div className="absolute top-0 right-0 bg-white text-[#4016ad] text-xs px-2 py-0.5 rounded-full flex items-center gap-1">
+          <span className="inline-block h-1.5 w-1.5 bg-[#4016ad] rounded-full animate-pulse"></span>
           Popular
         </div>
       )}
@@ -65,10 +65,10 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
           <div className="flex items-center gap-2">
             <div className={cn(
               "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0",
-              selected ? "border-purple-500 bg-purple-50" : isPopular ? "border-purple-400" : "border-gray-300",
+              selected ? "border-[#4016ad] bg-purple-50" : isPopular ? "border-[#6742ca]" : "border-gray-300",
               "transition-all duration-200"
             )}>
-              {selected && <div className="w-2.5 h-2.5 bg-purple-500 rounded-full"></div>}
+              {selected && <div className="w-2.5 h-2.5 bg-[#4016ad] rounded-full"></div>}
             </div>
             <span className={cn(
               "text-xl font-bold",
@@ -94,7 +94,7 @@ const DonationAmount: React.FC<DonationAmountProps> = ({
         {specialItem && (
           <div className={cn(
             "ml-7 mt-2 border-l-2 pl-2.5 pr-2",
-            selected ? "border-gray-300" : isPopular ? "border-purple-200" : "border-purple-200"
+            selected ? "border-gray-300" : isPopular ? "border-[#6742ca]/30" : "border-purple-200"
           )}>
             <p className="text-2xs break-words text-gray-500">
               {specialItem}

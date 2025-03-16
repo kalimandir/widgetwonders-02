@@ -31,10 +31,10 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
         <div className="flex items-center w-full gap-2">
           <div className={cn(
             "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0",
-            active ? "border-purple-500 bg-purple-50" : "border-gray-300",
+            active ? "border-[#4016ad] bg-purple-50" : "border-gray-300",
             "transition-all duration-200"
           )}>
-            {active && <div className="w-2.5 h-2.5 bg-purple-500 rounded-full"></div>}
+            {active && <div className="w-2.5 h-2.5 bg-[#4016ad] rounded-full"></div>}
           </div>
           
           <div className="flex items-center flex-1 overflow-hidden">
@@ -60,7 +60,7 @@ const CustomAmount: React.FC<CustomAmountProps> = ({
         
         <div className={cn(
           "ml-7 mt-2 border-l-2 pl-2.5 pr-2",
-          active ? "border-gray-300" : "border-purple-200"
+          active ? "border-gray-300" : "border-[#6742ca]/30"
         )}>
           <p className="text-2xs break-words text-gray-500">
             Receive benefits based on donation level

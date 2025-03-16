@@ -64,9 +64,9 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				donation: {
-					purple: '#7C3AED',
-					'purple-light': '#9F7AEA',
-					'purple-dark': '#6B21A8',
+					purple: '#4016ad',
+					'purple-light': '#6742ca',
+					'purple-dark': '#33118f',
 					gray: '#F7F7F7',
 					'gray-medium': '#E5E5E5',
 					'gray-dark': '#6B7280'

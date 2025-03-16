@@ -27,7 +27,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import { useIsMobile, useScreenWidth, useIsBreakpoint, Breakpoint } from "@/hooks/use-mobile";
+import { useIsMobile, useScreenWidth, useIsBreakpoint, Breakpoint, useResponsivePadding } from "@/hooks/use-mobile";
 
 // Sample data for the top donors leaderboard
 const TOP_DONORS = [
@@ -326,6 +326,7 @@ const CommunityTab: React.FC = () => {
   const screenWidth = useScreenWidth();
   const isXSmallScreen = useIsBreakpoint(Breakpoint.XS);
   const isSmallScreen = useIsBreakpoint(Breakpoint.SM);
+  const responsivePadding = useResponsivePadding();
 
   const toggleExpandMessage = (id: string) => {
     setExpandedMessage(expandedMessage === id ? null : id);
@@ -483,7 +484,7 @@ const CommunityTab: React.FC = () => {
         </CardContent>
       </Card>
 
-      {/* New Donor Welcome Cards */}
+      {/* New Donor Welcome Cards - Updated for better mobile layout */}
       {WELCOME_CARDS.length > 0 && (
         <Card className="shadow-sm border-gray-100 bg-gradient-to-br from-blue-50 to-purple-50">
           <CardHeader className="pb-2">
@@ -492,14 +493,15 @@ const CommunityTab: React.FC = () => {
               Welcome New Donors
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
+          <CardContent className="pt-2">
+            <div className="space-y-3">
               {WELCOME_CARDS.map(donor => (
-                <div key={donor.id} className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="flex flex-col space-y-3">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center">
-                        <Avatar className="h-10 w-10 mr-3">
+                <div key={donor.id} className="bg-white rounded-lg shadow-sm">
+                  <div className="p-4">
+                    {/* Main donor info area */}
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center min-w-0 flex-1">
+                        <Avatar className="h-12 w-12 mr-3 shrink-0">
                           {donor.avatarUrl ? (
                             <AvatarImage src={donor.avatarUrl} alt={donor.name} />
                           ) : (
@@ -508,28 +510,30 @@ const CommunityTab: React.FC = () => {
                             </AvatarFallback>
                           )}
                         </Avatar>
-                        <div className="min-w-0">
-                          <h3 className="font-medium text-gray-900">{donor.name}</h3>
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-medium text-gray-900 truncate">{donor.name}</h3>
                           {donor.ens && (
-                            <div className="text-sm text-gray-500">{donor.ens}</div>
+                            <div className="text-sm text-gray-500 truncate">{donor.ens}</div>
                           )}
                         </div>
                       </div>
                       <div className="text-right">
-                        <p className="text-sm text-gray-600">
-                          Initial donation:
-                        </p>
-                        <p className="font-medium">${donor.initialDonation}</p>
+                        <p className="text-xs text-gray-600">Initial donation:</p>
+                        <p className="font-medium text-lg">${donor.initialDonation}</p>
                       </div>
                     </div>
-                    <p className="text-xs text-gray-500">
+                    
+                    {/* Join date */}
+                    <p className="text-xs text-gray-500 mb-3">
                       Joined {donor.joinDate}
                     </p>
-                    <div className="pt-3 border-t border-gray-100 flex justify-between items-center">
-                      <span className="text-sm text-purple-600">
+                    
+                    {/* Welcome message and action button */}
+                    <div className="pt-2 border-t border-gray-100 flex flex-wrap justify-between items-center gap-2">
+                      <span className="text-sm text-purple-600 font-medium">
                         Welcome to our community! 🎉
                       </span>
-                      <Button variant="outline" size="sm" className="text-xs h-8">
+                      <Button variant="outline" size="sm" className="h-8 whitespace-nowrap">
                         Send Welcome
                       </Button>
                     </div>
@@ -541,7 +545,7 @@ const CommunityTab: React.FC = () => {
         </Card>
       )}
 
-      {/* Donor Appreciation Cards */}
+      {/* Donor Appreciation Cards - Updated for better mobile layout */}
       {APPRECIATION_CARDS.length > 0 && (
         <Card className="shadow-sm border-gray-100 bg-gradient-to-r from-amber-50 to-yellow-50">
           <CardHeader className="pb-2">
@@ -550,15 +554,16 @@ const CommunityTab: React.FC = () => {
               Donor Appreciation
             </CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
+          <CardContent className="pt-2">
+            <div className="space-y-3">
               {APPRECIATION_CARDS.map(donor => (
-                <div key={donor.id} className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="flex flex-col space-y-3">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center">
-                        <div className="relative mr-3">
-                          <Avatar className="h-10 w-10">
+                <div key={donor.id} className="bg-white rounded-lg shadow-sm">
+                  <div className="p-4">
+                    {/* Main donor info area */}
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center min-w-0 flex-1">
+                        <div className="relative mr-3 shrink-0">
+                          <Avatar className="h-12 w-12">
                             {donor.avatarUrl ? (
                               <AvatarImage src={donor.avatarUrl} alt={donor.name} />
                             ) : (
@@ -571,9 +576,9 @@ const CommunityTab: React.FC = () => {
                             <Gift className="h-3 w-3 text-white" />
                           </div>
                         </div>
-                        <div className="min-w-0">
-                          <h3 className="font-medium text-gray-900">{donor.name}</h3>
-                          <p className="text-sm text-gray-700">
+                        <div className="min-w-0 flex-1">
+                          <h3 className="font-medium text-gray-900 truncate">{donor.name}</h3>
+                          <p className="text-sm text-gray-700 truncate">
                             {donor.name.split(' ')[0]}'s {donor.milestone}! 🎉
                           </p>
                         </div>
@@ -583,17 +588,21 @@ const CommunityTab: React.FC = () => {
                         <span className="text-xs text-gray-500">streak</span>
                       </div>
                     </div>
-                    <p className="text-xs text-gray-500">
+                    
+                    {/* Total contribution */}
+                    <p className="text-xs text-gray-500 mb-3">
                       Total: ${donor.totalContribution}
                     </p>
-                    <div className="pt-3 border-t border-gray-100 flex justify-between items-center">
+                    
+                    {/* Thank you message and action button */}
+                    <div className="pt-2 border-t border-gray-100 flex flex-wrap justify-between items-center gap-2">
                       <span className="text-sm font-medium text-amber-600">
-                        Send a thank you message
+                        Send a thank you
                       </span>
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        className="text-xs h-8 border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100"
+                        className="h-8 border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 whitespace-nowrap"
                       >
                         <Heart className="h-3 w-3 mr-1 text-red-500" /> Thanks
                       </Button>

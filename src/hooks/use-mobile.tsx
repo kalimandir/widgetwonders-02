@@ -70,3 +70,12 @@ export function useActiveBreakpoint() {
   if (screenWidth < Breakpoint.XL) return 'xl'
   return 'xxl'
 }
+
+// New helper hook to get optimal padding based on screen size
+export function useResponsivePadding() {
+  const screenWidth = useScreenWidth()
+  
+  if (screenWidth < Breakpoint.XS) return 'px-2 py-3'
+  if (screenWidth < Breakpoint.SM) return 'px-3 py-4'
+  return 'px-4 py-4'
+}

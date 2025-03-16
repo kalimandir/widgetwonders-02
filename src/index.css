@@ -124,6 +124,9 @@
 }
 
 @layer components {
+  /* Remove any ribbon-related CSS classes if they exist */
+  
+  /* Keep the rest of the component classes */
   .donation-card {
     @apply flex items-start p-4 rounded-xl 
            cursor-pointer transition-all duration-300

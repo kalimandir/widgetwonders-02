@@ -3,7 +3,6 @@ import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
 import CommunityTab from './CommunityTab';
-import HistoryTab from './HistoryTab';
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Progress } from "@/components/ui/progress";
 import { HandHeart, Target, Users, History, BookOpen, Calendar, BarChart3, PieChart, Award, Image } from "lucide-react";
@@ -418,7 +417,12 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           </TabsContent>
 
           <TabsContent value="history">
-            <HistoryTab />
+            <div className="p-4 text-center bg-purple-50 rounded-xl mb-4">
+              <h3 className="font-semibold text-gray-900 mb-2">Donation History</h3>
+              <p className="text-sm text-gray-600">
+                Track your past donations and see the impact you've made over time.
+              </p>
+            </div>
           </TabsContent>
         </Tabs>
       </div>

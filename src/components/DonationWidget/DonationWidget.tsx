@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
@@ -217,7 +216,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
         </div>
 
         <Tabs defaultValue="donate" className="w-full mb-6">
-          <TabsList className="w-full grid grid-cols-5 mb-4 min-h-[70px]">
+          <TabsList className="w-full grid grid-cols-4 mb-4 min-h-[70px]">
             <TabsTrigger value="donate" className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full">
               <HandHeart className="h-5 w-5" />
               <span className="text-xs font-medium w-full text-center">Donate</span>
@@ -233,10 +232,6 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
             <TabsTrigger value="history" className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full">
               <History className="h-5 w-5" />
               <span className="text-xs font-medium w-full text-center">History</span>
-            </TabsTrigger>
-            <TabsTrigger value="more" className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full">
-              <BookOpen className="h-5 w-5" />
-              <span className="text-xs font-medium w-full text-center">More</span>
             </TabsTrigger>
           </TabsList>
 
@@ -426,15 +421,6 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
               <h3 className="font-semibold text-gray-900 mb-2">Donation History</h3>
               <p className="text-sm text-gray-600">
                 Track your past donations and see the impact you've made over time.
-              </p>
-            </div>
-          </TabsContent>
-          
-          <TabsContent value="more">
-            <div className="p-4 text-center bg-purple-50 rounded-xl mb-4">
-              <h3 className="font-semibold text-gray-900 mb-2">Additional Resources</h3>
-              <p className="text-sm text-gray-600">
-                Learn more about our mission and other ways to get involved.
               </p>
             </div>
           </TabsContent>

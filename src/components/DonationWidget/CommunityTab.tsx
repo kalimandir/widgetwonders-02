@@ -1,7 +1,10 @@
 
 import React, { useState } from 'react';
 import { cn } from "@/lib/utils";
-import { Award, Calendar, Filter, History, MessageSquare, Target, Users, UserPlus, Flag, User, Link, Plus } from "lucide-react";
+import { 
+  Award, Calendar, History, MessageSquare, Target, 
+  Users, UserPlus, Flag, User, Link, Plus, Activity
+} from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
@@ -202,33 +205,51 @@ const CommunityTab: React.FC = () => {
   const [leaderboardFilter, setLeaderboardFilter] = useState<'all' | 'month' | 'week'>('all');
   const [viewType, setViewType] = useState<'individual' | 'group'>('individual');
   const [selectedChallenge, setSelectedChallenge] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<'leaderboard' | 'activity' | 'challenges' | 'social'>('leaderboard');
   
   const filteredDonors = SAMPLE_DONORS.sort((a, b) => b.totalDonated - a.totalDonated);
   
   return (
     <div className="space-y-4">
-      <Tabs defaultValue="leaderboard" className="w-full">
-        <TabsList className="w-full grid grid-cols-4">
-          <TabsTrigger value="leaderboard" className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full">
-            <Award className="h-5 w-5" />
-            <span className="text-xs font-medium">Leaderboard</span>
-          </TabsTrigger>
-          <TabsTrigger value="activity" className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full">
-            <History className="h-5 w-5" />
-            <span className="text-xs font-medium">Activity</span>
-          </TabsTrigger>
-          <TabsTrigger value="challenges" className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full">
-            <Target className="h-5 w-5" />
-            <span className="text-xs font-medium">Challenges</span>
-          </TabsTrigger>
-          <TabsTrigger value="social" className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full">
-            <Users className="h-5 w-5" />
-            <span className="text-xs font-medium">Social</span>
-          </TabsTrigger>
-        </TabsList>
+      {/* Community Navigation */}
+      <div className="grid grid-cols-4 gap-2 mb-4">
+        <Button 
+          variant={activeSection === 'leaderboard' ? 'default' : 'outline'} 
+          onClick={() => setActiveSection('leaderboard')}
+          className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full"
+        >
+          <Award className="h-5 w-5" />
+          <span className="text-xs font-medium">Leaderboard</span>
+        </Button>
+        <Button 
+          variant={activeSection === 'activity' ? 'default' : 'outline'} 
+          onClick={() => setActiveSection('activity')}
+          className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full"
+        >
+          <Activity className="h-5 w-5" />
+          <span className="text-xs font-medium">Activity</span>
+        </Button>
+        <Button 
+          variant={activeSection === 'challenges' ? 'default' : 'outline'} 
+          onClick={() => setActiveSection('challenges')}
+          className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full"
+        >
+          <Target className="h-5 w-5" />
+          <span className="text-xs font-medium">Challenges</span>
+        </Button>
+        <Button 
+          variant={activeSection === 'social' ? 'default' : 'outline'} 
+          onClick={() => setActiveSection('social')}
+          className="flex flex-col items-center justify-center gap-1.5 py-2 px-1 h-full"
+        >
+          <Users className="h-5 w-5" />
+          <span className="text-xs font-medium">Social</span>
+        </Button>
+      </div>
 
-        {/* Leaderboard Content */}
-        <TabsContent value="leaderboard" className="space-y-4">
+      {/* Leaderboard View */}
+      {activeSection === 'leaderboard' && (
+        <div className="space-y-4">
           <div className="flex justify-between items-center mb-2">
             <div className="flex space-x-2">
               <Button 
@@ -317,60 +338,62 @@ const CommunityTab: React.FC = () => {
               ))}
             </TableBody>
           </Table>
-        </TabsContent>
+        </div>
+      )}
 
-        {/* Activity Feed Content */}
-        <TabsContent value="activity" className="space-y-4">
-          <div className="space-y-3">
-            {SAMPLE_ACTIVITIES.map((activity) => (
-              <Card key={activity.id} className="shadow-sm">
-                <CardContent className="p-3">
-                  <div className="flex items-start gap-3">
-                    <Avatar className="h-10 w-10">
-                      {activity.donorAvatarUrl ? (
-                        <AvatarImage src={activity.donorAvatarUrl} alt={activity.donorName} />
-                      ) : (
-                        <AvatarFallback className="bg-purple-100 text-purple-800">
-                          {activity.donorName.charAt(0)}
-                        </AvatarFallback>
-                      )}
-                    </Avatar>
-                    <div className="flex-1">
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <span className="font-medium">{activity.donorName}</span>
-                          {activity.donorEns && (
-                            <span className="text-xs text-muted-foreground ml-1">
-                              ({activity.donorEns})
-                            </span>
-                          )}
-                          <span className="text-sm"> donated </span>
-                          <span className="font-semibold text-purple-700">${activity.amount}</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">
-                          {formatTimeAgo(activity.timestamp)}
-                        </span>
+      {/* Activity Feed View */}
+      {activeSection === 'activity' && (
+        <div className="space-y-3">
+          {SAMPLE_ACTIVITIES.map((activity) => (
+            <Card key={activity.id} className="shadow-sm">
+              <CardContent className="p-3">
+                <div className="flex items-start gap-3">
+                  <Avatar className="h-10 w-10">
+                    {activity.donorAvatarUrl ? (
+                      <AvatarImage src={activity.donorAvatarUrl} alt={activity.donorName} />
+                    ) : (
+                      <AvatarFallback className="bg-purple-100 text-purple-800">
+                        {activity.donorName.charAt(0)}
+                      </AvatarFallback>
+                    )}
+                  </Avatar>
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <span className="font-medium">{activity.donorName}</span>
+                        {activity.donorEns && (
+                          <span className="text-xs text-muted-foreground ml-1">
+                            ({activity.donorEns})
+                          </span>
+                        )}
+                        <span className="text-sm"> donated </span>
+                        <span className="font-semibold text-purple-700">${activity.amount}</span>
                       </div>
-                      {activity.message && (
-                        <div className="mt-1.5 p-2 bg-purple-50 rounded-md text-sm text-gray-700">
-                          <MessageSquare className="inline-block h-3.5 w-3.5 mr-1.5 text-purple-600" />
-                          "{activity.message}"
-                        </div>
-                      )}
+                      <span className="text-xs text-muted-foreground">
+                        {formatTimeAgo(activity.timestamp)}
+                      </span>
                     </div>
+                    {activity.message && (
+                      <div className="mt-1.5 p-2 bg-purple-50 rounded-md text-sm text-gray-700">
+                        <MessageSquare className="inline-block h-3.5 w-3.5 mr-1.5 text-purple-600" />
+                        "{activity.message}"
+                      </div>
+                    )}
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
 
-            <Button variant="outline" className="w-full text-sm" size="sm">
-              Load More
-            </Button>
-          </div>
-        </TabsContent>
+          <Button variant="outline" className="w-full text-sm" size="sm">
+            Load More
+          </Button>
+        </div>
+      )}
 
-        {/* Challenges Content */}
-        <TabsContent value="challenges" className="space-y-4">
+      {/* Challenges View */}
+      {activeSection === 'challenges' && (
+        <div className="space-y-4">
           <div className="flex justify-between items-center mb-3">
             <h3 className="text-sm font-medium">Active Challenges</h3>
             <Button size="sm" className="h-8">
@@ -454,10 +477,12 @@ const CommunityTab: React.FC = () => {
               </Card>
             ))}
           </div>
-        </TabsContent>
+        </div>
+      )}
 
-        {/* Social Content */}
-        <TabsContent value="social" className="space-y-4">
+      {/* Social View */}
+      {activeSection === 'social' && (
+        <div className="space-y-4">
           <Card>
             <CardContent className="p-4">
               <div className="text-center space-y-2">
@@ -520,8 +545,8 @@ const CommunityTab: React.FC = () => {
               View All Community Members
             </Button>
           </div>
-        </TabsContent>
-      </Tabs>
+        </div>
+      )}
 
       <div className="text-xs text-center text-muted-foreground">
         <p>Connect with the Hope Foundation community</p>

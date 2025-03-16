@@ -33,6 +33,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { useIsMobile, useScreenWidth, useIsBreakpoint, Breakpoint, useResponsivePadding } from "@/hooks/use-mobile";
+import WelcomeMessageModal from "./WelcomeMessageModal";
 
 interface CommunityTabProps {
   onSwitchToDonateTab: () => void; // Make this required, not optional
@@ -331,6 +332,8 @@ const getMatchingStateBadge = (state: string) => {
 // Main Community Tab component
 const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
   const [expandedMessage, setExpandedMessage] = useState<string | null>(null);
+  const [selectedDonor, setSelectedDonor] = useState<any | null>(null);
+  const [welcomeModalOpen, setWelcomeModalOpen] = useState(false);
   const isMobile = useIsMobile();
   const screenWidth = useScreenWidth();
   const isXSmallScreen = useIsBreakpoint(Breakpoint.XS);
@@ -341,8 +344,22 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
     setExpandedMessage(expandedMessage === id ? null : id);
   };
 
+  const handleOpenWelcomeModal = (donor: any) => {
+    setSelectedDonor(donor);
+    setWelcomeModalOpen(true);
+  };
+
   return (
     <div className="space-y-6 py-2">
+      {/* Welcome Message Modal */}
+      {selectedDonor && (
+        <WelcomeMessageModal
+          open={welcomeModalOpen}
+          onOpenChange={setWelcomeModalOpen}
+          donor={selectedDonor}
+        />
+      )}
+
       {/* Matching Period Card - Pinned at top when active */}
       {MATCHING_CARDS.length > 0 && MATCHING_CARDS[0].state !== 'completed' && (
         <Card className="border-2 border-purple-300 bg-purple-50/60 shadow-sm overflow-hidden">
@@ -554,6 +571,7 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                         variant="outline" 
                         size="sm" 
                         className="w-full justify-center h-10 px-4 border-purple-200 hover:bg-purple-50 hover:text-purple-700"
+                        onClick={() => handleOpenWelcomeModal(donor)}
                       >
                         <Send className="h-4 w-4 mr-2" /> Send Welcome
                       </Button>

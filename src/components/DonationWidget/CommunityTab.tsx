@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Users, 
@@ -436,9 +435,9 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
           <Card key={index} className="shadow-sm border-gray-100">
             <CardContent className={`p-3 flex ${screenWidth < 380 ? 'flex-row justify-between items-center' : 'flex-col items-center justify-center text-center'}`}>
               <div className={`${screenWidth < 380 ? 'mr-3' : 'mb-1'}`}>{stat.icon}</div>
-              <div className={screenWidth < 380 ? 'flex flex-row items-center' : ''}>
+              <div className={`${screenWidth < 380 ? 'flex flex-row items-center' : 'text-center'}`}>
                 <span className="text-lg font-bold text-purple-800">{stat.value}</span>
-                <span className={`text-xs text-gray-600 ${screenWidth < 380 ? 'ml-2' : ''}`}>{stat.name}</span>
+                <span className={`text-xs text-gray-600 ${screenWidth < 380 ? 'ml-2' : 'block'}`}>{stat.name}</span>
               </div>
             </CardContent>
           </Card>

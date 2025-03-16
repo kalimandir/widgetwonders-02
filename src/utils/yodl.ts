@@ -16,29 +16,24 @@ interface YodlCheckoutParams {
 export const generateYodlCheckoutUrl = (params: YodlCheckoutParams): string => {
   const { amount, token = 'ETH', chain = 'ethereum', organizationName } = params;
   
-  // First explicitly get the ENS address from config
-  const ensRecipient = donationConfig.recipient;
+  // Get the recipient address from config
+  const recipient = donationConfig.recipient;
   
-  // Build the complete URL for Yodl checkout
-  // Using URLSearchParams to ensure proper encoding
-  const queryParams = new URLSearchParams();
+  // Directly build the URL with query parameters to ensure correct format
+  // Note: We're not using URLSearchParams to have more control over the URL structure
+  const baseUrl = `${donationConfig.host}/send`;
   
-  // Always add the recipient first and ensure it's properly encoded
-  queryParams.set('to', ensRecipient); // Changed from 'recipient' to 'to'
-  
-  // Add other parameters
-  queryParams.set('amount', amount.toString());
-  queryParams.set('token', token);
-  queryParams.set('chain', chain);
-  queryParams.set('redirectUrl', donationConfig.redirectUrl);
-  
-  // Build the URL with the /send endpoint
-  const url = `${donationConfig.host}/send?${queryParams.toString()}`;
+  // Manually construct query string with recipient as first parameter
+  let url = `${baseUrl}?to=${encodeURIComponent(recipient)}`;
+  url += `&amount=${encodeURIComponent(amount.toString())}`;
+  url += `&token=${encodeURIComponent(token)}`;
+  url += `&chain=${encodeURIComponent(chain)}`;
+  url += `&redirectUrl=${encodeURIComponent(donationConfig.redirectUrl)}`;
   
   // Enhanced debugging logs
   console.log('Generated Yodl URL:', url);
   console.log(`Redirecting to Yodl checkout for $${amount} donation`);
-  console.log('Using ENS recipient:', ensRecipient);
+  console.log('Using ENS recipient:', recipient);
   
   return url;
 };

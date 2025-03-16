@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { 
   Users, 
@@ -28,7 +27,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
-import { useIsMobile, useScreenWidth } from "@/hooks/use-mobile";
+import { useIsMobile, useScreenWidth, useIsBreakpoint, Breakpoint } from "@/hooks/use-mobile";
 
 // Sample data for the top donors leaderboard
 const TOP_DONORS = [
@@ -325,6 +324,7 @@ const CommunityTab: React.FC = () => {
   const [expandedMessage, setExpandedMessage] = useState<string | null>(null);
   const isMobile = useIsMobile();
   const screenWidth = useScreenWidth();
+  const isXSmallScreen = useIsBreakpoint(Breakpoint.XS);
 
   const toggleExpandMessage = (id: string) => {
     setExpandedMessage(expandedMessage === id ? null : id);
@@ -495,24 +495,31 @@ const CommunityTab: React.FC = () => {
             <div className="space-y-4">
               {WELCOME_CARDS.map(donor => (
                 <div key={donor.id} className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="flex items-center gap-3">
-                    <Avatar className="h-12 w-12">
-                      {donor.avatarUrl ? (
-                        <AvatarImage src={donor.avatarUrl} alt={donor.name} />
-                      ) : (
-                        <AvatarFallback className="bg-blue-100 text-blue-800">
-                          {donor.name.split(' ').map(n => n[0]).join('')}
-                        </AvatarFallback>
-                      )}
-                    </Avatar>
-                    <div className="flex-1">
-                      <div className="flex items-center">
-                        <h3 className="font-medium text-gray-900">{donor.name}</h3>
-                        {donor.ens && (
-                          <span className="ml-2 text-sm text-gray-500">{donor.ens}</span>
+                  <div className={`${isXSmallScreen ? 'flex-col' : 'flex'} items-start gap-3`}>
+                    <div className={`flex items-center ${isXSmallScreen ? 'w-full mb-3' : ''}`}>
+                      <Avatar className={`${isXSmallScreen ? 'h-10 w-10' : 'h-12 w-12'} mr-3`}>
+                        {donor.avatarUrl ? (
+                          <AvatarImage src={donor.avatarUrl} alt={donor.name} />
+                        ) : (
+                          <AvatarFallback className="bg-blue-100 text-blue-800">
+                            {donor.name.split(' ').map(n => n[0]).join('')}
+                          </AvatarFallback>
+                        )}
+                      </Avatar>
+                      <div className="min-w-0">
+                        <div className="flex items-center">
+                          <h3 className="font-medium text-gray-900 truncate">{donor.name}</h3>
+                          {donor.ens && !isXSmallScreen && (
+                            <span className="ml-2 text-sm text-gray-500 truncate">{donor.ens}</span>
+                          )}
+                        </div>
+                        {donor.ens && isXSmallScreen && (
+                          <div className="text-sm text-gray-500 truncate">{donor.ens}</div>
                         )}
                       </div>
-                      <p className="text-sm text-gray-600">
+                    </div>
+                    <div className={`${isXSmallScreen ? 'w-full' : 'flex-1'}`}>
+                      <p className="text-sm text-gray-600 mb-1">
                         Initial donation: ${donor.initialDonation}
                       </p>
                       <p className="text-xs text-gray-500">
@@ -521,10 +528,17 @@ const CommunityTab: React.FC = () => {
                     </div>
                   </div>
                   <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
-                    <span className="text-sm font-medium text-purple-600">Welcome to our community! 🎉</span>
-                    <Button variant="outline" size="sm" className="text-xs h-8">
-                      Send Welcome
-                    </Button>
+                    <span className={`text-sm font-medium text-purple-600 ${isXSmallScreen ? 'hidden sm:block' : ''}`}>
+                      Welcome to our community! 🎉
+                    </span>
+                    <div className={`${isXSmallScreen ? 'flex w-full justify-between items-center' : ''}`}>
+                      {isXSmallScreen && (
+                        <span className="text-sm font-medium text-purple-600">Welcome! 🎉</span>
+                      )}
+                      <Button variant="outline" size="sm" className={`text-xs h-8 ${isXSmallScreen ? 'px-2' : ''}`}>
+                        Send Welcome
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -532,78 +546,6 @@ const CommunityTab: React.FC = () => {
           </CardContent>
         </Card>
       )}
-
-      {/* Community Messages Section */}
-      <Card className="shadow-sm border-gray-100">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-base font-semibold flex items-center gap-2">
-            <Megaphone className="h-4 w-4 text-purple-600" />
-            Community Messages
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {COMMUNITY_MESSAGES.slice(0, 3).map((message) => (
-              <div 
-                key={message.id} 
-                onClick={() => toggleExpandMessage(message.id)}
-                className={`p-3 rounded-lg shadow-sm border border-gray-100 
-                  ${message.isPromo ? 'bg-purple-50/50' : 'bg-gray-50/80'} 
-                  cursor-pointer hover:shadow-md transition-shadow`}
-              >
-                {/* Transaction header */}
-                <div className="flex justify-between items-center mb-2">
-                  <div className="flex items-center gap-2">
-                    <div className="h-9 w-9 rounded-md bg-green-100 flex items-center justify-center">
-                      {getTransactionIcon(message.type)}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-sm font-medium text-gray-700">
-                          To: {truncateAddress(message.toAddress)}
-                        </span>
-                        {getTransactionLabel(message.type)}
-                      </div>
-                      <div className="text-xs text-gray-500">{message.timestamp}</div>
-                    </div>
-                  </div>
-                  <div className="text-right font-semibold">${message.amount.toFixed(2)}</div>
-                </div>
-                
-                <Separator className="my-2 bg-gray-200" />
-                
-                {/* Transaction message */}
-                <div className="mt-2 text-gray-800">
-                  {message.memo.length > 70 && expandedMessage !== message.id ? (
-                    <div>
-                      <div className="text-sm">
-                        {formatMemoText(message.memo.substring(0, 70) + '...', message.hasUrl)}
-                      </div>
-                      <Button 
-                        variant="link" 
-                        size="sm" 
-                        className="text-purple-600 p-0 h-auto mt-1 font-normal"
-                      >
-                        Read more
-                      </Button>
-                    </div>
-                  ) : (
-                    <div className="text-sm">
-                      {formatMemoText(message.memo, message.hasUrl)}
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-            
-            <div className="pt-1 text-right">
-              <Button variant="link" className="text-purple-600 text-sm p-0 h-auto">
-                View More <ArrowRight className="h-3 w-3 ml-1" />
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Donor Appreciation Cards */}
       {APPRECIATION_CARDS.length > 0 && (
@@ -618,40 +560,63 @@ const CommunityTab: React.FC = () => {
             <div className="space-y-4">
               {APPRECIATION_CARDS.map(donor => (
                 <div key={donor.id} className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="flex items-center gap-3">
-                    <div className="relative">
-                      <Avatar className="h-12 w-12">
-                        {donor.avatarUrl ? (
-                          <AvatarImage src={donor.avatarUrl} alt={donor.name} />
-                        ) : (
-                          <AvatarFallback className="bg-amber-100 text-amber-800">
-                            {donor.name.split(' ').map(n => n[0]).join('')}
-                          </AvatarFallback>
-                        )}
-                      </Avatar>
-                      <div className="absolute -bottom-1 -right-1 bg-amber-400 rounded-full p-1">
-                        <Gift className="h-3 w-3 text-white" />
+                  <div className={`${isXSmallScreen ? 'flex-col' : 'flex'} items-start gap-3`}>
+                    <div className={`flex items-center ${isXSmallScreen ? 'w-full mb-3' : ''}`}>
+                      <div className="relative mr-3">
+                        <Avatar className={`${isXSmallScreen ? 'h-10 w-10' : 'h-12 w-12'}`}>
+                          {donor.avatarUrl ? (
+                            <AvatarImage src={donor.avatarUrl} alt={donor.name} />
+                          ) : (
+                            <AvatarFallback className="bg-amber-100 text-amber-800">
+                              {donor.name.split(' ').map(n => n[0]).join('')}
+                            </AvatarFallback>
+                          )}
+                        </Avatar>
+                        <div className="absolute -bottom-1 -right-1 bg-amber-400 rounded-full p-1">
+                          <Gift className="h-3 w-3 text-white" />
+                        </div>
                       </div>
+                      <div className="min-w-0">
+                        <h3 className="font-medium text-gray-900 truncate">{donor.name}</h3>
+                        <p className="text-sm text-gray-700 truncate">
+                          {donor.name.split(' ')[0]}'s {donor.milestone}! 🎉
+                        </p>
+                      </div>
+                      {!isXSmallScreen && (
+                        <div className="flex flex-col items-center ml-auto">
+                          <span className="text-xl font-bold text-amber-500">{donor.streak}</span>
+                          <span className="text-xs text-gray-500">streak</span>
+                        </div>
+                      )}
                     </div>
-                    <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{donor.name}</h3>
-                      <p className="text-sm text-gray-700">
-                        {donor.name.split(' ')[0]}'s {donor.milestone}! 🎉
-                      </p>
+                    <div className={`${isXSmallScreen ? 'flex w-full justify-between items-center' : 'flex-1'}`}>
                       <p className="text-xs text-gray-500">
-                        Total contribution: ${donor.totalContribution}
+                        Total: ${donor.totalContribution}
                       </p>
-                    </div>
-                    <div className="flex flex-col items-center">
-                      <span className="text-xl font-bold text-amber-500">{donor.streak}</span>
-                      <span className="text-xs text-gray-500">streak</span>
+                      {isXSmallScreen && (
+                        <div className="flex flex-col items-center">
+                          <span className="text-xl font-bold text-amber-500">{donor.streak}</span>
+                          <span className="text-xs text-gray-500">streak</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="mt-3 pt-3 border-t border-gray-100 flex justify-between items-center">
-                    <span className="text-sm font-medium text-amber-600">Send a thank you message</span>
-                    <Button variant="outline" size="sm" className="text-xs h-8 border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100">
-                      <Heart className="h-3 w-3 mr-1 text-red-500" /> Thanks
-                    </Button>
+                    <span className={`text-sm font-medium text-amber-600 ${isXSmallScreen ? 'hidden sm:block' : ''}`}>
+                      Send a thank you message
+                    </span>
+                    <div className={`${isXSmallScreen ? 'flex w-full justify-between items-center' : ''}`}>
+                      {isXSmallScreen && (
+                        <span className="text-sm font-medium text-amber-600">Thank you!</span>
+                      )}
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className={`text-xs h-8 border-amber-200 bg-amber-50 text-amber-700 hover:bg-amber-100 ${isXSmallScreen ? 'px-2' : ''}`}
+                      >
+                        <Heart className="h-3 w-3 mr-1 text-red-500" /> Thanks
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))}

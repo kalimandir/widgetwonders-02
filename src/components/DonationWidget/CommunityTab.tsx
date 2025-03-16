@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { 
   Users, 
@@ -34,7 +35,7 @@ import { Separator } from "@/components/ui/separator";
 import { useIsMobile, useScreenWidth, useIsBreakpoint, Breakpoint, useResponsivePadding } from "@/hooks/use-mobile";
 
 interface CommunityTabProps {
-  onSwitchToDonateTab?: () => void;
+  onSwitchToDonateTab: () => void; // Make this required, not optional
 }
 
 // Sample data for the top donors leaderboard
@@ -378,7 +379,12 @@ const CommunityTab: React.FC<CommunityTabProps> = ({ onSwitchToDonateTab }) => {
                 </div>
                 <Button 
                   className="mt-4 bg-purple-600 hover:bg-purple-700 w-full"
-                  onClick={onSwitchToDonateTab}
+                  onClick={() => {
+                    // Ensure we have a valid callback and call it
+                    if (onSwitchToDonateTab) {
+                      onSwitchToDonateTab();
+                    }
+                  }}
                 >
                   Donate Now - Get {MATCHING_CARDS[0].matchRatio.split(' ')[0]} Your Impact
                 </Button>

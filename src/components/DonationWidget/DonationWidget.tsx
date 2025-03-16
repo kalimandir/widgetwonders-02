@@ -178,6 +178,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const isValidAmount = getDonationAmount() > 0;
 
   const handleTabChange = (value: string) => {
+    console.log("Switching to tab:", value);
     setActiveTab(value);
   };
 

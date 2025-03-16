@@ -12,22 +12,14 @@ const WalletConnect: React.FC = () => {
 
   return (
     <>
-      {/* Status indicator on the left side */}
-      {address && (
+      {/* Admin mode indicator only shown if user is admin */}
+      {address && isAdmin && (
         <div className="absolute top-4 left-4 z-10">
-          {isAdmin ? (
-            <Badge variant="indicator" className="flex items-center gap-1.5 bg-purple-50 border border-purple-200 
-                            dark:bg-[#2A1A5E] dark:border-[#6742ca] dark:text-purple-300">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-              {!isMobile ? "Admin Mode" : ""}
-            </Badge>
-          ) : (
-            <Badge variant="indicator" className="flex items-center gap-1.5 bg-green-50 border border-green-200 
-                            dark:bg-green-900/30 dark:border-green-800/50 dark:text-green-300">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-              Active
-            </Badge>
-          )}
+          <Badge variant="indicator" className="flex items-center gap-1.5 bg-purple-50 border border-purple-200 
+                        dark:bg-[#2A1A5E] dark:border-[#6742ca] dark:text-purple-300">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+            {!isMobile ? "Admin Mode" : ""}
+          </Badge>
         </div>
       )}
       

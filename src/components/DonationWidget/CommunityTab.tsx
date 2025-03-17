@@ -355,24 +355,24 @@ const formatMemoText = (memo: string, hasUrl: boolean) => {
 const getMatchingStateBadge = (state: string) => {
   const states: Record<string, { color: string, darkColor: string, label: string }> = {
     'active': { 
-      color: 'bg-green-100 text-green-800', 
-      darkColor: 'bg-green-900/30 text-green-300',
+      color: 'bg-green-100 text-green-800 border border-green-500', 
+      darkColor: 'bg-green-900/30 text-green-200 border border-green-600/70',
       label: 'Active' 
     },
     'ending-soon': { 
-      color: 'bg-amber-100 text-amber-800', 
-      darkColor: 'bg-amber-900/30 text-amber-300',
+      color: 'bg-amber-100 text-amber-800 border border-amber-500', 
+      darkColor: 'bg-amber-900/30 text-amber-200 border border-amber-600/70',
       label: 'Ending Soon' 
     },
     'completed': { 
-      color: 'bg-gray-100 text-gray-800', 
-      darkColor: 'bg-gray-700/50 text-gray-300',
+      color: 'bg-gray-100 text-gray-800 border border-gray-400', 
+      darkColor: 'bg-gray-700/50 text-gray-200 border border-gray-500/70',
       label: 'Completed' 
     },
   };
   
   return (
-    <Badge className={`px-2 py-0.5 rounded-full text-xs ${states[state].color} dark:${states[state].darkColor}`}>
+    <Badge className={`px-2 py-0.5 rounded-full text-xs ${states[state].color} dark:${states[state].darkColor} font-medium`}>
       {states[state].label}
     </Badge>
   );

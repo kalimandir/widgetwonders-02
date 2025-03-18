@@ -137,6 +137,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
     )}>
       <div className="p-6 flex flex-col items-center">
         <div className="w-full flex justify-between items-start mb-4">
+          <div className="flex-1" />
           <div className={cn(
             "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center transition-all",
             "bg-purple-100 dark:bg-donation-dark-selected/60 duration-700 delay-100",
@@ -144,16 +145,18 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           )}>
             <HandHeart className="w-8 h-8 text-purple-600 dark:text-purple-300" />
           </div>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setHistoryOpen(true)}
-            className="rounded-full w-10 h-10 p-2 transition-all duration-300
-              bg-white hover:bg-gray-50
-              dark:bg-donation-dark-card dark:text-donation-dark-text dark:border-donation-dark-border dark:hover:bg-donation-dark-card-hover"
-          >
-            <History className="h-5 w-5" />
-          </Button>
+          <div className="flex-1 flex justify-end">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => setHistoryOpen(true)}
+              className="rounded-full w-10 h-10 p-2 transition-all duration-300
+                bg-white hover:bg-gray-50
+                dark:bg-donation-dark-card dark:text-donation-dark-text dark:border-donation-dark-border dark:hover:bg-donation-dark-card-hover"
+            >
+              <History className="h-5 w-5" />
+            </Button>
+          </div>
         </div>
 
         <div className={cn(

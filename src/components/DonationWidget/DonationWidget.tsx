@@ -1,25 +1,12 @@
+
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
-import CommunityTab from './CommunityTab';
-import HistoryTab from './HistoryTab';
-import { useIsMobile, useScreenWidth, useResponsiveChartDimensions, useThemeUtils } from "@/hooks/use-mobile";
+import { HandHeart } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
-import { HandHeart, Target, Users, History, BookOpen, Calendar, BarChart3, PieChart, Award, Image } from "lucide-react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Card, CardContent } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { Cell, PieChart as RechartsPieChart, Pie, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend } from "recharts";
-import AdminControls from '../admin/AdminControls';
-import WalletConnect from '../admin/WalletConnect';
+import { useIsMobile } from "@/hooks/use-mobile";
 import { openYodlCheckout } from '../../utils/yodl';
-
-interface DonationWidgetProps {
-  organizationName: string;
-  missionStatement: string;
-  logoUrl: string;
-}
 
 const PREDEFINED_AMOUNTS = [5, 10, 25, 50];
 const IMPACT_STATEMENTS = {
@@ -38,6 +25,12 @@ const SPECIAL_ITEMS = {
 
 const POPULAR_TIER = 25;
 
+interface DonationWidgetProps {
+  organizationName: string;
+  missionStatement: string;
+  logoUrl: string;
+}
+
 const DonationWidget: React.FC<DonationWidgetProps> = ({
   organizationName,
   missionStatement,
@@ -49,75 +42,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
-  const [activeTab, setActiveTab] = useState("donate");
-  const [ALLOCATION_DATA, setAllocationData] = useState([
-    { name: 'School Supplies', value: 40, color: '#4016ad' },
-    { name: 'Teaching Programs', value: 30, color: '#7c54e1' },
-    { name: 'Infrastructure', value: 20, color: '#9d7eeb' },
-    { name: 'Admin & Operations', value: 10, color: '#bea9f3' },
-  ]);
-  const [IMPACT_METRICS, setImpactMetrics] = useState([
-    { name: 'Students Supported', count: 156, icon: <Users className="h-5 w-5 text-purple-600" /> },
-    { name: 'Classrooms Equipped', count: 42, icon: <Award className="h-5 w-5 text-purple-600" /> },
-    { name: 'Books Provided', count: 1208, icon: <BookOpen className="h-5 w-5 text-purple-600" /> },
-  ]);
-  const [GOAL_PROGRESS] = useState([
-    { name: 'Laptops', current: 28, goal: 50 },
-    { name: 'Teacher Training', current: 15, goal: 20 },
-    { name: 'School Meals', current: 8500, goal: 10000 },
-  ]);
-  const [BENEFICIARY_STORIES, setBeneficiaryStories] = useState([
-    {
-      name: "Maria, 9th Grade",
-      content: "With the new laptops and textbooks, I can now do research for my projects efficiently. I hope to become a doctor someday.",
-      date: "January 2025"
-    },
-    {
-      name: "James, 7th Grade",
-      content: "The after-school program has helped me improve my math skills. I used to struggle, but now I'm at the top of my class!",
-      date: "February 2025"
-    },
-    {
-      name: "Sarah, Teacher",
-      content: "The teaching resources have transformed how I engage students. They're more enthusiastic and invested in learning.",
-      date: "March 2025"
-    }
-  ]);
-
-  const IMPACT_IMAGES = [
-    {
-      src: "/lovable-uploads/626b1e7c-b8d4-44de-8562-dfe51d48d007.png",
-      alt: "Students collaborating on schoolwork",
-      caption: "Students working together on an assignment in rural community school"
-    },
-    {
-      src: "/lovable-uploads/f78bcef6-f92f-4076-9fc6-d323611c46b2.png",
-      alt: "Students in classroom with masks",
-      caption: "Safe learning environment with proper health protocols in place"
-    },
-    {
-      src: "/lovable-uploads/d7d25a2a-6e15-4fa5-bc93-32cd62937878.png",
-      alt: "Boys studying with textbooks",
-      caption: "Young students using new learning materials provided by donors"
-    }
-  ];
-
-  const handleUpdateMetrics = (updatedMetrics: any[]) => {
-    setImpactMetrics(updatedMetrics);
-  };
-
-  const handleUpdateAllocation = (updatedAllocation: any[]) => {
-    setAllocationData(updatedAllocation);
-  };
-
-  const handleAddStory = (newStory: any) => {
-    setBeneficiaryStories(prev => [newStory, ...prev]);
-  };
-
   const isMobile = useIsMobile();
-  const screenWidth = useScreenWidth();
-  const chartDimensions = useResponsiveChartDimensions();
-  const { isDark } = useThemeUtils();
 
   useEffect(() => {
     setAnimateIn(true);
@@ -201,19 +126,12 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
 
   const isValidAmount = getDonationAmount() > 0;
 
-  const handleTabChange = (value: string) => {
-    console.log("Switching to tab:", value);
-    setActiveTab(value);
-  };
-
   return (
     <div className={cn(
       "w-full bg-white dark:bg-donation-dark-card rounded-3xl shadow-lg overflow-hidden transition-all duration-500 relative",
       "border border-gray-100 dark:border-donation-dark-border",
       animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
     )}>
-      <WalletConnect />
-      
       <div className="p-6 flex flex-col items-center">
         <div className={cn(
           "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center mb-4 transition-all",
@@ -249,229 +167,73 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
           />
         </div>
 
-        <Tabs value={activeTab} onValueChange={handleTabChange} className="w-full">
-          <TabsList className="w-full grid grid-cols-4 bg-gray-50 dark:bg-donation-dark-gray">
-            <TabsTrigger 
-              value="donate" 
-              className="flex items-center justify-center gap-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-donation-dark-card dark:text-donation-dark-text-secondary dark:data-[state=active]:text-donation-dark-text"
-            >
-              <HandHeart className="h-5 w-5" />
-              {!isMobile && <span>Donate</span>}
-            </TabsTrigger>
-            <TabsTrigger 
-              value="impact" 
-              className="flex items-center justify-center gap-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-donation-dark-card dark:text-donation-dark-text-secondary dark:data-[state=active]:text-donation-dark-text"
-            >
-              <Target className="h-5 w-5" />
-              {!isMobile && <span>Impact</span>}
-            </TabsTrigger>
-            <TabsTrigger 
-              value="community" 
-              className="flex items-center justify-center gap-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-donation-dark-card dark:text-donation-dark-text-secondary dark:data-[state=active]:text-donation-dark-text"
-            >
-              <Users className="h-5 w-5 text-purple-600 dark:text-purple-300" />
-              {!isMobile && <span>Community</span>}
-            </TabsTrigger>
-            <TabsTrigger 
-              value="history" 
-              className="flex items-center justify-center gap-1.5 data-[state=active]:bg-white dark:data-[state=active]:bg-donation-dark-card dark:text-donation-dark-text-secondary dark:data-[state=active]:text-donation-dark-text"
-            >
-              <History className="h-5 w-5" />
-              {!isMobile && <span>History</span>}
-            </TabsTrigger>
-          </TabsList>
+        <div className={cn(
+          "w-full flex flex-col gap-3 mb-4 transition-all duration-700 delay-300",
+          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        )}>
+          {PREDEFINED_AMOUNTS.map((amount, index) => (
+            <DonationAmount
+              key={amount}
+              value={amount}
+              selected={selectedAmount === amount}
+              onClick={handleAmountSelect}
+              impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
+              specialItem={SPECIAL_ITEMS[amount as keyof typeof SPECIAL_ITEMS]}
+              isPopular={amount === POPULAR_TIER}
+              boxSize={index + 1}
+              iconType={
+                amount === 5 ? 'supplies' :
+                amount === 10 ? 'day' :
+                amount === 25 ? 'week' :
+                'month'
+              }
+            />
+          ))}
+        </div>
 
-          <TabsContent value="donate" className="space-y-4">
-            <div className={cn(
-              "w-full flex flex-col gap-3 mb-4 transition-all duration-700 delay-300",
-              animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            )}>
-              {PREDEFINED_AMOUNTS.map((amount, index) => (
-                <DonationAmount
-                  key={amount}
-                  value={amount}
-                  selected={selectedAmount === amount}
-                  onClick={handleAmountSelect}
-                  impactStatement={IMPACT_STATEMENTS[amount as keyof typeof IMPACT_STATEMENTS]}
-                  specialItem={SPECIAL_ITEMS[amount as keyof typeof SPECIAL_ITEMS]}
-                  isPopular={amount === POPULAR_TIER}
-                  boxSize={index + 1}
-                  iconType={
-                    amount === 5 ? 'supplies' :
-                    amount === 10 ? 'day' :
-                    amount === 25 ? 'week' :
-                    'month'
-                  }
-                />
-              ))}
-            </div>
+        <div className={cn(
+          "w-full mb-4 transition-all duration-700 delay-400",
+          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        )}>
+          <CustomAmount
+            active={isCustomActive}
+            value={customAmount}
+            onChange={handleCustomAmountChange}
+            onFocus={handleCustomFocus}
+          />
+        </div>
 
-            <div className={cn(
-              "w-full mb-4 transition-all duration-700 delay-400",
-              animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            )}>
-              <CustomAmount
-                active={isCustomActive}
-                value={customAmount}
-                onChange={handleCustomAmountChange}
-                onFocus={handleCustomFocus}
-              />
-            </div>
-
-            {isValidAmount && (
-              <div className={cn(
-                "w-full mb-4 p-3 bg-purple-50 dark:bg-donation-dark-selected/30 border border-purple-100 dark:border-donation-dark-selected rounded-xl text-sm text-purple-800 dark:text-purple-300",
-                "transition-all duration-300"
-              )}>
-                {getImpactSummary()}
-              </div>
+        {isValidAmount && (
+          <div className={cn(
+            "w-full mb-4 p-3 bg-purple-50 dark:bg-donation-dark-selected/30 border border-purple-100 dark:border-donation-dark-selected rounded-xl text-sm text-purple-800 dark:text-purple-300",
+            "transition-all duration-300"
+          )}>
+            {getImpactSummary()}
+          </div>
+        )}
+        
+        <div className={cn(
+          "w-full transition-all duration-700 delay-500",
+          animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+        )}>
+          <button
+            className="donation-button"
+            disabled={!isValidAmount || isSubmitting}
+            onClick={handleDonate}
+          >
+            {isSubmitting ? (
+              <span className="inline-flex items-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </span>
+            ) : (
+              <span>Donate ${getDonationAmount()} with Yodl</span>
             )}
-            
-            <div className={cn(
-              "w-full transition-all duration-700 delay-500",
-              animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-            )}>
-              <button
-                className="donation-button"
-                disabled={!isValidAmount || isSubmitting}
-                onClick={handleDonate}
-              >
-                {isSubmitting ? (
-                  <span className="inline-flex items-center">
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Processing...
-                  </span>
-                ) : (
-                  <span>Donate ${getDonationAmount()} with Yodl</span>
-                )}
-              </button>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="impact">
-            <div className="space-y-5 relative">
-              <AdminControls 
-                impactMetrics={IMPACT_METRICS}
-                onUpdateMetrics={handleUpdateMetrics}
-                fundAllocation={ALLOCATION_DATA}
-                onUpdateAllocation={handleUpdateAllocation}
-                onAddStory={handleAddStory}
-              />
-              
-              <div className="grid grid-cols-3 gap-2 mb-4">
-                {IMPACT_METRICS.map((metric) => (
-                  <Card key={metric.name} className="shadow-sm border-purple-100 dark:border-donation-dark-border dark:bg-donation-dark-gray">
-                    <CardContent className="p-3 flex flex-col items-center justify-center text-center">
-                      <div className="mb-1">{metric.icon}</div>
-                      <span className="text-lg font-bold text-purple-800 dark:text-purple-300">{metric.count}</span>
-                      <span className="text-xs text-gray-600 dark:text-donation-dark-text-secondary">{metric.name}</span>
-                    </CardContent>
-                  </Card>
-                ))}
-              </div>
-              
-              <div className="mb-4">
-                <h3 className="text-sm font-semibold mb-3 text-gray-800 dark:text-donation-dark-text flex items-center gap-1.5">
-                  <PieChart className="h-4 w-4 text-purple-600 dark:text-purple-300" />
-                  Fund Allocation
-                </h3>
-                <div className="flex flex-col items-center">
-                  <div className="h-64 w-full mb-4 flex justify-center items-center">
-                    <ChartContainer config={ALLOCATION_DATA.reduce((acc, curr) => ({ ...acc, [curr.name]: { color: isDark ? curr.color.replace('#4016ad', '#8968e2').replace('#7c54e1', '#9d7eeb').replace('#9d7eeb', '#bea9f3').replace('#bea9f3', '#d3c4f7') : curr.color } }), {})} className="h-full flex justify-center">
-                      <RechartsPieChart width={isMobile ? 300 : 400} height={isMobile ? 250 : 300}>
-                        <ChartTooltip content={<ChartTooltipContent />} />
-                        <Pie
-                          data={ALLOCATION_DATA}
-                          cx="50%"
-                          cy="50%"
-                          labelLine={false}
-                          outerRadius={chartDimensions.pieChart.outerRadius}
-                          fill="#8884d8"
-                          dataKey="value"
-                        >
-                          {ALLOCATION_DATA.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={isDark ? entry.color.replace('#4016ad', '#8968e2').replace('#7c54e1', '#9d7eeb').replace('#9d7eeb', '#bea9f3').replace('#bea9f3', '#d3c4f7') : entry.color} />
-                          ))}
-                        </Pie>
-                      </RechartsPieChart>
-                    </ChartContainer>
-                  </div>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-1 w-full max-w-xs">
-                    {ALLOCATION_DATA.map((item) => (
-                      <div key={item.name} className="flex items-center gap-1.5 text-xs">
-                        <div className="w-3 h-3 rounded-full" style={{ backgroundColor: isDark ? item.color.replace('#4016ad', '#8968e2').replace('#7c54e1', '#9d7eeb').replace('#9d7eeb', '#bea9f3').replace('#bea9f3', '#d3c4f7') : item.color }}></div>
-                        <span className="text-gray-700 dark:text-donation-dark-text-secondary">{item.name}</span>
-                        <span className="font-medium ml-auto dark:text-donation-dark-text">{item.value}%</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              
-              <div className="mb-4">
-                <h3 className="text-sm font-semibold mb-3 text-gray-800 dark:text-donation-dark-text flex items-center gap-1.5">
-                  <BarChart3 className="h-4 w-4 text-purple-600 dark:text-purple-300" />
-                  Progress Toward Goals
-                </h3>
-                <div className="space-y-3">
-                  {GOAL_PROGRESS.map((goal) => (
-                    <div key={goal.name} className="space-y-1">
-                      <div className="flex justify-between text-xs">
-                        <span className="text-gray-700 dark:text-donation-dark-text-secondary">{goal.name}</span>
-                        <span className="font-medium text-gray-800 dark:text-donation-dark-text">
-                          {goal.current}/{goal.goal}
-                        </span>
-                      </div>
-                      <Progress value={(goal.current / goal.goal) * 100} className="h-2" />
-                    </div>
-                  ))}
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="text-sm font-semibold mb-3 text-gray-800 dark:text-donation-dark-text flex items-center gap-1.5">
-                  <BookOpen className="h-4 w-4 text-purple-600 dark:text-purple-300" />
-                  Stories of Impact
-                </h3>
-                <div className="space-y-3">
-                  {BENEFICIARY_STORIES.map((story, index) => (
-                    <Card key={index} className="shadow-sm border-purple-100 dark:border-donation-dark-border dark:bg-donation-dark-gray">
-                      <CardContent className="p-3.5">
-                        <div className="flex flex-col sm:flex-row gap-2">
-                          {index < IMPACT_IMAGES.length && (
-                            <div className="w-full sm:w-1/3 mb-2 sm:mb-0">
-                              <img 
-                                src={IMPACT_IMAGES[index].src} 
-                                alt={IMPACT_IMAGES[index].alt} 
-                                className="w-full h-auto object-cover rounded-md aspect-[4/3]"
-                              />
-                            </div>
-                          )}
-                          <div className="flex-1">
-                            <h4 className="text-sm font-medium text-purple-800 dark:text-purple-300 mb-1">{story.name}</h4>
-                            <p className="text-xs text-gray-600 dark:text-donation-dark-text-secondary mb-2">{story.content}</p>
-                            <span className="text-[10px] text-gray-400 dark:text-donation-dark-gray-medium block text-right">{story.date}</span>
-                          </div>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="community">
-            <CommunityTab onSwitchToDonateTab={() => handleTabChange("donate")} />
-          </TabsContent>
-
-          <TabsContent value="history">
-            <HistoryTab />
-          </TabsContent>
-        </Tabs>
+          </button>
+        </div>
       </div>
     </div>
   );

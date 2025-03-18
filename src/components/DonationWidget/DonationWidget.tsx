@@ -1,12 +1,14 @@
-
 import React, { useState, useEffect } from 'react';
 import { cn } from "@/lib/utils";
 import DonationAmount from './DonationAmount';
 import CustomAmount from './CustomAmount';
-import { HandHeart } from "lucide-react";
+import { HandHeart, History } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { openYodlCheckout } from '../../utils/yodl';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Button } from "@/components/ui/button";
+import HistoryTab from './HistoryTab';
 
 const PREDEFINED_AMOUNTS = [5, 10, 25, 50];
 const IMPACT_STATEMENTS = {
@@ -42,6 +44,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [animateIn, setAnimateIn] = useState(false);
   const [progressValue, setProgressValue] = useState(0);
+  const [historyOpen, setHistoryOpen] = useState(false);
   const isMobile = useIsMobile();
 
   useEffect(() => {
@@ -133,12 +136,24 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
       animateIn ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
     )}>
       <div className="p-6 flex flex-col items-center">
-        <div className={cn(
-          "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center mb-4 transition-all",
-          "bg-purple-100 dark:bg-donation-dark-selected/60 duration-700 delay-100",
-          animateIn ? "opacity-100 scale-100" : "opacity-0 scale-95"
-        )}>
-          <HandHeart className="w-8 h-8 text-purple-600 dark:text-purple-300" />
+        <div className="w-full flex justify-between items-start mb-4">
+          <div className={cn(
+            "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center transition-all",
+            "bg-purple-100 dark:bg-donation-dark-selected/60 duration-700 delay-100",
+            animateIn ? "opacity-100 scale-100" : "opacity-0 scale-95"
+          )}>
+            <HandHeart className="w-8 h-8 text-purple-600 dark:text-purple-300" />
+          </div>
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={() => setHistoryOpen(true)}
+            className="rounded-full w-10 h-10 p-2 transition-all duration-300
+              bg-white hover:bg-gray-50
+              dark:bg-donation-dark-card dark:text-donation-dark-text dark:border-donation-dark-border dark:hover:bg-donation-dark-card-hover"
+          >
+            <History className="h-5 w-5" />
+          </Button>
         </div>
 
         <div className={cn(
@@ -234,6 +249,15 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({
             )}
           </button>
         </div>
+
+        <Dialog open={historyOpen} onOpenChange={setHistoryOpen}>
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-hidden">
+            <DialogHeader>
+              <DialogTitle className="text-2xl mb-4">Transaction History</DialogTitle>
+            </DialogHeader>
+            <HistoryTab />
+          </DialogContent>
+        </Dialog>
       </div>
     </div>
   );

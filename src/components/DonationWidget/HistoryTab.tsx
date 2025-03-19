@@ -5,7 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { format } from "date-fns";
-import { useReceiverPayments, useSenderToReceiverPayments } from "@/hooks/usePayments";
+import { useSenderToReceiverPayments } from "@/hooks/usePayments";
 import { PaymentSimple } from "@/lib/indexerApi";
 import { CONFIG } from "@/config/constants";
 

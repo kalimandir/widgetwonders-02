@@ -24,7 +24,7 @@ const MessageBoard = () => {
   return (
     <div className='min-h-screen flex items-center justify-center bg-gradient-to-b from-gray-50 to-gray-100 dark:from-[#111520] dark:to-[#171923] p-2 sm:p-4 transition-colors duration-300'>
       <ThemeSwitcher />
-      <div className='w-full max-w-[600px] animate-fade-in'>
+      <div className='w-full max-w-[496px] animate-fade-in'>
         <MessageBoardWidget />
       </div>
     </div>

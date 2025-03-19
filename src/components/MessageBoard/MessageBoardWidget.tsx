@@ -12,7 +12,7 @@ const MessageBoardWidget = () => {
   const [posts] = useState(mockPosts);
 
   return (
-    <Card className="border-none shadow-md bg-white dark:bg-[#1A1F2C] overflow-hidden">
+    <Card className="border-none shadow-md bg-white dark:bg-[#1A1F2C] overflow-hidden w-full">
       <CardHeader className="pb-0">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100">Recent Posts</h2>

@@ -16,6 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { PAYMENT_KEYS } from "@/hooks/usePayments";
 import { sdk } from "@/lib/yapp-sdk";
 import { FiatCurrency } from "@yodlpay/yapp-sdk/dist/types/currency";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 const PREDEFINED_AMOUNTS = [5, 10, 25, 50];
 const IMPACT_STATEMENTS = {
@@ -185,7 +186,9 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({ organizationName, missi
       )}>
       <div className='p-6 flex flex-col items-center'>
         <div className='w-full flex justify-between items-start mb-4'>
-          <div className='flex-1' />
+          <div className='flex-1 flex justify-start'>
+            <ThemeSwitcher />
+          </div>
           <div
             className={cn(
               "w-16 h-16 rounded-2xl overflow-hidden flex items-center justify-center transition-all",

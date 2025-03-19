@@ -62,7 +62,6 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({ organizationName, missi
     return Math.min(percentage, 100); // Cap at 100%
   }, [total]);
 
-
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     if (queryParams.get("txHash")) {
@@ -124,17 +123,17 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({ organizationName, missi
     if (amount <= 0) return;
 
     if (isInIframe()) {
-      console.log("In iframe");
-      const { chainId, txHash } = await sdk.requestPayment(CONFIG.RECIPIENT_ENS, {
+      const { txHash } = await sdk.requestPayment(CONFIG.RECIPIENT_ADDRESS, {
         amount: amount,
         currency: FiatCurrency.USD,
       });
+
       setNewPaymentHash(txHash);
       queryClient.invalidateQueries({
         queryKey: PAYMENT_KEYS.all,
       });
 
-      // TODO: invalidate query cache (if it doesnt happen automaticvally)
+      return;
     }
 
     setIsSubmitting(true);

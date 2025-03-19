@@ -1,5 +1,4 @@
-
-import donationConfig from '../config/donation.config.json';
+import { CONFIG } from "@/config/constants";
 
 interface YodlCheckoutParams {
   amount: number;
@@ -14,31 +13,33 @@ interface YodlCheckoutParams {
  * @returns The complete checkout URL
  */
 export const generateYodlCheckoutUrl = (params: YodlCheckoutParams): string => {
-  const { amount, token = 'ETH', chain = 'ethereum', organizationName } = params;
-  
+  const { amount, token = "ETH", chain = "ethereum", organizationName } = params;
+
   // Get the recipient address from config
-  const recipient = donationConfig.recipient;
-  
+  const recipient = CONFIG.RECIPIENT_ENS;
+
   // Build the URL using the format: https://yodl.me/{recipient}?amount={amount}
   const baseUrl = `https://yodl.me/${recipient}`;
-  
+
   // Add amount as query parameter
   let url = `${baseUrl}?amount=${encodeURIComponent(amount.toString())}`;
-  
+
   // Add optional parameters if needed
-  if (token && token !== 'ETH') {
+  if (token && token !== "ETH") {
     url += `&token=${encodeURIComponent(token)}`;
   }
-  
-  if (chain && chain !== 'ethereum') {
+
+  if (chain && chain !== "ethereum") {
     url += `&chain=${encodeURIComponent(chain)}`;
   }
-  
+
+  url += `&redirectUrl=${encodeURIComponent(CONFIG.REDIRECT_URL)}`;
+
   // Enhanced debugging logs
-  console.log('Generated Yodl URL:', url);
+  console.log("Generated Yodl URL:", url);
   console.log(`Redirecting to Yodl checkout for $${amount} donation`);
-  console.log('Using ENS recipient:', recipient);
-  
+  console.log("Using ENS recipient:", recipient);
+
   return url;
 };
 
@@ -48,6 +49,6 @@ export const generateYodlCheckoutUrl = (params: YodlCheckoutParams): string => {
  */
 export const openYodlCheckout = (params: YodlCheckoutParams): void => {
   const url = generateYodlCheckoutUrl(params);
-  console.log('Opening URL:', url);
-  window.open(url, '_blank');
+  console.log("Opening URL:", url);
+  window.location.href = url;
 };

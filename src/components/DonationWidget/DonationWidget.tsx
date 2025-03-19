@@ -17,7 +17,7 @@ import { PAYMENT_KEYS } from "@/hooks/usePayments";
 import { sdk } from "@/lib/yapp-sdk";
 import { FiatCurrency } from "@yodlpay/yapp-sdk/dist/types/currency";
 
-const PREDEFINED_AMOUNTS = [0.01, 5, 10, 25, 50];
+const PREDEFINED_AMOUNTS = [5, 10, 25, 50];
 const IMPACT_STATEMENTS = {
   5: "Equips a student with essential school supplies",
   10: "Funds a full day of quality education",

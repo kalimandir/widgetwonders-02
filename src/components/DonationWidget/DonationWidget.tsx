@@ -16,6 +16,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { PAYMENT_KEYS } from "@/hooks/usePayments";
 import { sdk } from "@/lib/yapp-sdk";
 import { ThemeSwitcher } from "./ThemeSwitcher";
+import { useToast } from "@/hooks/use-toast";
 
 const PREDEFINED_AMOUNTS = [5, 10, 25, 50];
 const IMPACT_STATEMENTS = {
@@ -52,6 +53,7 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({ organizationName, missi
   const queryClient = useQueryClient();
   const [newPaymentHash, setNewPaymentHash] = useState<string | null>(null);
   const { total, isLoading, isSyncing } = useDonationTotal(CONFIG.RECIPIENT_ENS);
+  const { toast } = useToast();
 
   const donationGoal = 5000;
 
@@ -132,6 +134,24 @@ const DonationWidget: React.FC<DonationWidgetProps> = ({ organizationName, missi
       queryClient.invalidateQueries({
         queryKey: PAYMENT_KEYS.all,
       });
+
+      if (txHash) {
+        toast({
+          title: "Donation successful!",
+          description: `Your donation of $${amount} was processed successfully.`,
+          variant: "default",
+          className: "bg-green-50 border-green-200 text-green-800 dark:bg-green-900/50 dark:border-green-800 dark:text-green-300",
+        });
+      } else {
+        toast({
+          title: "Donation failed!",
+          description: `Your donation of $${amount} failed to process.`,
+          variant: "default",
+          className: "bg-red-50 border-red-200 text-red-800 dark:bg-red-900/50 dark:border-red-800 dark:text-red-300",
+        });
+      }
+
+      // Show success toast with transaction hash
 
       return;
     }

@@ -9,13 +9,12 @@ import { openYodlCheckout } from "../../utils/yodl";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import HistoryTab from "./HistoryTab";
-import { isInIframe } from "@yodlpay/yapp-sdk";
+import { FiatCurrency, isInIframe } from "@yodlpay/yapp-sdk";
 import { useDonationTotal } from "@/hooks/useDonationTotal";
 import { CONFIG } from "@/config/constants";
 import { useQueryClient } from "@tanstack/react-query";
 import { PAYMENT_KEYS } from "@/hooks/usePayments";
 import { sdk } from "@/lib/yapp-sdk";
-import { FiatCurrency } from "@yodlpay/yapp-sdk/dist/types/currency";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 
 const PREDEFINED_AMOUNTS = [5, 10, 25, 50];

@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { useSenderToReceiverPayments } from "@/hooks/usePayments";
 import { PaymentSimple } from "@/lib/indexerApi";
 import { CONFIG } from "@/config/constants";
+import { sdk } from "@/lib/yapp-sdk";
 
 type TransactionType = "swap" | "transfer" | "donation" | "deposit" | "withdraw";
 
@@ -65,8 +66,17 @@ const HistoryTab: React.FC = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const [senderEns, setSenderEns] = useState<string | null>(null);
+
   const receiverEns = CONFIG.RECIPIENT_ENS;
-  const senderEns = CONFIG.SENDER_ENS;
+
+  useEffect(() => {
+    const getUserContext = async () => {
+      const userContext = await sdk.getUserContext();
+      setSenderEns(userContext.primaryEnsName);
+    };
+    getUserContext();
+  }, []);
 
   const { data, isLoading, error, hasNextPage, fetchNextPage, isFetchingNextPage } = useSenderToReceiverPayments(senderEns, receiverEns);
 
